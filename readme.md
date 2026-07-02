@@ -2,7 +2,7 @@
 
 > Never wonder if your trades sold again.
 
-![PoE2Watch Notification](assets/headhunter_sale_.png)
+![PoE2Watch Notification](assets/headhunter_sale.png)
 
 PoE2Watch is an open-source Discord companion for Path of Exile 2.
 

@@ -1,0 +1,29 @@
+# Environment secrets
+.env
+.env.*
+
+# SQLite database
+data/
+*.db
+*.sqlite
+
+# Runtime files
+seen-sales.json
+
+# Node
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VSCode settings (optional)
+.vscode/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS sales (
     item_frame_type INTEGER,
     item_rarity TEXT,
     icon TEXT,
+    item_json TEXT,
     price_amount REAL,
     price_currency TEXT,
     sold_at TEXT NOT NULL,
@@ -47,6 +48,10 @@ if (!saleColumnNames.has("item_frame_type")) {
 
 if (!saleColumnNames.has("item_rarity")) {
     db.exec("ALTER TABLE sales ADD COLUMN item_rarity TEXT;");
+}
+
+if (!saleColumnNames.has("item_json")) {
+    db.exec("ALTER TABLE sales ADD COLUMN item_json TEXT;");
 }
 
 console.log("✓ SQLite database ready.");

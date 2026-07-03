@@ -2,9 +2,10 @@ import "dotenv/config";
 import { PoeSale, getItemFrameType, getItemName } from "../poe/api";
 import { formatConvertedValue, formatDiscordTimestamp } from "../services/valueformatter";
 import { getDisplayLeagueName } from "../services/league";
-import { brandEmbed } from "./theme";
+import { addThumbnail, brandEmbed } from "./theme";
 import { getRarityBadge, getRarityColor, getRarityFromFrameType } from "../services/rarity";
 import { formatAnsiRarityText } from "../services/rarity";
+import { formatItemCard } from "../services/itemcard";
 
 type NotifyDiscordOptions = {
     testMode?: boolean;
@@ -18,31 +19,30 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
         item_frame_type: getItemFrameType(sale),
         item_rarity: sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
     };
+    const itemCard = formatItemCard(sale.item);
 
     await fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             embeds: [
-                brandEmbed({
-                    title: options.testMode ? "[TEST SALE] PoE2Watch Notification Test" : "[SALE] New PoE2 Sale",
-                    description: `\`\`\`ansi\n${formatAnsiRarityText(saleRarity, `${getRarityBadge(saleRarity)} ${itemName}`)}\n\`\`\`\n${formatConvertedValue({
-                        price_amount: sale.price.amount,
-                        price_currency: sale.price.currency,
-                    })}`,
-                    thumbnail: process.env.POE2WATCH_LOGO_URL
-                        ? { url: process.env.POE2WATCH_LOGO_URL }
-                        : sale.item.icon
-                          ? { url: sale.item.icon }
-                          : undefined,
-                    fields: [
-                        { name: "League", value: league, inline: true },
-                        { name: "Time", value: formatDiscordTimestamp(sale.time, "f"), inline: true },
-                        ...(options.testMode
-                            ? [{ name: "Mode", value: "Developer test. Not saved to database.", inline: false }]
-                            : []),
-                    ],
-                }, getRarityColor(saleRarity)),
+                addThumbnail(
+                    brandEmbed({
+                        title: options.testMode ? "[TEST SALE] You've Sold This" : "[SALE] You've Sold This",
+                        description: `\`\`\`ansi\n${formatAnsiRarityText(saleRarity, `${getRarityBadge(saleRarity)} ${itemName}`)}\n\`\`\`\n${formatConvertedValue({
+                            price_amount: sale.price.amount,
+                            price_currency: sale.price.currency,
+                        })}${itemCard ? `\n\n${itemCard}` : ""}`,
+                        fields: [
+                            { name: "League", value: league, inline: true },
+                            { name: "Time", value: formatDiscordTimestamp(sale.time, "f"), inline: true },
+                            ...(options.testMode
+                                ? [{ name: "Mode", value: "Developer test. Not saved to database.", inline: false }]
+                                : []),
+                        ],
+                    }, getRarityColor(saleRarity)),
+                    sale.item.icon
+                ),
             ],
         }),
     });

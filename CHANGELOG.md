@@ -4,6 +4,52 @@ All notable changes to PoE2Watch will be documented in this file.
 
 PoE2Watch follows a lightweight alpha release style while the project is still moving quickly.
 
+## [v0.5.0-alpha] - 2026-07-03
+
+### Release Summary
+
+PoE2Watch v0.5.0-alpha begins the Trading Experience release line. This release focuses on making Discord output feel more like a real Path of Exile companion by preserving richer item data and showing hover-style item cards in sale notifications and item-focused command output.
+
+The project remains read-only, self-hosted, and independent from Grinding Gear Games.
+
+### Added
+
+- Added storage for the full GGG sale item payload in SQLite through the new `item_json` column.
+- Added hover-style Discord item cards that show rarity, item details, requirements, modifiers, item flags, description text, and flavour text when available.
+- Added richer item payload typing for trade history responses, including properties, requirements, implicit mods, explicit mods, crafted mods, fractured mods, desecrated mods, utility mods, flavour text, item level, size, and item state flags.
+- Added item-card display support to sale notifications, `/last3`, `/top`, and largest-sale summary sections.
+- Added richer `/dev fake-sale` sample item details so notification formatting can be tested without waiting for a real sale.
+
+### Changed
+
+- Changed sale notification language to focus on the sold item with `[SALE] You've Sold This`.
+- Changed sale notifications to prioritize sold-item artwork over project-logo thumbnails when item art is available.
+- Updated `/dev refresh-sale-metadata` wording to reflect that it now refreshes item details as well as icons and rarity.
+- Updated project version metadata to `0.5.0-alpha`.
+- Updated README and roadmap copy for the active v0.5 Trading Experience line.
+
+### Safety and Compatibility
+
+- The new database migration is additive only. Existing installs keep their current sales and receive `item_json` automatically after restart.
+- Existing sales need `/dev refresh-sale-metadata` to backfill hover-style item details when the trade history API still returns those records.
+- New sales store item details automatically.
+- Item card rendering is Discord-safe text inside embeds. A true generated PNG card remains future work.
+
+### Upgrade Notes
+
+- Restart the bot after updating so SQLite can add the new `item_json` column.
+- Re-register Discord commands after updating:
+
+```bash
+npm run register
+```
+
+- Backfill recent item metadata after rate limits clear:
+
+```text
+/dev refresh-sale-metadata
+```
+
 ## [v0.4.0-alpha] - 2026-07-03
 
 ### Release Summary

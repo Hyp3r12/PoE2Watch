@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-v0.4.0--alpha-d4af37?style=for-the-badge&labelColor=050505" />
+  <img alt="Version" src="https://img.shields.io/badge/version-v0.5.0--alpha-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Status" src="https://img.shields.io/badge/status-active%20development-8b1e1e?style=for-the-badge&labelColor=050505" />
   <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-local%20first-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
@@ -39,6 +39,7 @@ Built by traders, for traders.
 | SQLite trade history | Complete | Stores sales locally for summaries and analytics. |
 | Adaptive polling | Complete | Checks faster after recent sales and slows down when idle. |
 | Slash commands | Complete | Query stats, recent sales, insights, settings, and top sales from Discord. |
+| Hover-style item cards | Alpha | Stores GGG item payloads and shows rarity, item details, and modifiers in sale embeds. |
 | poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
 | Official GGG OAuth | Placeholder | Waiting on confirmed app registration and official guidance. |
 | Static website | Complete | Dark-fantasy landing page ready for Cloudflare Pages. |
@@ -73,17 +74,30 @@ Built by traders, for traders.
 | `/settings display` | Choose original, Chaos, Exalted, Divine, or all display values. |
 | `/settings refresh-rates` | Refresh cached third-party estimate rates. |
 | `/dev fake-sale` | Admin/dev-only test notification. Does not save fake sales. |
+| `/dev refresh-sale-metadata` | Admin/dev-only backfill for item icons, rarity, and hover-style item details. |
 
 ---
 
 ## Example Output
 
 ```text
-[SALE] New PoE2 Sale
+[SALE] You've Sold This
 
 Headhunter Heavy Belt
 299 Divine
 approx. 299.0 Divine
+
+------------------------------
+Headhunter
+Heavy Belt
+Unique
+------------------------------
+Item Details
+Item Level: 82
+------------------------------
+Explicit Modifiers
+40% increased Damage with Hits against Rare monsters
+You can only have one Headhunter
 
 League: Runes of Aldur
 Time: Today at 12:45 PM
@@ -189,7 +203,7 @@ Fake sale notifications are clearly labeled and are not written to the sales dat
 | Version | Focus | Status |
 | --- | --- | --- |
 | v0.4.x | Statistics, Adaptive Polling, Insights, Settings, Top Sales | Complete |
-| v0.5.x | Trading Experience: Inventory, Goals, Better Embeds, Autocomplete, Pagination, Statistics Export, `/wealth` | Planned |
+| v0.5.x | Trading Experience: Hover-style Item Cards, Better Embeds, Inventory, Goals, Autocomplete, Pagination, Statistics Export, `/wealth` | Active |
 | v0.6.x | Multi User: PostgreSQL, Multiple Guilds, User Accounts, Inviteable Bot | Planned |
 | v0.7.x | Website: Login, Dashboard, Public Stats, API | Planned |
 | v1.0.0 | Cloud: Hosted PoE2Watch, OAuth, Managed Bot | Planned |
@@ -272,7 +286,7 @@ It is designed to deploy directly from the `website` folder on Cloudflare Pages.
 
 ## Release Notes
 
-See [CHANGELOG.md](CHANGELOG.md) for release notes, including `v0.4.0-alpha`.
+See [CHANGELOG.md](CHANGELOG.md) for release notes, including `v0.5.0-alpha`.
 
 ---
 

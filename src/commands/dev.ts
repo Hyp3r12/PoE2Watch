@@ -54,7 +54,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand((subcommand) =>
         subcommand
             .setName("refresh-sale-metadata")
-            .setDescription("Backfill item icons and rarity for recent known sales")
+            .setDescription("Backfill item icons, rarity, and item details for recent known sales")
     );
 
 function buildFakeSale(interaction: ChatInputCommandInteraction): PoeSale {
@@ -67,9 +67,18 @@ function buildFakeSale(interaction: ChatInputCommandInteraction): PoeSale {
         time: new Date().toISOString(),
         item_id: `dev-test-${Date.now()}`,
         item: {
+            name: rarity === "rare" ? "Dragon Knuckle" : undefined,
             typeLine: itemName,
+            ilvl: 82,
+            properties: [{ name: "Quality", values: [["+20%", 1]], displayMode: 0 }],
+            explicitMods: [
+                "22% increased [AttackSpeed|Attack Speed]",
+                "+84 to maximum [Life|Life]",
+                "+38% to [Fire|Fire Resistance]",
+            ],
             frameType: getFrameTypeFromRarity(rarity),
             icon: process.env.POE2WATCH_LOGO_URL || undefined,
+            rarity,
         },
         price: {
             amount,

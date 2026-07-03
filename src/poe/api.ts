@@ -4,9 +4,44 @@ export type PoeSale = {
     time: string;
     item_id: string;
     item: {
+        realm?: string;
+        verified?: boolean;
+        w?: number;
+        h?: number;
         name?: string;
         typeLine: string;
+        baseType?: string;
         icon?: string;
+        league?: string;
+        id?: string;
+        ilvl?: number;
+        identified?: boolean;
+        corrupted?: boolean;
+        fractured?: boolean;
+        desecrated?: boolean;
+        properties?: Array<{
+            name: string;
+            values?: Array<[string, number]>;
+            displayMode?: number;
+            type?: number;
+        }>;
+        requirements?: Array<{
+            name: string;
+            values?: Array<[string, number]>;
+            displayMode?: number;
+            type?: number;
+        }>;
+        implicitMods?: string[];
+        explicitMods?: string[];
+        craftedMods?: string[];
+        fracturedMods?: string[];
+        desecratedMods?: string[];
+        enchantMods?: string[];
+        utilityMods?: string[];
+        scourgeMods?: string[];
+        crucibleMods?: string[];
+        flavourText?: string[];
+        descrText?: string;
         frameType?: number;
         frameTypeId?: number;
         frame_type?: number;

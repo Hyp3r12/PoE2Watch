@@ -22,6 +22,7 @@ import {
     POE2WATCH_WEEK_COLOR,
 } from "../discord/theme";
 import { formatAnsiRarityText, getRarityBadge, getRarityColor } from "./rarity";
+import { formatItemCard, getItemCardData } from "./itemcard";
 
 export type SaleRow = {
     item_name: string;
@@ -29,6 +30,7 @@ export type SaleRow = {
     item_frame_type?: number | null;
     item_rarity?: string | null;
     icon?: string | null;
+    item_json?: string | null;
     price_amount: number;
     price_currency: string;
     sold_at: string;
@@ -40,7 +42,7 @@ function getSalesSince(date: Date): SaleRow[] {
     return db
         .prepare(
             `
-      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, item_json, price_amount, price_currency, sold_at
       FROM sales
       WHERE datetime(sold_at) >= datetime(?)
       ORDER BY datetime(sold_at) DESC
@@ -53,7 +55,7 @@ function getAllSales(): SaleRow[] {
     return db
         .prepare(
             `
-      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, item_json, price_amount, price_currency, sold_at
       FROM sales
       ORDER BY datetime(sold_at) DESC
       `
@@ -69,7 +71,7 @@ export function getTopSales(limit: number, currency?: string): SaleRow[] {
         return db
             .prepare(
                 `
-        SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
+        SELECT item_name, item_type, item_frame_type, item_rarity, icon, item_json, price_amount, price_currency, sold_at
         FROM sales
         WHERE lower(price_currency) = ?
         ORDER BY price_amount DESC, datetime(sold_at) DESC
@@ -82,7 +84,7 @@ export function getTopSales(limit: number, currency?: string): SaleRow[] {
     const sales = db
         .prepare(
             `
-      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, item_json, price_amount, price_currency, sold_at
       FROM sales
       ORDER BY datetime(sold_at) DESC
       `
@@ -238,10 +240,12 @@ export function formatColoredSaleTitle(sale: SaleRow, index?: number) {
 }
 
 export function formatSaleDetails(sale: SaleRow) {
+    const itemCard = formatItemCard(getItemCardData(sale));
+
     return `\`\`\`\n${formatConvertedValue(sale)}\n\`\`\`\n${formatDiscordTimestamp(
         sale.sold_at,
         "f"
-    )} (${formatDiscordTimestamp(sale.sold_at, "R")})`;
+    )} (${formatDiscordTimestamp(sale.sold_at, "R")})${itemCard ? `\n\n${itemCard}` : ""}`;
 }
 
 function formatLargestSaleLine(sale: SaleRow) {

@@ -91,13 +91,17 @@ Current
 
 ✓ Slash commands
 
+✓ Statistics and insights
+
+✓ Display settings
+
+✓ Top and recent sale previews
+
+✓ Hover-style item cards
+
 Future
 
 • OAuth authentication
-
-• Daily / Weekly / Monthly summaries
-
-• Lifetime trade analytics
 
 • Profit tracking
 
@@ -119,15 +123,19 @@ Future
 
 ### v0.5 - Trading Experience
 
-The next major focus is making PoE2Watch feel better for a single trader using Discord every day.
+The current focus is making PoE2Watch feel better for a single trader using Discord every day.
+
+Started:
+
+• Hover-style item cards
+
+• Better Discord embeds
 
 Planned:
 
 • Inventory tracking
 
 • Goals
-
-• Better Discord embeds
 
 • Slash command autocomplete
 

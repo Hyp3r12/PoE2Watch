@@ -24,11 +24,12 @@ export function saveSale(sale: PoeSale) {
       item_frame_type,
       item_rarity,
       icon,
+      item_json,
       price_amount,
       price_currency,
       sold_at,
       league
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
         id,
         itemName,
@@ -36,6 +37,7 @@ export function saveSale(sale: PoeSale) {
         getItemFrameType(sale) ?? null,
         sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
         sale.item.icon ?? null,
+        JSON.stringify(sale.item),
         sale.price.amount,
         sale.price.currency,
         sale.time,
@@ -55,13 +57,15 @@ export function updateSaleMetadata(sale: PoeSale) {
           WHEN item_rarity IS NULL OR item_rarity = 'unknown' THEN ?
           ELSE item_rarity
         END,
-        icon = COALESCE(icon, ?)
+        icon = COALESCE(icon, ?),
+        item_json = COALESCE(item_json, ?)
       WHERE id = ?
       `
     ).run(
         getItemFrameType(sale) ?? null,
         sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
         sale.item.icon ?? null,
+        JSON.stringify(sale.item),
         id
     );
 }

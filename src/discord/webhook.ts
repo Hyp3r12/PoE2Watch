@@ -4,7 +4,11 @@ import { formatConvertedValue, formatDiscordTimestamp } from "../services/valuef
 import { getDisplayLeagueName } from "../services/league";
 import { brandEmbed } from "./theme";
 
-export async function notifyDiscord(sale: PoeSale) {
+type NotifyDiscordOptions = {
+    testMode?: boolean;
+};
+
+export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions = {}) {
     const webhook = process.env.DISCORD_WEBHOOK_URL!;
     const league = getDisplayLeagueName();
     const itemName = getItemName(sale);
@@ -15,7 +19,7 @@ export async function notifyDiscord(sale: PoeSale) {
         body: JSON.stringify({
             embeds: [
                 brandEmbed({
-                    title: "[SALE] New PoE2 Sale",
+                    title: options.testMode ? "[TEST SALE] PoE2Watch Notification Test" : "[SALE] New PoE2 Sale",
                     description: `**${itemName}**\n${formatConvertedValue({
                         price_amount: sale.price.amount,
                         price_currency: sale.price.currency,
@@ -28,6 +32,9 @@ export async function notifyDiscord(sale: PoeSale) {
                     fields: [
                         { name: "League", value: league, inline: true },
                         { name: "Time", value: formatDiscordTimestamp(sale.time, "f"), inline: true },
+                        ...(options.testMode
+                            ? [{ name: "Mode", value: "Developer test. Not saved to database.", inline: false }]
+                            : []),
                     ],
                 }),
             ],

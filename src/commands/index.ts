@@ -8,6 +8,7 @@ import * as stats from "./stats";
 import * as top from "./top";
 import * as settings from "./settings";
 import * as insights from "./insights";
+import * as dev from "./dev";
 
 export type BotCommand = {
     data: {
@@ -27,6 +28,7 @@ export const commands: BotCommand[] = [
     top,
     settings,
     insights,
+    dev,
 ];
 
 export const commandHandlers = new Map(

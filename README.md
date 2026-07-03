@@ -79,7 +79,7 @@ Current priorities:
 
 ## Setup
 
-Copy:
+Rename:
 
 `.env.example`
 

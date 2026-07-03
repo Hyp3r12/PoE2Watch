@@ -80,45 +80,21 @@ Built by traders, for traders.
 
 ## Example Output
 
-```text
-[SALE] You've Sold This
+### Sale Notification
 
-Headhunter Heavy Belt
-299 Divine
-approx. 299.0 Divine
+Discord sale notifications show the item sold, price, league, timestamp, and item artwork when available.
 
-------------------------------
-Headhunter
-Heavy Belt
-Unique
-------------------------------
-Item Details
-Item Level: 82
-------------------------------
-Explicit Modifiers
-40% increased Damage with Hits against Rare monsters
-You can only have one Headhunter
+<p>
+  <img src="assets/headhunter_sale.png" alt="PoE2Watch latest sale Discord notification example" width="390" />
+</p>
 
-League: Runes of Aldur
-Time: Today at 12:45 PM
-```
+### Trading Insights
 
-```text
-[INSIGHTS] Trading Analytics
+Analytics commands summarize your trading history with best day, most sold item type, highest value category, largest sale, and estimated wealth traded.
 
-Best Selling Day
-Wednesday
-
-Most Sold Item Type
-Rings
-
-Largest Sale
-Headhunter Heavy Belt
-299 Divine
-
-Estimated Wealth Traded
-approx. 626.1 Divine
-```
+<p>
+  <img src="assets/insights_example.png" alt="PoE2Watch trading insights Discord command example" width="470" />
+</p>
 
 ---
 

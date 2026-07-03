@@ -31,7 +31,7 @@ Receive Discord notifications when your items sell, track your personal trade hi
 
 ## Current Status
 
-**Version:** v0.3 Alpha
+**Version:** v0.4.0-alpha
 
 **Status:** Active Development
 
@@ -109,6 +109,12 @@ POE_NINJA_LEAGUE_SLUG=runesofaldur
 ```
 
 Official GGG exchange integration remains a placeholder until app registration is confirmed.
+
+---
+
+## Release Notes
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes, including v0.4.0-alpha.
 
 ---
 

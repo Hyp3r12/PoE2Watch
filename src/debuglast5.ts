@@ -1,5 +1,5 @@
 import "./storage/database";
-import { getLastSales } from "./storage/salesVault";
+import { getLastSales } from "./storage/salesvault";
 
 const sales = getLastSales(5) as any[];
 

@@ -1,7 +1,7 @@
-﻿import "dotenv/config";
+import "dotenv/config";
 import "./storage/database";
 import { Client, GatewayIntentBits, Events } from "discord.js";
-import { getLastSales } from "./storage/salesVault";
+import { commandHandlers } from "./commands";
 
 const token = process.env.DISCORD_BOT_TOKEN;
 
@@ -14,34 +14,37 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, (readyClient) => {
-    console.log(`✅ PoE2Watch bot online as ${readyClient.user.tag}`);
+    console.log(`PoE2Watch bot online as ${readyClient.user.tag}`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === "last5") {
-        const sales = getLastSales(5) as any[];
+    const execute = commandHandlers.get(interaction.commandName);
 
-        if (sales.length === 0) {
-            await interaction.reply("No sales found yet.");
-            return;
-        }
-
-        const description = sales
-            .map((sale, index) => {
-                return `**${index + 1}. ${sale.item_name}**\nSold for **${sale.price_amount} ${sale.price_currency}**\n${sale.sold_at}`;
-            })
-            .join("\n\n");
-
+    if (!execute) {
         await interaction.reply({
-            embeds: [
-                {
-                    title: "💰 Last 5 PoE2 Sales",
-                    description,
-                },
-            ],
+            content: "Unknown command.",
+            ephemeral: true,
         });
+        return;
+    }
+
+    try {
+        await execute(interaction);
+    } catch (error) {
+        console.error(`Command failed: ${interaction.commandName}`, error);
+
+        const response = {
+            content: "That command failed. Check the app logs for details.",
+            ephemeral: true,
+        };
+
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp(response);
+        } else {
+            await interaction.reply(response);
+        }
     }
 });
 

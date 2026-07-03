@@ -101,6 +101,10 @@ Future
 
 • Profit tracking
 
+• Wealth tracking
+
+• Trading goals
+
 • Multi-user support
 
 • Guild support
@@ -108,6 +112,106 @@ Future
 • Web dashboard
 
 • Desktop companion
+
+---
+
+## Release Direction
+
+### v0.5 - Trading Experience
+
+The next major focus is making PoE2Watch feel better for a single trader using Discord every day.
+
+Planned:
+
+• Inventory tracking
+
+• Goals
+
+• Better Discord embeds
+
+• Slash command autocomplete
+
+• Pagination
+
+• Statistics export
+
+• `/wealth`
+
+### v0.6 - Multi User
+
+After the single-user trading experience is strong, PoE2Watch should support more users and servers.
+
+Planned:
+
+• PostgreSQL
+
+• Multiple guilds
+
+• User accounts
+
+• Inviteable bot
+
+### v0.7 - Website
+
+The website should become more than a landing page.
+
+Planned:
+
+• Login
+
+• Dashboard
+
+• Public stats
+
+• API
+
+### v1.0 - Cloud
+
+The long-term goal is hosted PoE2Watch.
+
+Planned:
+
+• Hosted PoE2Watch
+
+• OAuth, if supported and approved
+
+• Managed inviteable bot
+
+---
+
+## Architecture Direction
+
+PoE2Watch should eventually centralize configuration instead of reading `process.env` across the codebase.
+
+The planned shape is:
+
+`src/config/config.ts`
+
+with sections for:
+
+• Discord
+
+• Polling
+
+• Exchange estimates
+
+• OAuth placeholders
+
+• Website links
+
+• Database
+
+The statistics service should also split as the analytics layer grows:
+
+• summary
+
+• leaderboards
+
+• insights
+
+• charts
+
+• formatter
 
 ---
 

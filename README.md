@@ -189,9 +189,57 @@ Fake sale notifications are clearly labeled and are not written to the sales dat
 | Version | Focus | Status |
 | --- | --- | --- |
 | v0.4.x | Statistics, Adaptive Polling, Insights, Settings, Top Sales | Complete |
-| v0.5.x | Inventory Tracking, Goals, Advanced Analytics | Planned |
-| v0.6.x | Multi-user Support, PostgreSQL, Web Dashboard | Planned |
-| v1.0.0 | PoE2Watch Cloud, OAuth, Inviteable Bot | Planned |
+| v0.5.x | Trading Experience: Inventory, Goals, Better Embeds, Autocomplete, Pagination, Statistics Export, `/wealth` | Planned |
+| v0.6.x | Multi User: PostgreSQL, Multiple Guilds, User Accounts, Inviteable Bot | Planned |
+| v0.7.x | Website: Login, Dashboard, Public Stats, API | Planned |
+| v1.0.0 | Cloud: Hosted PoE2Watch, OAuth, Managed Bot | Planned |
+
+### Planned `/wealth` Command
+
+```text
+[WEALTH] Current League
+
+Current League
+approx. 626 Divine
+
+Past 24 Hours
++44 Divine
+
+Past Week
++187 Divine
+
+Best Day
+299 Divine
+July 1
+
+Goal
+Mageblood
+████████░░ 82%
+```
+
+---
+
+## Architecture Direction
+
+As PoE2Watch grows, the next cleanup target is central configuration.
+
+Planned structure:
+
+```text
+src/config/config.ts
+```
+
+The goal is to stop reading `process.env` directly throughout services and instead import a typed `config` object with sections for Discord, polling, exchange rates, OAuth placeholders, website links, and database settings.
+
+The statistics layer will also split naturally as analytics grows:
+
+```text
+src/services/statistics/summary.ts
+src/services/statistics/leaderboards.ts
+src/services/statistics/insights.ts
+src/services/statistics/charts.ts
+src/services/statistics/formatter.ts
+```
 
 ---
 

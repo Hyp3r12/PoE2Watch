@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { getLatestRateFetch, saveExchangeRate } from "../storage/exchangerates";
 import { normalizeCurrency } from "./valueformatter";
+import { formatLeagueName } from "./league";
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const ESTIMATE_CURRENCIES = ["chaos", "exalted", "divine"];
@@ -69,22 +70,8 @@ function getLeagueSlug() {
     return (process.env.POE_LEAGUE ?? "Runes of Aldur").toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function titleCaseLeagueName(league: string) {
-    const lowercaseWords = new Set(["of", "the", "and"]);
-
-    return league
-        .toLowerCase()
-        .split(" ")
-        .map((word, index) => {
-            if (index > 0 && lowercaseWords.has(word)) return word;
-
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        })
-        .join(" ");
-}
-
 function getPoeNinjaLeagueName() {
-    return process.env.POE_NINJA_LEAGUE_NAME ?? titleCaseLeagueName(process.env.POE_LEAGUE ?? "Runes of Aldur");
+    return process.env.POE_NINJA_LEAGUE_NAME ?? formatLeagueName(process.env.POE_LEAGUE ?? "Runes of Aldur");
 }
 
 function getPoeNinjaUrls() {

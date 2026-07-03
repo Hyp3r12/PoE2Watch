@@ -1,11 +1,12 @@
 import "dotenv/config";
 import { PoeSale, getItemName } from "../poe/api";
 import { formatConvertedValue, formatDiscordTimestamp } from "../services/valueformatter";
+import { getDisplayLeagueName } from "../services/league";
 import { brandEmbed } from "./theme";
 
 export async function notifyDiscord(sale: PoeSale) {
     const webhook = process.env.DISCORD_WEBHOOK_URL!;
-    const league = process.env.POE_LEAGUE!;
+    const league = getDisplayLeagueName();
     const itemName = getItemName(sale);
 
     await fetch(webhook, {

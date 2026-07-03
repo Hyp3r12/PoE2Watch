@@ -2,11 +2,40 @@
 import { notifyDiscord } from "./discord/webhook";
 import { hasSale, saveSale, getLastSales } from "./storage/salesVault";
 
-const NORMAL_WAIT_SECONDS = 300;
-let nextWaitSeconds = NORMAL_WAIT_SECONDS;
+const FAST_WAIT_SECONDS = 7 * 60; // 7 minutes
+const IDLE_WAIT_SECONDS = 20 * 60; // 20 minutes
+const RECENT_SALE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+let nextWaitSeconds = IDLE_WAIT_SECONDS;
 
 function sleep(seconds: number) {
     return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
+
+function getPollingMode() {
+    const latestSale = getLastSales(1)[0] as any;
+
+    if (!latestSale) {
+        return {
+            mode: "IDLE",
+            waitSeconds: IDLE_WAIT_SECONDS,
+        };
+    }
+
+    const latestSaleTime = new Date(latestSale.sold_at).getTime();
+    const saleAgeMs = Date.now() - latestSaleTime;
+
+    if (saleAgeMs <= RECENT_SALE_WINDOW_MS) {
+        return {
+            mode: "FAST",
+            waitSeconds: FAST_WAIT_SECONDS,
+        };
+    }
+
+    return {
+        mode: "IDLE",
+        waitSeconds: IDLE_WAIT_SECONDS,
+    };
 }
 
 async function checkForNewSales() {
@@ -41,24 +70,35 @@ async function checkForNewSales() {
 }
 
 export async function startWatcher() {
-    console.log(`✓ Watching PoE2 sales every ${NORMAL_WAIT_SECONDS} seconds`);
+    console.log("✓ Adaptive watcher enabled");
+    console.log("✓ FAST mode: 7 minutes after recent sales");
+    console.log("✓ IDLE mode: 20 minutes after 1 hour without sales");
 
     while (true) {
         try {
             await checkForNewSales();
-            nextWaitSeconds = NORMAL_WAIT_SECONDS;
+
+            const polling = getPollingMode();
+            nextWaitSeconds = polling.waitSeconds;
+
+            console.log(
+                `[${new Date().toLocaleTimeString()}] Mode: ${polling.mode}. Next check in ${Math.round(
+                    nextWaitSeconds / 60
+                )} minutes.`
+            );
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
 
             if (message.startsWith("RATE_LIMIT:")) {
                 const retryAfter = Number(message.split(":")[1]);
-                nextWaitSeconds = Number.isFinite(retryAfter) ? retryAfter : 1800;
-                console.log(`⚠️ Rate limited. Waiting ${nextWaitSeconds} seconds.`);
+                nextWaitSeconds = Number.isFinite(retryAfter) ? retryAfter : 3600;
+                console.log(`⚠️ Rate limited. Waiting ${Math.round(nextWaitSeconds / 60)} minutes.`);
             } else if (message.startsWith("AUTH_FAILED:")) {
                 console.error("❌ Auth failed. Stop app and refresh your POE_COOKIE.");
                 process.exit(1);
             } else {
                 console.error("Watcher failed:", error);
+                nextWaitSeconds = IDLE_WAIT_SECONDS;
             }
         }
 

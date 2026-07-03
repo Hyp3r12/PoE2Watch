@@ -1,5 +1,7 @@
-﻿import "dotenv/config";
+import "dotenv/config";
 import { PoeSale, getItemName } from "../poe/api";
+import { formatConvertedValue, formatDiscordTimestamp } from "../services/valueformatter";
+import { brandEmbed } from "./theme";
 
 export async function notifyDiscord(sale: PoeSale) {
     const webhook = process.env.DISCORD_WEBHOOK_URL!;
@@ -11,15 +13,22 @@ export async function notifyDiscord(sale: PoeSale) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             embeds: [
-                {
-                    title: "💰 New PoE2 Sale",
-                    description: `**${itemName}**\nSold for **${sale.price.amount} ${sale.price.currency}**`,
-                    thumbnail: sale.item.icon ? { url: sale.item.icon } : undefined,
+                brandEmbed({
+                    title: "[SALE] New PoE2 Sale",
+                    description: `**${itemName}**\n${formatConvertedValue({
+                        price_amount: sale.price.amount,
+                        price_currency: sale.price.currency,
+                    })}`,
+                    thumbnail: process.env.POE2WATCH_LOGO_URL
+                        ? { url: process.env.POE2WATCH_LOGO_URL }
+                        : sale.item.icon
+                          ? { url: sale.item.icon }
+                          : undefined,
                     fields: [
                         { name: "League", value: league, inline: true },
-                        { name: "Time", value: sale.time, inline: true },
+                        { name: "Time", value: formatDiscordTimestamp(sale.time, "f"), inline: true },
                     ],
-                },
+                }),
             ],
         }),
     });

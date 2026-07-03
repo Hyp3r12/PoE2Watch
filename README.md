@@ -17,6 +17,10 @@ Receive Discord notifications when your items sell, track your personal trade hi
 - ✅ Discord Bot
 - ✅ Discord slash commands
 - ✅ `/last5`
+- ✅ `/today`, `/week`, `/month`, `/league`, `/stats`
+- ✅ `/settings`
+- ✅ `/top`
+- ✅ `/insights`
 - ✅ Local-first architecture
 - ✅ Duplicate sale detection
 - ✅ Automatic migration from existing sales
@@ -36,6 +40,8 @@ Current priorities:
 - Trade analytics
 - Multi-user architecture
 - OAuth authentication *(pending guidance from Grinding Gear Games)*
+- Currency exchange estimates via cached third-party poe.ninja market data
+- Official GGG currency exchange integration *(placeholder until app registration is confirmed)*
 
 ---
 
@@ -47,11 +53,14 @@ Current priorities:
 - [x] SQLite storage
 - [x] Discord Bot
 - [x] `/last5`
-- [ ] `/today`
-- [ ] `/week`
-- [ ] `/month`
-- [ ] `/league`
-- [ ] `/stats`
+- [x] `/today`
+- [x] `/week`
+- [x] `/month`
+- [x] `/league`
+- [x] `/stats`
+- [x] `/settings`
+- [x] `/top`
+- [x] `/insights`
 
 ### v0.5
 
@@ -63,6 +72,7 @@ Current priorities:
 ### v0.6
 
 - [ ] OAuth authentication *(if supported by GGG)*
+- [ ] Official currency exchange integration *(pending GGG registration/approval)*
 - [ ] Multi-user support
 - [ ] Hosted backend
 - [ ] PostgreSQL
@@ -88,6 +98,17 @@ to
 `.env`
 
 and fill in your credentials.
+
+### Currency Estimates
+
+PoE2Watch can use cached poe.ninja market data for temporary third-party value estimates:
+
+```env
+POE_RATE_PROVIDER=poe-ninja
+POE_NINJA_LEAGUE_SLUG=runesofaldur
+```
+
+Official GGG exchange integration remains a placeholder until app registration is confirmed.
 
 ---
 

@@ -2,6 +2,7 @@ import "dotenv/config";
 import "./storage/database";
 import { Client, GatewayIntentBits, Events } from "discord.js";
 import { commandHandlers } from "./commands";
+import { brandEmbed, POE2WATCH_DANGER_COLOR } from "./discord/theme";
 
 const token = process.env.DISCORD_BOT_TOKEN;
 
@@ -24,7 +25,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     if (!execute) {
         await interaction.reply({
-            content: "Unknown command.",
+            embeds: [
+                brandEmbed(
+                    {
+                        title: "Unknown Command",
+                        description: "That command is not registered in PoE2Watch.",
+                    },
+                    POE2WATCH_DANGER_COLOR
+                ),
+            ],
             ephemeral: true,
         });
         return;
@@ -36,7 +45,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
         console.error(`Command failed: ${interaction.commandName}`, error);
 
         const response = {
-            content: "That command failed. Check the app logs for details.",
+            embeds: [
+                brandEmbed(
+                    {
+                        title: "Command Failed",
+                        description: "That command failed. Check the app logs for details.",
+                    },
+                    POE2WATCH_DANGER_COLOR
+                ),
+            ],
             ephemeral: true,
         };
 

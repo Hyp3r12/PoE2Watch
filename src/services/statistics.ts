@@ -21,7 +21,7 @@ import {
     POE2WATCH_TOP_COLOR,
     POE2WATCH_WEEK_COLOR,
 } from "../discord/theme";
-import { formatAnsiRarityText, getRarityBadge, getRarityColor } from "./rarity";
+import { formatAnsiRarityText, getRarityColor } from "./rarity";
 import { formatItemCard, getItemCardData } from "./itemcard";
 
 export type SaleRow = {
@@ -232,7 +232,7 @@ function getLargestSale(sales: SaleRow[]) {
 export function formatSaleTitle(sale: SaleRow, index?: number) {
     const prefix = typeof index === "number" ? `${index}. ` : "";
 
-    return `${prefix}${getRarityBadge(sale)} ${sale.item_name}`;
+    return `${prefix}${sale.item_name}`;
 }
 
 export function formatColoredSaleTitle(sale: SaleRow, index?: number) {
@@ -249,7 +249,7 @@ export function formatSaleDetails(sale: SaleRow) {
 }
 
 function formatLargestSaleLine(sale: SaleRow) {
-    return `\`\`\`ansi\n${formatAnsiRarityText(sale, `TOP SALE ${getRarityBadge(sale)} ${sale.item_name}`)}\n\`\`\`${formatSaleDetails(sale)}`;
+    return `\`\`\`ansi\n${formatAnsiRarityText(sale, sale.item_name)}\n\`\`\`${formatSaleDetails(sale)}`;
 }
 
 function getLeagueAgeDays(sales: SaleRow[]) {
@@ -439,29 +439,29 @@ export function getTodaySummary() {
     const start = new Date();
     start.setHours(0, 0, 0, 0);
 
-    return buildSummary("[TODAY] Today's PoE2 Sales", getSalesSince(start), POE2WATCH_TODAY_COLOR);
+    return buildSummary("Today's PoE2 Sales", getSalesSince(start), POE2WATCH_TODAY_COLOR);
 }
 
 export function getWeekSummary() {
     const start = new Date();
     start.setDate(start.getDate() - 7);
 
-    return buildSummary("[WEEK] Last 7 Days PoE2 Sales", getSalesSince(start), POE2WATCH_WEEK_COLOR);
+    return buildSummary("Last 7 Days of PoE2 Sales", getSalesSince(start), POE2WATCH_WEEK_COLOR);
 }
 
 export function getMonthSummary() {
     const start = new Date();
     start.setDate(start.getDate() - 30);
 
-    return buildSummary("[MONTH] Last 30 Days PoE2 Sales", getSalesSince(start), POE2WATCH_MONTH_COLOR);
+    return buildSummary("Last 30 Days of PoE2 Sales", getSalesSince(start), POE2WATCH_MONTH_COLOR);
 }
 
 export function getLeagueSummary() {
-    return buildSummary("[LEAGUE] PoE2 Sales", getAllSales(), POE2WATCH_LEAGUE_COLOR, { leagueDashboard: true });
+    return buildSummary("League Sales", getAllSales(), POE2WATCH_LEAGUE_COLOR, { leagueDashboard: true });
 }
 
 export function getStatsSummary() {
-    return buildSummary("[STATS] PoE2Watch", getAllSales(), POE2WATCH_STATS_COLOR);
+    return buildSummary("PoE2Watch Stats", getAllSales(), POE2WATCH_STATS_COLOR);
 }
 
 export function getInsightsSummary() {
@@ -470,7 +470,7 @@ export function getInsightsSummary() {
     if (sales.length === 0) {
         return brandEmbed(
             {
-                title: "[INSIGHTS] Trading Analytics",
+                title: "Trading Insights",
                 description: "No sales found yet.",
             },
             POE2WATCH_INSIGHTS_COLOR
@@ -486,7 +486,7 @@ export function getInsightsSummary() {
     return addThumbnail(
         brandEmbed(
             {
-                title: "[INSIGHTS] Trading Analytics",
+                title: "Trading Insights",
                 description:
                     "**Listing-to-sale time**\nUnavailable until PoE2Watch stores listing timestamps.\n\n────────────",
                 fields: [

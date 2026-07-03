@@ -33,7 +33,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             embeds: [
                 brandEmbed(
                     {
-                        title: currency ? `[TOP] ${limit} ${currency} Sales` : `[TOP] ${limit} PoE2 Sales`,
+                        title: currency ? `Top ${limit} ${currency} Sales` : `Top ${limit} PoE2 Sales`,
                         description: currency ? `No ${currency} sales found yet.` : "No sales found yet.",
                     },
                     POE2WATCH_TOP_COLOR
@@ -47,7 +47,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
         addThumbnail(
             brandEmbed(
                 {
-                    title: `[TOP] Rank ${index} of ${sales.length}`,
+                    title: `Top Sale ${index} of ${sales.length}`,
                     description: `${formatColoredSaleTitle(sale)}${formatSaleDetails(sale)}`,
                     footer: {
                         text: currency

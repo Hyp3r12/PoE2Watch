@@ -3,7 +3,7 @@ import { PoeSale, getItemFrameType, getItemName } from "../poe/api";
 import { formatConvertedValue, formatDiscordTimestamp } from "../services/valueformatter";
 import { getDisplayLeagueName } from "../services/league";
 import { addThumbnail, brandEmbed } from "./theme";
-import { getRarityBadge, getRarityColor, getRarityFromFrameType } from "../services/rarity";
+import { getRarityColor, getRarityFromFrameType } from "../services/rarity";
 import { formatAnsiRarityText } from "../services/rarity";
 import { formatItemCard } from "../services/itemcard";
 
@@ -28,8 +28,8 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
             embeds: [
                 addThumbnail(
                     brandEmbed({
-                        title: options.testMode ? "[TEST SALE] You've Sold This" : "[SALE] You've Sold This",
-                        description: `\`\`\`ansi\n${formatAnsiRarityText(saleRarity, `${getRarityBadge(saleRarity)} ${itemName}`)}\n\`\`\`\n${formatConvertedValue({
+                        title: options.testMode ? "Test Sale" : "You've Sold This",
+                        description: `\`\`\`ansi\n${formatAnsiRarityText(saleRarity, itemName)}\n\`\`\`\n${formatConvertedValue({
                             price_amount: sale.price.amount,
                             price_currency: sale.price.currency,
                         })}${itemCard ? `\n\n${itemCard}` : ""}`,

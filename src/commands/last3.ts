@@ -11,7 +11,7 @@ function buildRecentSaleEmbed(sale: any, index: number, total: number) {
     return addThumbnail(
         brandEmbed(
             {
-                title: `[RECENT] Sale ${index} of ${total}`,
+                title: `Recent Sale ${index} of ${total}`,
                 description: `${formatColoredSaleTitle(sale)}${formatSaleDetails(sale)}`,
             },
             getSaleDisplayColor(sale)
@@ -28,7 +28,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             embeds: [
                 brandEmbed(
                     {
-                        title: "[RECENT] Last 3 PoE2 Sales",
+                        title: "Recent Sales",
                         description: "No sales found yet.",
                     },
                     POE2WATCH_SALE_COLOR

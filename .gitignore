@@ -2,11 +2,16 @@
 .env
 .env.*
 !.env.example
+.envrc
+.npmrc
 
-# SQLite database
+# SQLite database and local trade history
 data/
 *.db
+*.db-*
 *.sqlite
+*.sqlite3
+*.sqlite-*
 
 # Runtime files
 seen-sales.json
@@ -14,9 +19,32 @@ seen-sales.json
 # Node
 node_modules/
 
-# Logs
+# Build, cache, and test output
+dist/
+build/
+coverage/
+.cache/
+.turbo/
+
+# Logs and diagnostics
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Local screenshots and scratch media
+Screenshot*.png
+Screenshot*.jpg
+Screenshot*.jpeg
+*.tmp
 
 # OS
 .DS_Store

@@ -7,6 +7,11 @@ export type PoeSale = {
         name?: string;
         typeLine: string;
         icon?: string;
+        frameType?: number;
+        frameTypeId?: number;
+        frame_type?: number;
+        frame_type_id?: number;
+        rarity?: string;
     };
     price: {
         amount: number;
@@ -57,4 +62,8 @@ export function getItemName(sale: PoeSale) {
     return sale.item.name
         ? `${sale.item.name} ${sale.item.typeLine}`
         : sale.item.typeLine;
+}
+
+export function getItemFrameType(sale: PoeSale) {
+    return sale.item.frameType ?? sale.item.frameTypeId ?? sale.item.frame_type ?? sale.item.frame_type_id;
 }

@@ -1,5 +1,3 @@
-import path from "node:path";
-
 export const POE2WATCH_COLOR = 0xc8953f;
 export const POE2WATCH_DANGER_COLOR = 0xb64032;
 export const POE2WATCH_INFO_COLOR = 0x3f8fc8;
@@ -11,9 +9,6 @@ export const POE2WATCH_LEAGUE_COLOR = 0xb65a3c;
 export const POE2WATCH_STATS_COLOR = 0xc8953f;
 export const POE2WATCH_TOP_COLOR = 0xd66f3f;
 export const POE2WATCH_INSIGHTS_COLOR = 0x6bc8b4;
-export const POE2WATCH_LOGO_FILE_NAME = "project-logo.png";
-export const POE2WATCH_LOGO_PATH = path.resolve("assets", POE2WATCH_LOGO_FILE_NAME);
-export const POE2WATCH_LOGO_ATTACHMENT = `attachment://${POE2WATCH_LOGO_FILE_NAME}`;
 export const POE2WATCH_FOOTER = "PoE2Watch";
 
 type EmbedLike = Record<string, any>;
@@ -25,26 +20,6 @@ export function brandEmbed<T extends EmbedLike>(embed: T, color = POE2WATCH_COLO
         footer: {
             text: POE2WATCH_FOOTER,
             ...(embed.footer ?? {}),
-        },
-    };
-}
-
-export function withLogoAttachment() {
-    return {
-        files: [
-            {
-                attachment: POE2WATCH_LOGO_PATH,
-                name: POE2WATCH_LOGO_FILE_NAME,
-            },
-        ],
-    };
-}
-
-export function addLogoThumbnail<T extends EmbedLike>(embed: T): T {
-    return {
-        ...embed,
-        thumbnail: {
-            url: POE2WATCH_LOGO_ATTACHMENT,
         },
     };
 }

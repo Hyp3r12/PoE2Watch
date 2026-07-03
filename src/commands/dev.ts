@@ -1,8 +1,10 @@
 import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { notifyDiscord } from "../discord/webhook";
-import { PoeSale } from "../poe/api";
+import { fetchSales, PoeSale } from "../poe/api";
 import { canUseDevCommands } from "../services/devpermissions";
 import { brandEmbed, POE2WATCH_DANGER_COLOR, POE2WATCH_INFO_COLOR } from "../discord/theme";
+import { getFrameTypeFromRarity, normalizeRarity } from "../services/rarity";
+import { hasSale, updateSaleMetadata } from "../storage/salesvault";
 
 export const data = new SlashCommandBuilder()
     .setName("dev")
@@ -36,18 +38,37 @@ export const data = new SlashCommandBuilder()
                         { name: "Chaos", value: "chaos" }
                     )
             )
+            .addStringOption((option) =>
+                option
+                    .setName("rarity")
+                    .setDescription("Fake item rarity")
+                    .setRequired(false)
+                    .addChoices(
+                        { name: "Normal", value: "normal" },
+                        { name: "Magic", value: "magic" },
+                        { name: "Rare", value: "rare" },
+                        { name: "Unique", value: "unique" }
+                    )
+            )
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("refresh-sale-metadata")
+            .setDescription("Backfill item icons and rarity for recent known sales")
     );
 
 function buildFakeSale(interaction: ChatInputCommandInteraction): PoeSale {
     const itemName = interaction.options.getString("item") ?? "Headhunter Heavy Belt";
     const amount = interaction.options.getNumber("amount") ?? 299;
     const currency = interaction.options.getString("currency") ?? "divine";
+    const rarity = normalizeRarity(interaction.options.getString("rarity") ?? "unique");
 
     return {
         time: new Date().toISOString(),
         item_id: `dev-test-${Date.now()}`,
         item: {
             typeLine: itemName,
+            frameType: getFrameTypeFromRarity(rarity),
             icon: process.env.POE2WATCH_LOGO_URL || undefined,
         },
         price: {
@@ -93,5 +114,48 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 ),
             ],
         });
+        return;
+    }
+
+    if (subcommand === "refresh-sale-metadata") {
+        await interaction.deferReply({ ephemeral: true });
+
+        try {
+            const sales = await fetchSales();
+            let updated = 0;
+
+            for (const sale of sales) {
+                if (!hasSale(sale)) continue;
+
+                updateSaleMetadata(sale);
+                updated += 1;
+            }
+
+            await interaction.editReply({
+                embeds: [
+                    brandEmbed(
+                        {
+                            title: "Sale Metadata Refreshed",
+                            description: `Checked **${sales.length}** recent sale(s) and refreshed metadata for **${updated}** known sale(s).`,
+                        },
+                        POE2WATCH_INFO_COLOR
+                    ),
+                ],
+            });
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+
+            await interaction.editReply({
+                embeds: [
+                    brandEmbed(
+                        {
+                            title: "Metadata Refresh Failed",
+                            description: message,
+                        },
+                        POE2WATCH_DANGER_COLOR
+                    ),
+                ],
+            });
+        }
     }
 }

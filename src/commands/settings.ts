@@ -5,8 +5,7 @@ import {
     normalizeDisplayCurrency,
     saveDisplayCurrency,
 } from "../storage/settings";
-import { refreshExchangeRates } from "../services/exchange";
-import { getRateProviderLabel } from "../services/exchange";
+import { getRateProviderLabel, refreshExchangeRates } from "../services/exchange";
 import {
     brandEmbed,
     POE2WATCH_DANGER_COLOR,

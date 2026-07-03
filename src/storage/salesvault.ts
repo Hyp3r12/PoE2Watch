@@ -1,5 +1,6 @@
 import db from "./database";
-import { PoeSale, getItemName, getSaleId } from "../poe/api";
+import { PoeSale, getItemFrameType, getItemName, getSaleId } from "../poe/api";
+import { getRarityFromFrameType } from "../services/rarity";
 
 export function hasSale(sale: PoeSale): boolean {
     const id = getSaleId(sale);
@@ -20,21 +21,48 @@ export function saveSale(sale: PoeSale) {
       id,
       item_name,
       item_type,
+      item_frame_type,
+      item_rarity,
       icon,
       price_amount,
       price_currency,
       sold_at,
       league
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
         id,
         itemName,
         sale.item.typeLine,
+        getItemFrameType(sale) ?? null,
+        sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
         sale.item.icon ?? null,
         sale.price.amount,
         sale.price.currency,
         sale.time,
         process.env.POE_LEAGUE ?? "Unknown"
+    );
+}
+
+export function updateSaleMetadata(sale: PoeSale) {
+    const id = getSaleId(sale);
+
+    db.prepare(
+        `
+      UPDATE sales
+      SET
+        item_frame_type = COALESCE(item_frame_type, ?),
+        item_rarity = CASE
+          WHEN item_rarity IS NULL OR item_rarity = 'unknown' THEN ?
+          ELSE item_rarity
+        END,
+        icon = COALESCE(icon, ?)
+      WHERE id = ?
+      `
+    ).run(
+        getItemFrameType(sale) ?? null,
+        sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
+        sale.item.icon ?? null,
+        id
     );
 }
 

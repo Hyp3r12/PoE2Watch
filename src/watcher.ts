@@ -1,6 +1,6 @@
 ﻿import { fetchSales, getItemName, PoeSale } from "./poe/api";
 import { notifyDiscord } from "./discord/webhook";
-import { hasSale, saveSale, getLastSales } from "./storage/salesvault";
+import { hasSale, saveSale, getLastSales, updateSaleMetadata } from "./storage/salesvault";
 
 const FAST_WAIT_SECONDS = 7 * 60; // 7 minutes
 const IDLE_WAIT_SECONDS = 20 * 60; // 20 minutes
@@ -45,7 +45,9 @@ async function checkForNewSales() {
     const newSales: PoeSale[] = [];
 
     for (const sale of [...sales].reverse()) {
-        if (!hasSale(sale)) {
+        if (hasSale(sale)) {
+            updateSaleMetadata(sale);
+        } else {
             saveSale(sale);
             newSales.push(sale);
         }

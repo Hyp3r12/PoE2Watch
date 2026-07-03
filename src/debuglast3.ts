@@ -1,10 +1,10 @@
 import "./storage/database";
 import { getLastSales } from "./storage/salesvault";
 
-const sales = getLastSales(5) as any[];
+const sales = getLastSales(3) as any[];
 
 console.log("=================================");
-console.log("        PoE2Watch Last 5");
+console.log("        PoE2Watch Last 3");
 console.log("=================================");
 
 if (sales.length === 0) {

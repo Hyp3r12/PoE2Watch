@@ -26,6 +26,8 @@ The project remains read-only, self-hosted, and independent from Grinding Gear G
 - Added explicit placeholder gate for official GGG OAuth exchange support.
 - Added prettier Discord embeds with command-specific colors, badges, item thumbnails, estimated values, and progress bars.
 - Added league dashboard fields including league age, sales today, average per day, and highest day.
+- Replaced `/last5` with `/last3` for cleaner recent-sale previews.
+- Updated `/top` to show up to three clean item-style sale embeds.
 - Added `tsconfig.json` and project scripts for development, command registration, debug output, and type checking.
 - Added `website/index.html`, a static dark-fantasy landing page for Cloudflare Pages.
 - Added project logo asset support.

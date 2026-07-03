@@ -1,8 +1,10 @@
 import "dotenv/config";
-import { PoeSale, getItemName } from "../poe/api";
+import { PoeSale, getItemFrameType, getItemName } from "../poe/api";
 import { formatConvertedValue, formatDiscordTimestamp } from "../services/valueformatter";
 import { getDisplayLeagueName } from "../services/league";
 import { brandEmbed } from "./theme";
+import { getRarityBadge, getRarityColor, getRarityFromFrameType } from "../services/rarity";
+import { formatAnsiRarityText } from "../services/rarity";
 
 type NotifyDiscordOptions = {
     testMode?: boolean;
@@ -12,6 +14,10 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
     const webhook = process.env.DISCORD_WEBHOOK_URL!;
     const league = getDisplayLeagueName();
     const itemName = getItemName(sale);
+    const saleRarity = {
+        item_frame_type: getItemFrameType(sale),
+        item_rarity: sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
+    };
 
     await fetch(webhook, {
         method: "POST",
@@ -20,7 +26,7 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
             embeds: [
                 brandEmbed({
                     title: options.testMode ? "[TEST SALE] PoE2Watch Notification Test" : "[SALE] New PoE2 Sale",
-                    description: `**${itemName}**\n${formatConvertedValue({
+                    description: `\`\`\`ansi\n${formatAnsiRarityText(saleRarity, `${getRarityBadge(saleRarity)} ${itemName}`)}\n\`\`\`\n${formatConvertedValue({
                         price_amount: sale.price.amount,
                         price_currency: sale.price.currency,
                     })}`,
@@ -36,7 +42,7 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
                             ? [{ name: "Mode", value: "Developer test. Not saved to database.", inline: false }]
                             : []),
                     ],
-                }),
+                }, getRarityColor(saleRarity)),
             ],
         }),
     });

@@ -21,10 +21,13 @@ import {
     POE2WATCH_TOP_COLOR,
     POE2WATCH_WEEK_COLOR,
 } from "../discord/theme";
+import { formatAnsiRarityText, getRarityBadge, getRarityColor } from "./rarity";
 
 export type SaleRow = {
     item_name: string;
     item_type: string;
+    item_frame_type?: number | null;
+    item_rarity?: string | null;
     icon?: string | null;
     price_amount: number;
     price_currency: string;
@@ -37,7 +40,7 @@ function getSalesSince(date: Date): SaleRow[] {
     return db
         .prepare(
             `
-      SELECT item_name, item_type, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
       FROM sales
       WHERE datetime(sold_at) >= datetime(?)
       ORDER BY datetime(sold_at) DESC
@@ -50,7 +53,7 @@ function getAllSales(): SaleRow[] {
     return db
         .prepare(
             `
-      SELECT item_name, item_type, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
       FROM sales
       ORDER BY datetime(sold_at) DESC
       `
@@ -58,33 +61,54 @@ function getAllSales(): SaleRow[] {
         .all() as SaleRow[];
 }
 
-function getTopSales(limit: number, currency?: string): SaleRow[] {
+export function getTopSales(limit: number, currency?: string): SaleRow[] {
+    const safeLimit = Math.min(Math.max(limit, 1), 3);
     const normalizedCurrency = currency ? normalizeCurrency(currency) : null;
 
     if (normalizedCurrency) {
         return db
             .prepare(
                 `
-        SELECT item_name, item_type, icon, price_amount, price_currency, sold_at
+        SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
         FROM sales
         WHERE lower(price_currency) = ?
         ORDER BY price_amount DESC, datetime(sold_at) DESC
         LIMIT ?
         `
             )
-            .all(normalizedCurrency, limit) as SaleRow[];
+            .all(normalizedCurrency, safeLimit) as SaleRow[];
     }
 
-    return db
+    const sales = db
         .prepare(
             `
-      SELECT item_name, item_type, icon, price_amount, price_currency, sold_at
+      SELECT item_name, item_type, item_frame_type, item_rarity, icon, price_amount, price_currency, sold_at
       FROM sales
-      ORDER BY price_amount DESC, datetime(sold_at) DESC
-      LIMIT ?
+      ORDER BY datetime(sold_at) DESC
       `
         )
-        .all(limit) as SaleRow[];
+        .all() as SaleRow[];
+
+    return sales
+        .map((sale) => ({
+            sale,
+            estimatedDivineValue: convertValue(sale.price_amount, sale.price_currency, "divine"),
+        }))
+        .sort((a, b) => {
+            const aValue = a.estimatedDivineValue;
+            const bValue = b.estimatedDivineValue;
+
+            if (aValue === null && bValue === null) {
+                return new Date(b.sale.sold_at).getTime() - new Date(a.sale.sold_at).getTime();
+            }
+
+            if (aValue === null) return 1;
+            if (bValue === null) return -1;
+
+            return bValue - aValue;
+        })
+        .slice(0, safeLimit)
+        .map((entry) => entry.sale);
 }
 
 function truncateField(value: string) {
@@ -203,20 +227,25 @@ function getLargestSale(sales: SaleRow[]) {
     return [...sales].sort((a, b) => b.price_amount - a.price_amount)[0];
 }
 
-export function formatSaleLine(sale: SaleRow, index?: number) {
-    const prefix = typeof index === "number" ? `**${index}. ${sale.item_name}**` : `**${sale.item_name}**`;
+export function formatSaleTitle(sale: SaleRow, index?: number) {
+    const prefix = typeof index === "number" ? `${index}. ` : "";
 
-    return `${prefix}\n\`\`\`\n${formatConvertedValue(sale)}\n\`\`\`\n${formatDiscordTimestamp(
+    return `${prefix}${getRarityBadge(sale)} ${sale.item_name}`;
+}
+
+export function formatColoredSaleTitle(sale: SaleRow, index?: number) {
+    return `\`\`\`ansi\n${formatAnsiRarityText(sale, formatSaleTitle(sale, index))}\n\`\`\``;
+}
+
+export function formatSaleDetails(sale: SaleRow) {
+    return `\`\`\`\n${formatConvertedValue(sale)}\n\`\`\`\n${formatDiscordTimestamp(
         sale.sold_at,
         "f"
     )} (${formatDiscordTimestamp(sale.sold_at, "R")})`;
 }
 
 function formatLargestSaleLine(sale: SaleRow) {
-    return `**🏆 ${sale.item_name}**\n\`\`\`\n${formatConvertedValue(sale)}\n\`\`\`\n${formatDiscordTimestamp(
-        sale.sold_at,
-        "f"
-    )} (${formatDiscordTimestamp(sale.sold_at, "R")})`;
+    return `\`\`\`ansi\n${formatAnsiRarityText(sale, `TOP SALE ${getRarityBadge(sale)} ${sale.item_name}`)}\n\`\`\`${formatSaleDetails(sale)}`;
 }
 
 function getLeagueAgeDays(sales: SaleRow[]) {
@@ -500,29 +529,6 @@ export function getInsightsSummary() {
     );
 }
 
-export function getTopSalesSummary(limit = 5, currency?: string) {
-    const safeLimit = Math.min(Math.max(limit, 1), 10);
-    const sales = getTopSales(safeLimit, currency);
-    const title = currency ? `[TOP] ${safeLimit} ${currency} Sales` : `[TOP] ${safeLimit} PoE2 Sales`;
-
-    if (sales.length === 0) {
-        return brandEmbed({
-            title,
-            description: currency ? `No ${currency} sales found yet.` : "No sales found yet.",
-        }, POE2WATCH_TOP_COLOR);
-    }
-
-    return addThumbnail(
-        brandEmbed(
-            {
-                title,
-                description: truncateField(sales.map((sale, index) => formatSaleLine(sale, index + 1)).join("\n\n")),
-                footer: {
-                    text: "PoE2Watch | Ranking is by stored sale amount. Use currency for cleaner same-currency ranking.",
-                },
-            },
-            POE2WATCH_TOP_COLOR
-        ),
-        sales[0]?.icon
-    );
+export function getSaleDisplayColor(sale?: SaleRow | null) {
+    return sale ? getRarityColor(sale) : POE2WATCH_TOP_COLOR;
 }

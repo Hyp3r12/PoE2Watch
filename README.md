@@ -51,12 +51,12 @@ Built by traders, for traders.
 
 | Command | Purpose |
 | --- | --- |
-| `/last5` | Show your five most recent sales. |
+| `/last3` | Show your three most recent sales as separate item-style embeds. |
 | `/today` | Show today's sales summary. |
 | `/week` | Show the last seven days of sales. |
 | `/month` | Show the last thirty days of sales. |
 | `/league` | Show full-league sales, league age, sales today, highest day, and average per day. |
-| `/top` | Show your highest-value sales. |
+| `/top` | Show up to three highest-value sales as separate item-style embeds. |
 
 ### Analytics
 

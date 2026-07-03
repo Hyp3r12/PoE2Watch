@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS sales (
     id TEXT PRIMARY KEY,
     item_name TEXT NOT NULL,
     item_type TEXT NOT NULL,
+    item_frame_type INTEGER,
+    item_rarity TEXT,
     icon TEXT,
     price_amount REAL,
     price_currency TEXT,
@@ -35,6 +37,17 @@ CREATE TABLE IF NOT EXISTS exchange_rates (
     PRIMARY KEY (league, from_currency, to_currency)
 );
 `);
+
+const saleColumns = db.pragma("table_info(sales)") as Array<{ name: string }>;
+const saleColumnNames = new Set(saleColumns.map((column) => column.name));
+
+if (!saleColumnNames.has("item_frame_type")) {
+    db.exec("ALTER TABLE sales ADD COLUMN item_frame_type INTEGER;");
+}
+
+if (!saleColumnNames.has("item_rarity")) {
+    db.exec("ALTER TABLE sales ADD COLUMN item_rarity TEXT;");
+}
 
 console.log("✓ SQLite database ready.");
 

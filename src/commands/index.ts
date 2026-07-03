@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction } from "discord.js";
-import * as last5 from "./last5";
+import * as last3 from "./last3";
 import * as today from "./today";
 import * as week from "./week";
 import * as month from "./month";
@@ -19,7 +19,7 @@ export type BotCommand = {
 };
 
 export const commands: BotCommand[] = [
-    last5,
+    last3,
     today,
     week,
     month,

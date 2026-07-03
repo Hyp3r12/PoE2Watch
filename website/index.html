@@ -3,60 +3,862 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PoE2Watch</title>
+    <meta
+        name="description"
+        content="PoE2Watch is a Discord companion for Path of Exile 2 traders with sale notifications, analytics, settings, and self-hosted privacy."
+    />
+    <title>PoE2Watch | Discord Companion for Path of Exile 2 Traders</title>
     <style>
+        :root {
+            --background: #050505;
+            --panel: #0d0d0f;
+            --panel-soft: rgba(13, 13, 15, 0.78);
+            --panel-border: rgba(212, 175, 55, 0.35);
+            --gold: #d4af37;
+            --bright-gold: #f5d27a;
+            --red-accent: #8b1e1e;
+            --text: #f3ead7;
+            --muted: #b8aa8a;
+            --shadow: rgba(0, 0, 0, 0.75);
+            --max-width: 1160px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            background: #0b0f14;
-            color: #f4f4f5;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 24px;
-        }
-
-        .card {
-            max-width: 720px;
-        }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #cbd5e1;
+            background:
+                radial-gradient(circle at 78% 18%, rgba(139, 30, 30, 0.28), transparent 26rem),
+                radial-gradient(circle at 18% 12%, rgba(212, 175, 55, 0.10), transparent 20rem),
+                linear-gradient(180deg, rgba(5, 5, 5, 0.76), #050505 34rem),
+                var(--background);
+            color: var(--text);
+            font-family: Georgia, "Times New Roman", serif;
             line-height: 1.6;
         }
 
-        .tagline {
-            color: #facc15;
-            font-weight: bold;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(212, 175, 55, 0.04) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(212, 175, 55, 0.025) 1px, transparent 1px);
+            background-size: 88px 88px;
+            mask-image: radial-gradient(circle at center, black, transparent 74%);
         }
 
         a {
-            color: #38bdf8;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .site-shell {
+            width: min(var(--max-width), calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+            background: rgba(5, 5, 5, 0.82);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 86px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.45rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--bright-gold);
+        }
+
+        .brand img {
+            width: 44px;
+            height: 44px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 0 22px rgba(212, 175, 55, 0.28);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            color: var(--text);
+            font-family: Arial, sans-serif;
+            font-size: 0.94rem;
+        }
+
+        .nav-links a {
+            color: rgba(243, 234, 215, 0.86);
+            transition: color 160ms ease, text-shadow 160ms ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--bright-gold);
+            text-shadow: 0 0 16px rgba(245, 210, 122, 0.28);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 22px;
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(139, 30, 30, 0.74), rgba(55, 10, 10, 0.92));
+            color: #fff8e8;
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            box-shadow: 0 0 0 1px rgba(245, 210, 122, 0.08) inset, 0 14px 28px rgba(0, 0, 0, 0.34);
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+            border-color: rgba(245, 210, 122, 0.72);
+            box-shadow: 0 0 20px rgba(139, 30, 30, 0.42), 0 14px 28px rgba(0, 0, 0, 0.36);
+        }
+
+        .button.secondary {
+            background: rgba(13, 13, 15, 0.74);
+            color: var(--text);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.04fr) minmax(300px, 0.72fr);
+            align-items: center;
+            gap: 52px;
+            padding: 86px 0 64px;
+            min-height: calc(100vh - 86px);
+        }
+
+        .hero-kicker {
+            color: var(--bright-gold);
+            font-family: Arial, sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            line-height: 1.05;
+        }
+
+        h1 {
+            margin-top: 18px;
+            font-size: clamp(4rem, 10vw, 8.6rem);
+            letter-spacing: 0.015em;
+            color: var(--text);
+            text-shadow:
+                0 2px 0 rgba(255, 255, 255, 0.16),
+                0 0 22px rgba(212, 175, 55, 0.32),
+                0 20px 44px rgba(0, 0, 0, 0.92);
+        }
+
+        .tagline {
+            margin: 18px 0 0;
+            font-size: clamp(1.7rem, 3vw, 2.45rem);
+            color: #fff8e7;
+        }
+
+        .subtitle {
+            margin: 14px 0 0;
+            max-width: 600px;
+            color: var(--bright-gold);
+            font-family: Arial, sans-serif;
+            font-size: clamp(1.08rem, 2vw, 1.38rem);
+        }
+
+        .hero-copy {
+            margin: 22px 0 0;
+            max-width: 650px;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 1.03rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 34px;
+        }
+
+        .hero-note {
+            margin-top: 14px;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .hero-emblem {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 420px;
+        }
+
+        .hero-emblem::before,
+        .hero-emblem::after {
+            content: "";
+            position: absolute;
+            border-radius: 999px;
+        }
+
+        .hero-emblem::before {
+            width: min(100%, 430px);
+            aspect-ratio: 1;
+            border: 1px solid rgba(212, 175, 55, 0.36);
+            box-shadow:
+                0 0 55px rgba(139, 30, 30, 0.34),
+                inset 0 0 60px rgba(212, 175, 55, 0.08);
+        }
+
+        .hero-emblem::after {
+            width: min(84%, 350px);
+            aspect-ratio: 1;
+            background: radial-gradient(circle, rgba(139, 30, 30, 0.42), transparent 64%);
+            filter: blur(8px);
+        }
+
+        .hero-emblem img {
+            position: relative;
+            z-index: 1;
+            width: min(92%, 440px);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.24));
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 18px 0 0;
+            color: var(--gold);
+        }
+
+        .ornament::before,
+        .ornament::after {
+            content: "";
+            width: min(34vw, 210px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.82));
+        }
+
+        .ornament::after {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.82), transparent);
+        }
+
+        .section {
+            padding: 54px 0;
+            border-top: 1px solid rgba(212, 175, 55, 0.14);
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 34px;
+        }
+
+        .section-heading h2 {
+            color: var(--bright-gold);
+            font-size: clamp(1.8rem, 3vw, 2.35rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .section-heading p {
+            margin: 10px auto 0;
+            max-width: 640px;
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+        }
+
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .commands-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .roadmap-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            min-height: 100%;
+            padding: 26px;
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            background:
+                linear-gradient(135deg, rgba(212, 175, 55, 0.055), transparent 36%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.026), transparent),
+                var(--panel-soft);
+            box-shadow: 0 20px 46px var(--shadow);
+            transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 18% 0%, rgba(245, 210, 122, 0.11), transparent 36%);
+            opacity: 0.7;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(245, 210, 122, 0.58);
+            box-shadow: 0 24px 58px rgba(0, 0, 0, 0.82), 0 0 28px rgba(212, 175, 55, 0.10);
+        }
+
+        .card > * {
+            position: relative;
+        }
+
+        .feature-icon {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.32);
+            border-radius: 50%;
+            color: var(--bright-gold);
+            font-family: Arial, sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: rgba(139, 30, 30, 0.18);
+            box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.08);
+        }
+
+        .card h3 {
+            color: var(--bright-gold);
+            font-size: 1.25rem;
+        }
+
+        .card p,
+        .card li {
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 0.96rem;
+        }
+
+        .card p {
+            margin: 12px 0 0;
+        }
+
+        .discord-card {
+            padding: 18px;
+        }
+
+        .command-name {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .command-name code {
+            color: #fff7de;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .command-name span {
+            color: var(--muted);
+            font-size: 0.86rem;
+        }
+
+        .discord-preview {
+            border: 1px solid rgba(212, 175, 55, 0.22);
+            border-radius: 8px;
+            background: #09090b;
+            padding: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .discord-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--bright-gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .discord-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--bright-gold), var(--red-accent) 62%, #111 64%);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.28);
+        }
+
+        .embed {
+            border-left: 4px solid var(--gold);
+            border-radius: 6px;
+            background: #0d0d0f;
+            padding: 14px;
+        }
+
+        .embed strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+            color: var(--muted);
+            font-size: 0.84rem;
+        }
+
+        .metric b {
+            color: var(--bright-gold);
+            font-weight: 700;
+        }
+
+        .spark {
+            height: 30px;
+            margin-top: 12px;
+            border-bottom: 1px solid rgba(245, 210, 122, 0.22);
+            background:
+                linear-gradient(140deg, transparent 8%, rgba(212, 175, 55, 0.7) 9%, transparent 10%),
+                linear-gradient(28deg, transparent 22%, rgba(139, 30, 30, 0.9) 23%, transparent 25%),
+                linear-gradient(158deg, transparent 42%, rgba(212, 175, 55, 0.65) 43%, transparent 45%),
+                linear-gradient(32deg, transparent 68%, rgba(245, 210, 122, 0.82) 69%, transparent 71%);
+        }
+
+        .roadmap-line {
+            position: relative;
+            height: 36px;
+            margin: 0 auto 6px;
+            width: min(86%, 960px);
+            background: linear-gradient(90deg, #80b95a, var(--gold), #d87924, #8b1e1e);
+            mask-image: linear-gradient(180deg, transparent 16px, black 16px, black 18px, transparent 18px);
+        }
+
+        .roadmap-card ul,
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0 0;
+        }
+
+        .roadmap-card li {
+            margin: 8px 0;
+        }
+
+        .roadmap-card.completed {
+            border-color: rgba(128, 185, 90, 0.52);
+        }
+
+        .roadmap-card.cloud {
+            border-color: rgba(139, 30, 30, 0.7);
+        }
+
+        .version {
+            color: var(--bright-gold);
+            font-size: 1.55rem;
+            text-align: center;
+        }
+
+        .site-footer {
+            border-top: 1px solid rgba(212, 175, 55, 0.18);
+            padding: 42px 0;
+            background: rgba(5, 5, 5, 0.72);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.8fr 0.8fr 1.2fr;
+            gap: 32px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--bright-gold);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .footer-brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+        }
+
+        .site-footer h3 {
+            color: var(--bright-gold);
+            font-size: 1rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .site-footer p,
+        .site-footer a {
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .footer-links li + li {
+            margin-top: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--bright-gold);
+        }
+
+        @media (max-width: 980px) {
+            .nav {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 18px 0;
+            }
+
+            .nav-links {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 14px 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+                padding-top: 64px;
+            }
+
+            .hero-emblem {
+                min-height: 300px;
+                order: -1;
+            }
+
+            .features-grid,
+            .commands-grid,
+            .roadmap-grid,
+            .footer-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .site-shell {
+                width: min(100% - 28px, var(--max-width));
+            }
+
+            .nav-links {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .nav-links .button {
+                grid-column: 1 / -1;
+            }
+
+            .hero {
+                gap: 30px;
+                padding: 44px 0 46px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .features-grid,
+            .commands-grid,
+            .roadmap-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .section {
+                padding: 42px 0;
+            }
+
+            .footer-grid {
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <main class="card">
-        <h1>PoE2Watch</h1>
-        <p class="tagline">Log in with a plan.</p>
-        <p>
-            PoE2Watch is a Discord companion for Path of Exile 2 that helps players
-            track completed sales, receive trade notifications, and view personal
-            trade summaries.
-        </p>
-        <p>
-            Currently in early development while we explore official OAuth/API support.
-        </p>
-        <p>
-            <a href="https://github.com/Hyp3r12/PoE2Watch">View on GitHub</a>
-        </p>
+    <header class="site-header">
+        <nav class="site-shell nav" aria-label="Primary navigation">
+            <a class="brand" href="#top" aria-label="PoE2Watch home">
+                <img src="assets/project-logo.png" alt="PoE2Watch logo" />
+                <span>PoE2Watch</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#commands">Commands</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="https://github.com/Hyp3r12/PoE2Watch">GitHub</a>
+                <a class="button" href="#download">Download</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="site-shell hero" aria-labelledby="hero-title">
+            <div>
+                <p class="hero-kicker">Discord companion for Path of Exile 2</p>
+                <h1 id="hero-title">PoE2Watch</h1>
+                <div class="ornament" aria-hidden="true">◆</div>
+                <p class="tagline">Never wonder if your trade sold again.</p>
+                <p class="subtitle">A Discord companion for Path of Exile 2 traders.</p>
+                <p class="hero-copy">
+                    Get sale notifications, review your trading history, track league performance,
+                    and turn raw trade logs into clean Discord analytics.
+                </p>
+                <div class="hero-actions" id="download">
+                    <a class="button" href="https://github.com/Hyp3r12/PoE2Watch">Download Community Edition</a>
+                    <a class="button secondary" href="https://github.com/Hyp3r12/PoE2Watch">View on GitHub</a>
+                </div>
+                <p class="hero-note">Self-hosted. Open source. Built for the community.</p>
+            </div>
+            <div class="hero-emblem" aria-hidden="true">
+                <img src="assets/project-logo.png" alt="" />
+            </div>
+        </section>
+
+        <section class="section" id="features" aria-labelledby="features-title">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <h2 id="features-title">Features</h2>
+                    <div class="ornament" aria-hidden="true">◆</div>
+                </div>
+                <div class="grid features-grid">
+                    <article class="card">
+                        <div class="feature-icon">N</div>
+                        <h3>Instant Notifications</h3>
+                        <p>Get notified in Discord when your items sell so valuable trades do not disappear into silence.</p>
+                    </article>
+                    <article class="card">
+                        <div class="feature-icon">A</div>
+                        <h3>Powerful Analytics</h3>
+                        <p>Track totals, averages, largest sales, top trades, insights, and league performance over time.</p>
+                    </article>
+                    <article class="card">
+                        <div class="feature-icon">S</div>
+                        <h3>Fully Customizable</h3>
+                        <p>Choose display currencies, refresh third-party estimates, and tune the companion around your trade flow.</p>
+                    </article>
+                    <article class="card">
+                        <div class="feature-icon">H</div>
+                        <h3>Self Hosted</h3>
+                        <p>Run PoE2Watch on your own machine. Your trade history stays local and under your control.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="commands" aria-labelledby="commands-title">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <h2 id="commands-title">Discord Commands</h2>
+                    <div class="ornament" aria-hidden="true">◆</div>
+                    <p>Compact previews inspired by the current bot theme: gold rails, dashboard metrics, and trade-focused summaries.</p>
+                </div>
+                <div class="grid commands-grid">
+                    <article class="card discord-card">
+                        <div class="command-name">
+                            <code>/stats</code>
+                            <span>Trading overview</span>
+                        </div>
+                        <div class="discord-preview">
+                            <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
+                            <div class="embed">
+                                <strong>[STATS] PoE2Watch</strong>
+                                <div class="metric"><span>Total Sales</span><b>1,246</b></div>
+                                <div class="metric"><span>Total Earned</span><b>≈ 626.1 Divine</b></div>
+                                <div class="metric"><span>Average Sale</span><b>15.0 Divine</b></div>
+                                <div class="metric"><span>Largest Sale</span><b>299 Divine</b></div>
+                                <div class="spark" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card discord-card">
+                        <div class="command-name">
+                            <code>/insights</code>
+                            <span>Trading analytics</span>
+                        </div>
+                        <div class="discord-preview">
+                            <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
+                            <div class="embed">
+                                <strong>[INSIGHTS] Trading Analytics</strong>
+                                <div class="metric"><span>Best Selling Day</span><b>Wednesday</b></div>
+                                <div class="metric"><span>Most Sold Type</span><b>Rings</b></div>
+                                <div class="metric"><span>Highest Category</span><b>Belts</b></div>
+                                <div class="metric"><span>Wealth Traded</span><b>≈ 626.1 Divine</b></div>
+                                <div class="spark" aria-hidden="true"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card discord-card">
+                        <div class="command-name">
+                            <code>/top</code>
+                            <span>Biggest sales</span>
+                        </div>
+                        <div class="discord-preview">
+                            <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
+                            <div class="embed">
+                                <strong>[TOP] 5 PoE2 Sales</strong>
+                                <div class="metric"><span>1. Headhunter</span><b>299 Divine</b></div>
+                                <div class="metric"><span>2. Mirror Shard</span><b>180 Divine</b></div>
+                                <div class="metric"><span>3. Rare Ring</span><b>96 Divine</b></div>
+                                <div class="metric"><span>4. Heavy Belt</span><b>64 Divine</b></div>
+                                <div class="metric"><span>5. Jewel</span><b>42 Divine</b></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="roadmap" aria-labelledby="roadmap-title">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <h2 id="roadmap-title">Roadmap</h2>
+                    <div class="ornament" aria-hidden="true">◆</div>
+                </div>
+                <div class="roadmap-line" aria-hidden="true"></div>
+                <div class="grid roadmap-grid">
+                    <article class="card roadmap-card completed">
+                        <h3 class="version">v0.4.x</h3>
+                        <ul>
+                            <li>Completed: Statistics</li>
+                            <li>Completed: Adaptive Polling</li>
+                            <li>Completed: Insights</li>
+                            <li>Completed: Settings</li>
+                            <li>Completed: Top Sales</li>
+                        </ul>
+                    </article>
+                    <article class="card roadmap-card">
+                        <h3 class="version">v0.5.x</h3>
+                        <ul>
+                            <li>Planned: Inventory Tracking</li>
+                            <li>Planned: Goals</li>
+                            <li>Planned: Advanced Analytics</li>
+                        </ul>
+                    </article>
+                    <article class="card roadmap-card">
+                        <h3 class="version">v0.6.x</h3>
+                        <ul>
+                            <li>Planned: Multi-user Support</li>
+                            <li>Planned: PostgreSQL</li>
+                            <li>Planned: Web Dashboard</li>
+                        </ul>
+                    </article>
+                    <article class="card roadmap-card cloud">
+                        <h3 class="version">v1.0.0</h3>
+                        <ul>
+                            <li>Planned: PoE2Watch Cloud</li>
+                            <li>Planned: OAuth</li>
+                            <li>Planned: Inviteable Bot</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <div class="site-shell footer-grid">
+            <div>
+                <div class="footer-brand">
+                    <img src="assets/project-logo.png" alt="PoE2Watch logo" />
+                    <span>PoE2Watch</span>
+                </div>
+                <p>Built by traders, for traders.</p>
+            </div>
+            <div>
+                <h3>Links</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Hyp3r12/PoE2Watch">GitHub</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#commands">Commands</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Community</h3>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Hyp3r12/PoE2Watch/issues">Report an Issue</a></li>
+                    <li><a href="https://github.com/Hyp3r12/PoE2Watch">Contribute</a></li>
+                    <li><a href="https://github.com/Hyp3r12/PoE2Watch">Download</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Disclaimer</h3>
+                <p>
+                    PoE2Watch is an independent community project and is not affiliated with
+                    Grinding Gear Games.
+                </p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

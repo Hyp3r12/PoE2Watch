@@ -15,6 +15,7 @@ data/
 
 # Runtime files
 seen-sales.json
+CHATGPT_REVIEW_BRIEF.md
 
 # Node
 node_modules/

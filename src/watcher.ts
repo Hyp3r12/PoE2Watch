@@ -7,6 +7,13 @@ const IDLE_WAIT_SECONDS = 20 * 60; // 20 minutes
 const RECENT_SALE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
 let nextWaitSeconds = IDLE_WAIT_SECONDS;
+let watcherStatus = {
+    lastCheckAt: null as string | null,
+    lastSuccessAt: null as string | null,
+    lastError: null as string | null,
+    mode: "STARTING",
+    nextWaitSeconds,
+};
 
 function sleep(seconds: number) {
     return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
@@ -82,6 +89,13 @@ export async function startWatcher() {
 
             const polling = getPollingMode();
             nextWaitSeconds = polling.waitSeconds;
+            watcherStatus = {
+                lastCheckAt: new Date().toISOString(),
+                lastSuccessAt: new Date().toISOString(),
+                lastError: null,
+                mode: polling.mode,
+                nextWaitSeconds,
+            };
 
             console.log(
                 `[${new Date().toLocaleTimeString()}] Mode: ${polling.mode}. Next check in ${Math.round(
@@ -94,16 +108,41 @@ export async function startWatcher() {
             if (message.startsWith("RATE_LIMIT:")) {
                 const retryAfter = Number(message.split(":")[1]);
                 nextWaitSeconds = Number.isFinite(retryAfter) ? retryAfter : 3600;
+                watcherStatus = {
+                    ...watcherStatus,
+                    lastCheckAt: new Date().toISOString(),
+                    lastError: "Rate limited",
+                    mode: "RATE_LIMITED",
+                    nextWaitSeconds,
+                };
                 console.log(`⚠️ Rate limited. Waiting ${Math.round(nextWaitSeconds / 60)} minutes.`);
             } else if (message.startsWith("AUTH_FAILED:")) {
+                watcherStatus = {
+                    ...watcherStatus,
+                    lastCheckAt: new Date().toISOString(),
+                    lastError: "PoE authentication failed",
+                    mode: "AUTH_FAILED",
+                    nextWaitSeconds: 0,
+                };
                 console.error("❌ Auth failed. Stop app and refresh your POE_COOKIE.");
                 process.exit(1);
             } else {
                 console.error("Watcher failed:", error);
                 nextWaitSeconds = IDLE_WAIT_SECONDS;
+                watcherStatus = {
+                    ...watcherStatus,
+                    lastCheckAt: new Date().toISOString(),
+                    lastError: message,
+                    mode: "ERROR",
+                    nextWaitSeconds,
+                };
             }
         }
 
         await sleep(nextWaitSeconds);
     }
+}
+
+export function getWatcherStatus() {
+    return watcherStatus;
 }

@@ -91,6 +91,7 @@ Until official GGG OAuth support is confirmed, PoE2Watch stays local-first and s
 | `/settings view` | View current display and estimate settings. |
 | `/settings display` | Choose original, Chaos, Exalted, Divine, or all display values. |
 | `/settings refresh-rates` | Refresh cached third-party estimate rates. |
+| `/health` | Check local setup, database, exchange cache, goals, and watcher status without showing secrets. |
 | `/dev fake-sale` | Admin/dev-only test notification. Does not save fake sales. |
 | `/dev refresh-sale-metadata` | Admin/dev-only backfill for item icons, rarity, and hover-style item details. |
 

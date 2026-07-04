@@ -9,6 +9,7 @@ import * as top from "./top";
 import * as settings from "./settings";
 import * as insights from "./insights";
 import * as goal from "./goal";
+import * as health from "./health";
 import * as dev from "./dev";
 
 export type BotCommand = {
@@ -30,6 +31,7 @@ export const commands: BotCommand[] = [
     settings,
     insights,
     goal,
+    health,
     dev,
 ];
 

@@ -20,6 +20,7 @@ The project remains read-only, self-hosted, and independent from Grinding Gear G
 - Added item-card display support to sale notifications, `/last3`, `/top`, and largest-sale summary sections.
 - Added richer `/dev fake-sale` sample item details so notification formatting can be tested without waiting for a real sale.
 - Added `/goal add`, `/goal list`, `/goal complete`, `/goal remove`, `/goal reorder`, and `/goal clear-all` for prioritized trading goals.
+- Added `/health` for a private setup and runtime status report.
 
 ### Changed
 

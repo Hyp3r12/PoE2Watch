@@ -22,7 +22,7 @@ The project remains read-only, self-hosted, and independent from Grinding Gear G
 
 ### Changed
 
-- Changed sale notification language to focus on the sold item with `[SALE] You've Sold This`.
+- Changed sale notification language to focus on the sold item with the cleaner `You've Sold This` title.
 - Changed sale notifications to prioritize sold-item artwork over project-logo thumbnails when item art is available.
 - Updated `/dev refresh-sale-metadata` wording to reflect that it now refreshes item details as well as icons and rarity.
 - Updated project version metadata to `0.5.0-alpha`.

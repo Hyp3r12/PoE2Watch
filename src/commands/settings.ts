@@ -51,7 +51,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             embeds: [
                 brandEmbed(
                     {
-                            title: "[SETTINGS] PoE2Watch",
+                            title: "PoE2Watch Settings",
                         fields: [
                             {
                                 name: "Display Currency",

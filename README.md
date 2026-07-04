@@ -187,7 +187,7 @@ Fake sale notifications are clearly labeled and are not written to the sales dat
 ### Planned `/wealth` Command
 
 ```text
-[WEALTH] Current League
+Current League Wealth
 
 Current League
 approx. 626 Divine

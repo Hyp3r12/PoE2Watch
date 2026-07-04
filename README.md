@@ -31,6 +31,18 @@ Built by traders, for traders.
 
 ---
 
+## Mission
+
+PoE2Watch started from a pretty familiar feeling: logging off because you feel stuck, then wondering if anything sold while you were away.
+
+Sometimes one trade is all it takes to get a build moving again. A good sale can mean the next upgrade, the next craft, or just a reason to log back in with a plan instead of staring at your stash.
+
+The point of PoE2Watch is simple: keep you informed while it is running. It does not play the game for you, make trades for you, or try to replace logging in. It just keeps the waiting-in-the-dark part from feeling so dead.
+
+Until official GGG OAuth support is confirmed, PoE2Watch stays local-first and self-hosted. Your session stays on your machine, and the app only watches your own completed sale history.
+
+---
+
 ## Highlights
 
 | Feature | Status | What It Does |
@@ -58,6 +70,12 @@ Built by traders, for traders.
 | `/month` | Show the last thirty days of sales. |
 | `/league` | Show full-league sales, league age, sales today, highest day, and average per day. |
 | `/top` | Show up to three highest-value sales as separate item-style embeds. |
+| `/goal add` | Add a prioritized trading goal with a target amount and currency. |
+| `/goal list` | View progress across all goals. Sales fund priority 1 first, then spill into later goals. |
+| `/goal reorder` | Change which goal gets funded first. |
+| `/goal complete` | Mark a goal achieved by priority number. |
+| `/goal remove` | Remove a goal by priority number without marking it achieved. |
+| `/goal clear-all` | Clear every trading goal. |
 
 ### Analytics
 
@@ -179,32 +197,36 @@ Fake sale notifications are clearly labeled and are not written to the sales dat
 | Version | Focus | Status |
 | --- | --- | --- |
 | v0.4.x | Statistics, Adaptive Polling, Insights, Settings, Top Sales | Complete |
-| v0.5.x | Trading Experience: Hover-style Item Cards, Better Embeds, Inventory, Goals, Autocomplete, Pagination, Statistics Export, `/wealth` | Active |
+| v0.5.x | Trading Experience: Hover-style Item Cards, Better Embeds, Goals, Inventory, Autocomplete, Pagination, Statistics Export | Active |
 | v0.6.x | Multi User: PostgreSQL, Multiple Guilds, User Accounts, Inviteable Bot | Planned |
 | v0.7.x | Website: Login, Dashboard, Public Stats, API | Planned |
 | v1.0.0 | Cloud: Hosted PoE2Watch, OAuth, Managed Bot | Planned |
 
-### Planned `/wealth` Command
+### Trading Goals
 
 ```text
-Current League Wealth
+Trading Goal
 
-Current League
-approx. 626 Divine
+1. Mageblood
+Target: 500 Divine
+[##########] 100%
+500 / 500 Divine
+Complete
 
-Past 24 Hours
-+44 Divine
+2. Build Upgrade
+Target: 120 Divine
+[######----] 61%
+74 / 120 Divine
+46 Divine remaining
 
-Past Week
-+187 Divine
+3. Crafting Fund
+Target: 50 Divine
+[----------] 0%
+0 / 50 Divine
+50 Divine remaining
 
-Best Day
-299 Divine
-July 1
-
-Goal
-Mageblood
-████████░░ 82%
+Use `/goal complete priority:1` when a goal is achieved.
+Use `/goal remove priority:1` when you want to delete a goal without marking it achieved.
 ```
 
 ---

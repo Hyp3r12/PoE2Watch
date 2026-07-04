@@ -9,6 +9,7 @@ export const POE2WATCH_LEAGUE_COLOR = 0xb65a3c;
 export const POE2WATCH_STATS_COLOR = 0xc8953f;
 export const POE2WATCH_TOP_COLOR = 0xd66f3f;
 export const POE2WATCH_INSIGHTS_COLOR = 0x6bc8b4;
+export const POE2WATCH_GOAL_COLOR = 0x77b65a;
 export const POE2WATCH_FOOTER = "PoE2Watch";
 
 type EmbedLike = Record<string, any>;

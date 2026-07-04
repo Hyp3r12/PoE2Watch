@@ -4,7 +4,7 @@ import { startWatcher } from "./watcher";
 import "./bot";
 
 console.log("=================================");
-console.log("        PoE2Watch v0.3");
+console.log("        PoE2Watch v0.5");
 console.log("=================================");
 
 startWatcher().catch((error) => {

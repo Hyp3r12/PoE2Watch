@@ -143,7 +143,7 @@ Planned:
 
 • Statistics export
 
-• `/wealth`
+• Prioritized goal progress tracking
 
 ### v0.6 - Multi User
 

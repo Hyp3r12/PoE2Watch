@@ -37,7 +37,53 @@ CREATE TABLE IF NOT EXISTS exchange_rates (
     fetched_at TEXT NOT NULL,
     PRIMARY KEY (league, from_currency, to_currency)
 );
+
+CREATE TABLE IF NOT EXISTS goals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    scope TEXT NOT NULL,
+    name TEXT NOT NULL,
+    target_amount REAL NOT NULL,
+    target_currency TEXT NOT NULL,
+    priority INTEGER NOT NULL,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS completed_goals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    scope TEXT NOT NULL,
+    name TEXT NOT NULL,
+    target_amount REAL NOT NULL,
+    target_currency TEXT NOT NULL,
+    completed_at TEXT NOT NULL
+);
 `);
+
+const goalColumns = db.pragma("table_info(goals)") as Array<{ name: string }>;
+const goalColumnNames = new Set(goalColumns.map((column) => column.name));
+
+if (!goalColumnNames.has("id") || !goalColumnNames.has("priority")) {
+    db.exec(`
+    ALTER TABLE goals RENAME TO goals_old;
+
+    CREATE TABLE goals (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        scope TEXT NOT NULL,
+        name TEXT NOT NULL,
+        target_amount REAL NOT NULL,
+        target_currency TEXT NOT NULL,
+        priority INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        updated_at TEXT NOT NULL
+    );
+
+    INSERT INTO goals (scope, name, target_amount, target_currency, priority, created_at, updated_at)
+    SELECT scope, name, target_amount, target_currency, 1, created_at, updated_at
+    FROM goals_old;
+
+    DROP TABLE goals_old;
+    `);
+}
 
 const saleColumns = db.pragma("table_info(sales)") as Array<{ name: string }>;
 const saleColumnNames = new Set(saleColumns.map((column) => column.name));

@@ -19,6 +19,7 @@ The project remains read-only, self-hosted, and independent from Grinding Gear G
 - Added richer item payload typing for trade history responses, including properties, requirements, implicit mods, explicit mods, crafted mods, fractured mods, desecrated mods, utility mods, flavour text, item level, size, and item state flags.
 - Added item-card display support to sale notifications, `/last3`, `/top`, and largest-sale summary sections.
 - Added richer `/dev fake-sale` sample item details so notification formatting can be tested without waiting for a real sale.
+- Added `/goal add`, `/goal list`, `/goal complete`, `/goal remove`, `/goal reorder`, and `/goal clear-all` for prioritized trading goals.
 
 ### Changed
 
@@ -27,6 +28,7 @@ The project remains read-only, self-hosted, and independent from Grinding Gear G
 - Updated `/dev refresh-sale-metadata` wording to reflect that it now refreshes item details as well as icons and rarity.
 - Updated project version metadata to `0.5.0-alpha`.
 - Updated README and roadmap copy for the active v0.5 Trading Experience line.
+- Replaced the planned `/wealth` concept with prioritized goal progress tracking to avoid redundant stats commands.
 
 ### Safety and Compatibility
 

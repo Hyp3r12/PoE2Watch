@@ -1,0 +1,5 @@
+Contact: https://github.com/Hyp3r12/PoE2Watch/security
+Policy: https://github.com/Hyp3r12/PoE2Watch/security/policy
+Preferred-Languages: en
+Canonical: https://poe2watch.app/.well-known/security.txt
+Expires: 2027-07-04T00:00:00Z

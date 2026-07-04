@@ -396,6 +396,17 @@ website/index.html
 
 It is designed to deploy directly from the `website` folder on Cloudflare Pages.
 
+### Cloudflare Security Checklist
+
+For the public site, enable these in the Cloudflare dashboard:
+
+- **SSL/TLS encryption mode:** Full (strict), once the Pages custom domain certificate is active.
+- **Always Use HTTPS:** On.
+- **HTTP Strict Transport Security (HSTS):** On after HTTPS is confirmed working for both `poe2watch.app` and `www.poe2watch.app`.
+- **Bot Fight Mode:** Optional, but useful if the site starts seeing junk traffic.
+
+The repo also ships `website/.well-known/security.txt` and `website/_headers` for vulnerability disclosure and basic browser security headers.
+
 ---
 
 ## Release Notes

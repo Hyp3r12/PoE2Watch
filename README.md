@@ -135,6 +135,7 @@ copy .env.example .env
 
 ```env
 DISCORD_WEBHOOK_URL=
+DISCORD_WEBHOOK_URLS=
 DISCORD_BOT_TOKEN=
 DISCORD_CLIENT_ID=
 DISCORD_GUILD_ID=
@@ -154,6 +155,118 @@ npm run register
 ```bash
 npm run dev
 ```
+
+---
+
+## Discord Bot Setup
+
+PoE2Watch is self-hosted. For now, you should create your own Discord application and run the bot on your own machine.
+
+There is no public inviteable PoE2Watch bot yet because official GGG OAuth support is still pending. You should never send your `POE_COOKIE`, `.env`, or Discord bot token to anyone.
+
+The intended trust model is:
+
+```text
+your machine
+your Discord app
+your Discord server
+your PoE session cookie
+your local SQLite database
+```
+
+### Create the Discord App
+
+1. Go to the Discord Developer Portal:
+
+```text
+https://discord.com/developers/applications
+```
+
+2. Click **New Application**.
+
+3. Name it `PoE2Watch`.
+
+4. Open **Bot**.
+
+5. Click **Add Bot**.
+
+6. Copy the bot token into your `.env`:
+
+```env
+DISCORD_BOT_TOKEN=
+```
+
+7. Open **OAuth2 > URL Generator**.
+
+8. Select these scopes:
+
+```text
+bot
+applications.commands
+```
+
+9. Select these bot permissions:
+
+```text
+Send Messages
+Use Slash Commands
+Embed Links
+Attach Files
+Read Message History
+```
+
+10. Open the generated URL and invite the bot to your server.
+
+11. Copy your application ID into your `.env`:
+
+```env
+DISCORD_CLIENT_ID=
+```
+
+12. Copy your server ID into your `.env`:
+
+```env
+DISCORD_GUILD_ID=
+```
+
+13. Register slash commands:
+
+```bash
+npm run register
+```
+
+14. Start PoE2Watch:
+
+```bash
+npm run dev
+```
+
+15. In Discord, run:
+
+```text
+/health
+```
+
+Use `/health` to confirm your local setup without exposing secrets.
+
+### Mirroring Sale Notifications
+
+PoE2Watch can send sale notifications to more than one Discord channel.
+
+Use `DISCORD_WEBHOOK_URL` for your main/private notification channel, then add extra webhook URLs to `DISCORD_WEBHOOK_URLS`.
+
+```env
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-private-channel
+DISCORD_WEBHOOK_URLS=https://discord.com/api/webhooks/your-friends-channel
+```
+
+For multiple mirror channels, separate them with commas:
+
+```env
+DISCORD_WEBHOOK_URLS=https://discord.com/api/webhooks/channel-one,https://discord.com/api/webhooks/channel-two
+```
+
+Only webhook sale notifications are mirrored. Slash commands still only run where your Discord bot is installed.
 
 ---
 

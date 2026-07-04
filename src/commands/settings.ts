@@ -8,6 +8,7 @@ import {
 import { getRateProviderLabel, refreshExchangeRates } from "../services/exchange";
 import {
     brandEmbed,
+    EPHEMERAL_RESPONSE,
     POE2WATCH_DANGER_COLOR,
     POE2WATCH_INFO_COLOR,
 } from "../discord/theme";
@@ -87,7 +88,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                         POE2WATCH_DANGER_COLOR
                     ),
                 ],
-                ephemeral: true,
+                flags: EPHEMERAL_RESPONSE,
             });
             return;
         }
@@ -104,13 +105,13 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     POE2WATCH_INFO_COLOR
                 ),
             ],
-            ephemeral: true,
+            flags: EPHEMERAL_RESPONSE,
         });
         return;
     }
 
     if (subcommand === "refresh-rates") {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: EPHEMERAL_RESPONSE });
 
         try {
             const result = await refreshExchangeRates({ force: true });

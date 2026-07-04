@@ -2,7 +2,7 @@ import "dotenv/config";
 import "./storage/database";
 import { Client, GatewayIntentBits, Events } from "discord.js";
 import { commandHandlers } from "./commands";
-import { brandEmbed, POE2WATCH_DANGER_COLOR } from "./discord/theme";
+import { brandEmbed, EPHEMERAL_RESPONSE, POE2WATCH_DANGER_COLOR } from "./discord/theme";
 
 const token = process.env.DISCORD_BOT_TOKEN;
 
@@ -34,7 +34,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
                     POE2WATCH_DANGER_COLOR
                 ),
             ],
-            ephemeral: true,
+            flags: EPHEMERAL_RESPONSE,
         });
         return;
     }
@@ -54,7 +54,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
                     POE2WATCH_DANGER_COLOR
                 ),
             ],
-            ephemeral: true,
+            flags: EPHEMERAL_RESPONSE,
         };
 
         if (interaction.replied || interaction.deferred) {

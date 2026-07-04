@@ -1,5 +1,11 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { brandEmbed, POE2WATCH_DANGER_COLOR, POE2WATCH_GOAL_COLOR, POE2WATCH_INFO_COLOR } from "../discord/theme";
+import {
+    brandEmbed,
+    EPHEMERAL_RESPONSE,
+    POE2WATCH_DANGER_COLOR,
+    POE2WATCH_GOAL_COLOR,
+    POE2WATCH_INFO_COLOR,
+} from "../discord/theme";
 import { addGoal, clearGoals, completeGoal, getGoals, removeGoal, reorderGoal } from "../storage/goals";
 import { buildGoalsDescription } from "../services/goals";
 import { normalizeCurrency } from "../services/valueformatter";
@@ -127,7 +133,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                         POE2WATCH_DANGER_COLOR
                     ),
                 ],
-                ephemeral: true,
+                flags: EPHEMERAL_RESPONSE,
             });
             return;
         }
@@ -163,7 +169,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                           POE2WATCH_DANGER_COLOR
                       ),
             ],
-            ephemeral: !removed,
+            ...(removed ? {} : { flags: EPHEMERAL_RESPONSE }),
         });
         return;
     }
@@ -184,7 +190,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                           POE2WATCH_DANGER_COLOR
                       ),
             ],
-            ephemeral: !completed,
+            ...(completed ? {} : { flags: EPHEMERAL_RESPONSE }),
         });
         return;
     }
@@ -206,7 +212,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                           POE2WATCH_DANGER_COLOR
                       ),
             ],
-            ephemeral: !reordered,
+            ...(reordered ? {} : { flags: EPHEMERAL_RESPONSE }),
         });
         return;
     }
@@ -224,7 +230,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     POE2WATCH_INFO_COLOR
                 ),
             ],
-            ephemeral: true,
+            flags: EPHEMERAL_RESPONSE,
         });
     }
 }

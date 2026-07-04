@@ -51,8 +51,14 @@ function formatDuration(seconds: number) {
 }
 
 function getConfigLines() {
+    const extraWebhooks = (process.env.DISCORD_WEBHOOK_URLS ?? "")
+        .split(",")
+        .map((url) => url.trim())
+        .filter(Boolean).length;
+
     return [
         `Discord webhook: **${ok(!!process.env.DISCORD_WEBHOOK_URL)}**`,
+        `Extra webhook mirrors: **${extraWebhooks}**`,
         `Discord bot token: **${ok(!!process.env.DISCORD_BOT_TOKEN)}**`,
         `Discord client ID: **${ok(!!process.env.DISCORD_CLIENT_ID)}**`,
         `Discord guild ID: **${ok(!!process.env.DISCORD_GUILD_ID)}**`,

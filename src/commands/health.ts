@@ -1,5 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
-import { brandEmbed, POE2WATCH_INFO_COLOR } from "../discord/theme";
+import { brandEmbed, EPHEMERAL_RESPONSE, POE2WATCH_INFO_COLOR } from "../discord/theme";
 import { buildHealthFields } from "../services/health";
 
 export const data = new SlashCommandBuilder()
@@ -18,6 +18,6 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 POE2WATCH_INFO_COLOR
             ),
         ],
-        ephemeral: true,
+        flags: EPHEMERAL_RESPONSE,
     });
 }

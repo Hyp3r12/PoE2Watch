@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction, PermissionFlagsBits, SlashCommandBuilder }
 import { notifyDiscord } from "../discord/webhook";
 import { fetchSales, PoeSale } from "../poe/api";
 import { canUseDevCommands } from "../services/devpermissions";
-import { brandEmbed, POE2WATCH_DANGER_COLOR, POE2WATCH_INFO_COLOR } from "../discord/theme";
+import { brandEmbed, EPHEMERAL_RESPONSE, POE2WATCH_DANGER_COLOR, POE2WATCH_INFO_COLOR } from "../discord/theme";
 import { getFrameTypeFromRarity, normalizeRarity } from "../services/rarity";
 import { hasSale, updateSaleMetadata } from "../storage/salesvault";
 
@@ -99,7 +99,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     POE2WATCH_DANGER_COLOR
                 ),
             ],
-            ephemeral: true,
+            flags: EPHEMERAL_RESPONSE,
         });
         return;
     }
@@ -107,7 +107,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     const subcommand = interaction.options.getSubcommand();
 
     if (subcommand === "fake-sale") {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: EPHEMERAL_RESPONSE });
 
         const sale = buildFakeSale(interaction);
         await notifyDiscord(sale, { testMode: true });
@@ -127,7 +127,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     if (subcommand === "refresh-sale-metadata") {
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: EPHEMERAL_RESPONSE });
 
         try {
             const sales = await fetchSales();

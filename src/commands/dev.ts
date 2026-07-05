@@ -4,7 +4,20 @@ import { fetchSales, PoeSale } from "../poe/api";
 import { canUseDevCommands } from "../services/devpermissions";
 import { brandEmbed, EPHEMERAL_RESPONSE, POE2WATCH_DANGER_COLOR, POE2WATCH_INFO_COLOR } from "../discord/theme";
 import { getFrameTypeFromRarity, normalizeRarity } from "../services/rarity";
-import { hasSale, updateSaleMetadata } from "../storage/salesvault";
+import { getLastSales, hasSale, updateSaleMetadata } from "../storage/salesvault";
+
+type StoredSaleTemplate = {
+    id: string;
+    item_name: string;
+    item_type: string;
+    item_frame_type?: number | null;
+    item_rarity?: string | null;
+    icon?: string | null;
+    item_json?: string | null;
+    price_amount: number;
+    price_currency: string;
+    sold_at: string;
+};
 
 export const data = new SlashCommandBuilder()
     .setName("dev")
@@ -13,7 +26,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand((subcommand) =>
         subcommand
             .setName("fake-sale")
-            .setDescription("Send a fake sale notification without saving it")
+            .setDescription("Send a real-style test sale notification without saving it")
             .addStringOption((option) =>
                 option
                     .setName("item")
@@ -57,34 +70,95 @@ export const data = new SlashCommandBuilder()
             .setDescription("Backfill item icons, rarity, and item details for recent known sales")
     );
 
-function buildFakeSale(interaction: ChatInputCommandInteraction): PoeSale {
-    const itemName = interaction.options.getString("item") ?? "Headhunter Heavy Belt";
-    const amount = interaction.options.getNumber("amount") ?? 299;
-    const currency = interaction.options.getString("currency") ?? "divine";
-    const rarity = normalizeRarity(interaction.options.getString("rarity") ?? "unique");
+function getLatestSaleTemplate(): PoeSale | null {
+    const latest = getLastSales(1)[0] as StoredSaleTemplate | undefined;
+
+    if (!latest) return null;
+
+    let item: PoeSale["item"] | null = null;
+
+    if (latest.item_json) {
+        try {
+            item = JSON.parse(latest.item_json) as PoeSale["item"];
+        } catch {
+            item = null;
+        }
+    }
+
+    return {
+        time: new Date().toISOString(),
+        item_id: `dev-test-${Date.now()}`,
+        item: item ?? {
+            typeLine: latest.item_type || latest.item_name,
+            frameType: latest.item_frame_type ?? undefined,
+            icon: latest.icon ?? undefined,
+            rarity: latest.item_rarity ?? undefined,
+        },
+        price: {
+            amount: latest.price_amount,
+            currency: latest.price_currency,
+        },
+    };
+}
+
+function buildFallbackFakeSale(): PoeSale {
+    const rarity = normalizeRarity("unique");
 
     return {
         time: new Date().toISOString(),
         item_id: `dev-test-${Date.now()}`,
         item: {
-            name: rarity === "rare" ? "Dragon Knuckle" : undefined,
-            typeLine: itemName,
+            typeLine: "Headhunter Heavy Belt",
+            baseType: "Heavy Belt",
+            w: 2,
+            h: 1,
             ilvl: 82,
-            properties: [{ name: "Quality", values: [["+20%", 1]], displayMode: 0 }],
+            requirements: [{ name: "Level", values: [["40", 0]], displayMode: 0 }],
+            implicitMods: ["+(20-30) to [Strength|Strength]"],
             explicitMods: [
-                "22% increased [AttackSpeed|Attack Speed]",
-                "+84 to maximum [Life|Life]",
-                "+38% to [Fire|Fire Resistance]",
+                "+(40-55) to [Strength|Strength]",
+                "+(40-55) to [Dexterity|Dexterity]",
+                "+(50-60) to maximum [Life|Life]",
+                "(20-30)% increased [Damage|Damage] with Hits against Rare monsters",
+                "When you Kill a Rare monster, you gain its Modifiers for 20 seconds",
             ],
             frameType: getFrameTypeFromRarity(rarity),
-            icon: process.env.POE2WATCH_LOGO_URL || undefined,
             rarity,
         },
-        price: {
-            amount,
-            currency,
-        },
+        price: { amount: 299, currency: "divine" },
     };
+}
+
+function buildFakeSale(interaction: ChatInputCommandInteraction): PoeSale {
+    const sale = getLatestSaleTemplate() ?? buildFallbackFakeSale();
+    const itemName = interaction.options.getString("item");
+    const amount = interaction.options.getNumber("amount");
+    const currency = interaction.options.getString("currency");
+    const rarityOption = interaction.options.getString("rarity");
+
+    if (itemName) {
+        sale.item = {
+            ...sale.item,
+            name: undefined,
+            typeLine: itemName,
+        };
+    }
+
+    if (amount) {
+        sale.price.amount = amount;
+    }
+
+    if (currency) {
+        sale.price.currency = currency;
+    }
+
+    if (rarityOption) {
+        const rarity = normalizeRarity(rarityOption);
+        sale.item.rarity = rarity;
+        sale.item.frameType = getFrameTypeFromRarity(rarity);
+    }
+
+    return sale;
 }
 
 export async function execute(interaction: ChatInputCommandInteraction) {
@@ -117,7 +191,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 brandEmbed(
                     {
                         title: "Fake Sale Sent",
-                        description: "A test sale notification was sent. It was not saved to the sales database.",
+                        description: "A real-style test sale notification was sent. It was not saved to the sales database.",
                     },
                     POE2WATCH_INFO_COLOR
                 ),

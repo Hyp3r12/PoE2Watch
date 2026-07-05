@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A Discord companion for Path of Exile 2 traders.
+  A self-hosted Discord companion for Path of Exile 2 traders.
 </p>
 
 <p align="center">
@@ -19,81 +19,29 @@
   <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
 </p>
 
+<p align="center">
+  <a href="https://poe2watch.app/">Website</a>
+  |
+  <a href="docs/installation.md">Setup</a>
+  |
+  <a href="docs/commands.md">Commands</a>
+  |
+  <a href="docs/security.md">Security</a>
+  |
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
 ---
 
 ## What Is PoE2Watch?
 
-PoE2Watch is an open-source Discord companion for Path of Exile 2.
+PoE2Watch watches your completed Path of Exile 2 sale history, sends Discord notifications when items sell, stores your trade history locally in SQLite, and turns those sales into useful stats, insights, goals, and setup health checks.
 
-It watches your completed sale history, sends Discord notifications when items sell, stores your local trade history in SQLite, and turns your sales into useful analytics.
-
-Built by traders, for traders.
-
----
-
-## Mission
-
-PoE2Watch started from a pretty familiar feeling: logging off because you feel stuck, then wondering if anything sold while you were away.
+It is built for players who want to know when the trade tab finally did something useful.
 
 Sometimes one trade is all it takes to get a build moving again. A good sale can mean the next upgrade, the next craft, or just a reason to log back in with a plan instead of staring at your stash.
 
-The point of PoE2Watch is simple: keep you informed while it is running. It does not play the game for you, make trades for you, or try to replace logging in. It just keeps the waiting-in-the-dark part from feeling so dead.
-
 Until official GGG OAuth support is confirmed, PoE2Watch stays local-first and self-hosted. Your session stays on your machine, and the app only watches your own completed sale history.
-
----
-
-## Highlights
-
-| Feature | Status | What It Does |
-| --- | --- | --- |
-| Instant sale notifications | Complete | Sends a Discord notification when PoE2Watch detects a new completed sale. |
-| SQLite trade history | Complete | Stores sales locally for summaries and analytics. |
-| Adaptive polling | Complete | Checks faster after recent sales and slows down when idle. |
-| Slash commands | Complete | Query stats, recent sales, insights, settings, and top sales from Discord. |
-| Hover-style item cards | Alpha | Stores GGG item payloads and shows rarity, item details, and modifiers in sale embeds. |
-| poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
-| Official GGG OAuth | Placeholder | Waiting on confirmed app registration and official guidance. |
-| Static website | Complete | Dark-fantasy landing page ready for Cloudflare Pages. |
-
----
-
-## Discord Commands
-
-### Trading
-
-| Command | Purpose |
-| --- | --- |
-| `/last3` | Show your three most recent sales as separate item-style embeds. |
-| `/today` | Show today's sales summary. |
-| `/week` | Show the last seven days of sales. |
-| `/month` | Show the last thirty days of sales. |
-| `/league` | Show full-league sales, league age, sales today, highest day, and average per day. |
-| `/top` | Show up to three highest-value sales as separate item-style embeds. |
-| `/goal add` | Add a prioritized trading goal with a target amount and currency. |
-| `/goal list` | View progress across all goals. Sales fund priority 1 first, then spill into later goals. |
-| `/goal reorder` | Change which goal gets funded first. |
-| `/goal complete` | Mark a goal achieved by priority number. |
-| `/goal remove` | Remove a goal by priority number without marking it achieved. |
-| `/goal clear-all` | Clear every trading goal. |
-
-### Analytics
-
-| Command | Purpose |
-| --- | --- |
-| `/stats` | Show all-time totals, averages, largest sale, and currency breakdowns. |
-| `/insights` | Show best selling day, most sold item type, highest value category, largest sale, and estimated wealth traded. |
-
-### Configuration and Dev Tools
-
-| Command | Purpose |
-| --- | --- |
-| `/settings view` | View current display and estimate settings. |
-| `/settings display` | Choose original, Chaos, Exalted, Divine, or all display values. |
-| `/settings refresh-rates` | Refresh cached third-party estimate rates. |
-| `/health` | Check local setup, database, exchange cache, goals, and watcher status without showing secrets. |
-| `/dev fake-sale` | Admin/dev-only test notification. Does not save fake sales. |
-| `/dev refresh-sale-metadata` | Admin/dev-only backfill for item icons, rarity, and hover-style item details. |
 
 ---
 
@@ -101,273 +49,99 @@ Until official GGG OAuth support is confirmed, PoE2Watch stays local-first and s
 
 ### Sale Notification
 
-Discord sale notifications show the item sold, price, league, timestamp, and item artwork when available.
+The example below was generated with `/dev fake-sale` so it does not save anything to the local sales database.
 
 <p>
-  <img src="assets/headhunter_sale.png" alt="PoE2Watch latest sale Discord notification example" width="390" />
+  <img src="assets/discord-sale-notification.png" alt="PoE2Watch Discord sale notification example" width="390" />
 </p>
 
 ### Trading Insights
 
-Analytics commands summarize your trading history with best day, most sold item type, highest value category, largest sale, and estimated wealth traded.
+<p>
+  <img src="assets/discord-insights.png" alt="PoE2Watch trading insights Discord command example" width="470" />
+</p>
+
+### Trading Goals
 
 <p>
-  <img src="assets/insights_example.png" alt="PoE2Watch trading insights Discord command example" width="470" />
+  <img src="assets/discord-goals.png" alt="PoE2Watch trading goals Discord command example" width="390" />
+</p>
+
+### Top Sales
+
+<p>
+  <img src="assets/discord-top-sale.png" alt="PoE2Watch top sale Discord command example" width="470" />
 </p>
 
 ---
 
-## Setup
+## Highlights
 
-1. Install dependencies:
-
-```bash
-npm install
-```
-
-2. Copy the environment template:
-
-```bash
-copy .env.example .env
-```
-
-3. Fill in your Discord and Path of Exile values:
-
-```env
-DISCORD_WEBHOOK_URL=
-DISCORD_WEBHOOK_URLS=
-DISCORD_BOT_TOKEN=
-DISCORD_CLIENT_ID=
-DISCORD_GUILD_ID=
-
-POE_COOKIE=
-POE_LEAGUE=Runes of Aldur
-```
-
-4. Register Discord slash commands:
-
-```bash
-npm run register
-```
-
-5. Start PoE2Watch:
-
-```bash
-npm run dev
-```
+| Feature | Status | What It Does |
+| --- | --- | --- |
+| Instant sale notifications | Complete | Sends Discord notifications when new completed sales are detected. |
+| SQLite trade history | Complete | Stores sale history locally for summaries and analytics. |
+| Adaptive polling | Complete | Checks faster after recent sales and slows down when idle. |
+| Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, and top sales. |
+| Hover-style item cards | Alpha | Preserves item payloads and shows rarity, item details, and modifiers. |
+| Trading goals | Alpha | Track progress toward upgrades with prioritized goal spillover. |
+| poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
+| Official GGG OAuth | Placeholder | Waiting on confirmed app registration and official guidance. |
 
 ---
 
-## Discord Bot Setup
-
-PoE2Watch is self-hosted. For now, you should create your own Discord application and run the bot on your own machine.
-
-There is no public inviteable PoE2Watch bot yet because official GGG OAuth support is still pending. You should never send your `POE_COOKIE`, `.env`, or Discord bot token to anyone.
-
-The intended trust model is:
-
-```text
-your machine
-your Discord app
-your Discord server
-your PoE session cookie
-your local SQLite database
-```
-
-### Create the Discord App
-
-1. Go to the Discord Developer Portal:
-
-```text
-https://discord.com/developers/applications
-```
-
-2. Click **New Application**.
-
-3. Name it `PoE2Watch`.
-
-4. Open **Bot**.
-
-5. Click **Add Bot**.
-
-6. Copy the bot token into your `.env`:
-
-```env
-DISCORD_BOT_TOKEN=
-```
-
-7. Open **OAuth2 > URL Generator**.
-
-8. Select these scopes:
-
-```text
-bot
-applications.commands
-```
-
-9. Select these bot permissions:
-
-```text
-Send Messages
-Use Slash Commands
-Embed Links
-Attach Files
-Read Message History
-```
-
-10. Open the generated URL and invite the bot to your server.
-
-11. Copy your application ID into your `.env`:
-
-```env
-DISCORD_CLIENT_ID=
-```
-
-12. Copy your server ID into your `.env`:
-
-```env
-DISCORD_GUILD_ID=
-```
-
-13. Register slash commands:
+## Quick Start
 
 ```bash
+npm install
+copy .env.example .env
 npm run register
-```
-
-14. Start PoE2Watch:
-
-```bash
 npm run dev
 ```
 
-15. In Discord, run:
+After setup, run this in Discord:
 
 ```text
 /health
 ```
 
-Use `/health` to confirm your local setup without exposing secrets.
+Full setup docs:
 
-### Mirroring Sale Notifications
-
-PoE2Watch can send sale notifications to more than one Discord channel.
-
-Use `DISCORD_WEBHOOK_URL` for your main/private notification channel, then add extra webhook URLs to `DISCORD_WEBHOOK_URLS`.
-
-Anyone with your webhook URL can post messages into that Discord channel. Treat webhook URLs like passwords and do not share them publicly.
-
-```env
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-private-channel
-DISCORD_WEBHOOK_URLS=https://discord.com/api/webhooks/your-friends-channel
-```
-
-For multiple mirror channels, separate them with commas:
-
-```env
-DISCORD_WEBHOOK_URLS=https://discord.com/api/webhooks/channel-one,https://discord.com/api/webhooks/channel-two
-```
-
-Only webhook sale notifications are mirrored. Slash commands still only run where your Discord bot is installed.
+- [Installation](docs/installation.md)
+- [Discord Bot Setup](docs/discord-setup.md)
+- [Configuration](docs/configuration.md)
 
 ---
 
-## Currency Estimates
+## Commands
 
-PoE2Watch can use cached poe.ninja market data for temporary third-party value estimates.
+| Category | Commands |
+| --- | --- |
+| Trading | `/last3`, `/today`, `/week`, `/month`, `/league`, `/top` |
+| Goals | `/goal add`, `/goal list`, `/goal view`, `/goal complete`, `/goal remove`, `/goal reorder`, `/goal clear-all` |
+| Analytics | `/stats`, `/insights` |
+| Settings | `/settings view`, `/settings display`, `/settings refresh-rates` |
+| Diagnostics | `/health` |
+| Developer | `/dev fake-sale`, `/dev refresh-sale-metadata` |
 
-```env
-POE_RATE_PROVIDER=poe-ninja
-POE_NINJA_LEAGUE_NAME=Runes of Aldur
-POE_NINJA_LEAGUE_SLUG=runesofaldur
-```
+Read the full command guide:
 
-Important notes:
-
-- poe.ninja estimates are third-party market estimates, not official GGG data.
-- Official GGG currency exchange integration remains a placeholder until app registration is confirmed.
-- Converted values are marked as estimates.
-
----
-
-## Developer Testing
-
-Admin/dev-only notification testing is available through:
-
-```text
-/dev fake-sale
-```
-
-Optional allowlist:
-
-```env
-DISCORD_DEV_USER_IDS=your_discord_user_id
-```
-
-Fake sale notifications are clearly labeled and are not written to the sales database.
+[docs/commands.md](docs/commands.md)
 
 ---
 
-## Roadmap
+## Documentation
 
-| Version | Focus | Status |
-| --- | --- | --- |
-| v0.4.x | Statistics, Adaptive Polling, Insights, Settings, Top Sales | Complete |
-| v0.5.x | Trading Experience: Hover-style Item Cards, Better Embeds, Goals, Inventory, Autocomplete, Pagination, Statistics Export | Active |
-| v0.6.x | Multi User: PostgreSQL, Multiple Guilds, User Accounts, Inviteable Bot, Sale History Search | Planned |
-| v0.7.x | Website: Login, Dashboard, Public Stats, API | Planned |
-| v1.0.0 | Cloud: Hosted PoE2Watch, OAuth, Managed Bot | Planned |
-
-### Trading Goals
-
-```text
-Trading Goal
-
-1. Mageblood
-Target: 500 Divine
-[##########] 100%
-500 / 500 Divine
-Complete
-
-2. Build Upgrade
-Target: 120 Divine
-[######----] 61%
-74 / 120 Divine
-46 Divine remaining
-
-3. Crafting Fund
-Target: 50 Divine
-[----------] 0%
-0 / 50 Divine
-50 Divine remaining
-
-Use `/goal complete priority:1` when a goal is achieved.
-Use `/goal remove priority:1` when you want to delete a goal without marking it achieved.
-```
-
----
-
-## Architecture Direction
-
-As PoE2Watch grows, the next cleanup target is central configuration.
-
-Planned structure:
-
-```text
-src/config/config.ts
-```
-
-The goal is to stop reading `process.env` directly throughout services and instead import a typed `config` object with sections for Discord, polling, exchange rates, OAuth placeholders, website links, and database settings.
-
-The statistics layer will also split naturally as analytics grows:
-
-```text
-src/services/statistics/summary.ts
-src/services/statistics/leaderboards.ts
-src/services/statistics/insights.ts
-src/services/statistics/charts.ts
-src/services/statistics/formatter.ts
-```
+| Page | Purpose |
+| --- | --- |
+| [Overview](docs/overview.md) | Product vision, trust model, and project principles. |
+| [Installation](docs/installation.md) | Local setup and first run. |
+| [Discord Setup](docs/discord-setup.md) | Creating your own Discord app and webhook channels. |
+| [Commands](docs/commands.md) | Every slash command and what it is for. |
+| [Configuration](docs/configuration.md) | Environment variables and display settings. |
+| [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |
+| [Roadmap](docs/roadmap.md) | Current alpha line and planned future work. |
+| [Development](docs/development.md) | Local scripts, dev commands, and architecture direction. |
 
 ---
 
@@ -386,35 +160,6 @@ PoE2Watch never automates gameplay, never controls the game client, and never pe
 
 ---
 
-## Website
-
-The static website lives in:
-
-```text
-website/index.html
-```
-
-It is designed to deploy directly from the `website` folder on Cloudflare Pages.
-
-### Cloudflare Security Checklist
-
-For the public site, enable these in the Cloudflare dashboard:
-
-- **SSL/TLS encryption mode:** Full (strict), once the Pages custom domain certificate is active.
-- **Always Use HTTPS:** On.
-- **HTTP Strict Transport Security (HSTS):** On after HTTPS is confirmed working for both `poe2watch.app` and `www.poe2watch.app`.
-- **Bot Fight Mode:** Optional, but useful if the site starts seeing junk traffic.
-
-The repo also ships `website/.well-known/security.txt` and `website/_headers` for vulnerability disclosure and basic browser security headers.
-
----
-
-## Release Notes
-
-See [CHANGELOG.md](CHANGELOG.md) for release notes, including `v0.5.0-alpha`.
-
----
-
 ## Disclaimer
 
-PoE2Watch is an independent community project and is not affiliated with Grinding Gear Games.
+PoE2Watch is an independent community project and is not affiliated with, endorsed by, or sponsored by Grinding Gear Games.

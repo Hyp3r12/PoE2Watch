@@ -33,7 +33,7 @@ You should never send your `.env`, `POE_COOKIE`, Discord bot token, webhook URL,
 - Watches your own completed sale history.
 - Sends near-real-time sale notifications to Discord through adaptive polling.
 - Stores sales locally in SQLite.
-- Shows stats, top sales, recent sales, insights, and goals.
+- Shows stats, top sales, recent sales, searchable history, insights, and goals.
 - Uses cached third-party market data for temporary value estimates when configured.
 
 ## What PoE2Watch Does Not Do

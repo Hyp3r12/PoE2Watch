@@ -82,7 +82,7 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 | Near-real-time sale notifications | Complete | Checks for sales every 7 minutes after recent activity and every 20 minutes when idle. |
 | SQLite trade history | Complete | Stores sale history locally for summaries and analytics. |
 | Adaptive polling | Complete | Checks faster after recent sales, slows down when idle, and respects rate-limit backoff. |
-| Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, and top sales. |
+| Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, top sales, and sale history. |
 | Hover-style item cards | Alpha | Preserves item payloads and shows rarity, item details, and modifiers. |
 | Trading goals | Alpha | Track progress toward upgrades with prioritized goal spillover. |
 | poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
@@ -117,7 +117,7 @@ Full setup docs:
 
 | Category | Commands |
 | --- | --- |
-| Trading | `/last3`, `/today`, `/week`, `/month`, `/league`, `/top` |
+| Trading | `/last3`, `/history search`, `/today`, `/week`, `/month`, `/league`, `/top` |
 | Goals | `/goal add`, `/goal list`, `/goal view`, `/goal complete`, `/goal remove`, `/goal reorder`, `/goal clear-all` |
 | Analytics | `/stats`, `/insights` |
 | Settings | `/settings view`, `/settings display`, `/settings refresh-rates` |

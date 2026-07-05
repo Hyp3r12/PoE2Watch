@@ -11,6 +11,7 @@ import * as insights from "./insights";
 import * as goal from "./goal";
 import * as health from "./health";
 import * as dev from "./dev";
+import * as history from "./history";
 
 export type BotCommand = {
     data: {
@@ -31,6 +32,7 @@ export const commands: BotCommand[] = [
     settings,
     insights,
     goal,
+    history,
     health,
     dev,
 ];

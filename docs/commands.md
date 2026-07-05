@@ -7,11 +7,27 @@ PoE2Watch commands are grouped by purpose so each command has a clear job.
 | Command | Purpose |
 | --- | --- |
 | `/last3` | Show your three most recent sales as separate item-style embeds. |
+| `/history search` | Search your local sale history by item name or type. |
 | `/today` | Show today's sales summary. |
 | `/week` | Show the last seven days of sales. |
 | `/month` | Show the last thirty days of sales. |
 | `/league` | Show full-league sales, league age, sales today, highest day, and average per day. |
 | `/top` | Show up to three highest-value sales by estimated Divine value. |
+
+### History Search
+
+`/history search` searches your local SQLite sale history. It does not make a new Path of Exile trade request.
+
+Useful examples:
+
+```text
+/history search query:ring
+/history search query:headhunter
+/history search query:belt currency:divine
+/history search query:amulet days:7
+```
+
+It returns up to three matching sales as item-style embeds.
 
 ## Goals
 

@@ -10,6 +10,7 @@ export const POE2WATCH_STATS_COLOR = 0xc8953f;
 export const POE2WATCH_TOP_COLOR = 0xd66f3f;
 export const POE2WATCH_INSIGHTS_COLOR = 0x6bc8b4;
 export const POE2WATCH_GOAL_COLOR = 0x77b65a;
+export const POE2WATCH_HISTORY_COLOR = 0x9b7ad6;
 export const POE2WATCH_FOOTER = "PoE2Watch";
 export const EPHEMERAL_RESPONSE = 64;
 

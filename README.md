@@ -83,8 +83,9 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 | SQLite trade history | Complete | Stores sale history locally for summaries and analytics. |
 | Adaptive polling | Complete | Checks faster after recent sales, slows down when idle, and respects rate-limit backoff. |
 | Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, top sales, and sale history. |
-| Hover-style item cards | Alpha | Preserves item payloads and shows rarity, item details, and modifiers. |
-| Trading goals | Alpha | Track progress toward upgrades with prioritized goal spillover. |
+| Hover-style item cards | Complete | Preserves item payloads and shows rarity, item details, and modifiers. |
+| Trading goals | Complete | Track progress toward upgrades with prioritized goal spillover. |
+| Inventory tracking | In progress | Sale history foundations are in place; broader inventory tracking is nearly complete. |
 | poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
 | Official GGG OAuth | Placeholder | Waiting on confirmed app registration and official guidance. |
 

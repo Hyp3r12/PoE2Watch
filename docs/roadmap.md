@@ -7,17 +7,18 @@ PoE2Watch is currently in the `v0.5.x-alpha` line.
 | Version | Focus | Status |
 | --- | --- | --- |
 | v0.4.x | Statistics, Adaptive Polling, Insights, Settings, Top Sales | Complete |
-| v0.5.x | Trading Experience: Hover-style Item Cards, Better Embeds, Goals, Inventory, Autocomplete, Pagination, Statistics Export | Active |
+| v0.5.x | Trading Experience: Item Cards, Better Embeds, Goals, Inventory, Autocomplete, Pagination, Statistics Export | Active |
 | v0.6.x | Multi User: PostgreSQL, Multiple Guilds, User Accounts, Inviteable Bot, Advanced History Tools | Planned |
 | v0.7.x | Website: Login, Dashboard, Public Stats, API | Planned |
 | v1.0.0 | Cloud: Hosted PoE2Watch, OAuth, Managed Bot | Planned |
 
 ## v0.5.x: Trading Experience
 
-- Hover-style item cards.
-- Better Discord embeds.
-- Prioritized trading goals.
-- Inventory tracking.
+- Complete: hover-style item cards.
+- Complete: better Discord embeds.
+- Complete: prioritized trading goals.
+- Nearly complete: inventory tracking foundations.
+- Added: local sale history search.
 - Slash command autocomplete.
 - Pagination.
 - Statistics export.

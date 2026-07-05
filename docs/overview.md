@@ -4,6 +4,8 @@ PoE2Watch is an open-source Discord companion for Path of Exile 2 traders.
 
 It watches completed sale history, sends Discord notifications when items sell, stores local trade history in SQLite, and turns that history into useful analytics.
 
+PoE2Watch is polling-based, not truly instant. It currently checks every 7 minutes after recent sale activity and every 20 minutes when idle. Rate limits or authentication issues can delay checks until the app is healthy again.
+
 ## Mission
 
 PoE2Watch started from a pretty familiar feeling: logging off because you feel stuck, then wondering if anything sold while you were away.
@@ -29,7 +31,7 @@ You should never send your `.env`, `POE_COOKIE`, Discord bot token, webhook URL,
 ## What PoE2Watch Does
 
 - Watches your own completed sale history.
-- Sends sale notifications to Discord.
+- Sends near-real-time sale notifications to Discord through adaptive polling.
 - Stores sales locally in SQLite.
 - Shows stats, top sales, recent sales, insights, and goals.
 - Uses cached third-party market data for temporary value estimates when configured.

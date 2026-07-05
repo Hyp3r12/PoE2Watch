@@ -30,6 +30,16 @@ POE_LEAGUE=Runes of Aldur
 
 `POE_COOKIE` is sensitive. Treat it like a password.
 
+## Polling Behavior
+
+PoE2Watch currently uses adaptive polling:
+
+- **Fast mode:** checks every 7 minutes after recent sale activity.
+- **Idle mode:** checks every 20 minutes after 1 hour without sales.
+- **Rate limited:** waits for the retry window returned by the trade endpoint, or falls back to a longer wait.
+
+Notifications are near-real-time, not push/instant.
+
 ## Currency Estimates
 
 PoE2Watch can use cached poe.ninja market data for temporary third-party value estimates.

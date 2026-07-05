@@ -79,9 +79,9 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 
 | Feature | Status | What It Does |
 | --- | --- | --- |
-| Instant sale notifications | Complete | Sends Discord notifications when new completed sales are detected. |
+| Near-real-time sale notifications | Complete | Checks for sales every 7 minutes after recent activity and every 20 minutes when idle. |
 | SQLite trade history | Complete | Stores sale history locally for summaries and analytics. |
-| Adaptive polling | Complete | Checks faster after recent sales and slows down when idle. |
+| Adaptive polling | Complete | Checks faster after recent sales, slows down when idle, and respects rate-limit backoff. |
 | Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, and top sales. |
 | Hover-style item cards | Alpha | Preserves item payloads and shows rarity, item details, and modifiers. |
 | Trading goals | Alpha | Track progress toward upgrades with prioritized goal spillover. |

@@ -1,7 +1,7 @@
 {
   "name": "ange-watch",
   "version": "0.5.0-alpha",
-  "description": "",
+  "description": "Self-hosted Discord bot for Path of Exile 2 trade pings, sale history, goals, and stats.",
   "main": "index.js",
   "scripts": {
     "dev": "tsx src/index.ts",
@@ -10,7 +10,16 @@
     "debug:last3": "tsx src/debuglast3.ts",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
+  "keywords": [
+    "poe2",
+    "path-of-exile-2",
+    "discord-bot",
+    "trade-tracker",
+    "sale-notifications",
+    "self-hosted",
+    "sqlite",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",

@@ -9,13 +9,13 @@
 </p>
 
 <p align="center">
-  A self-hosted Discord companion for Path of Exile 2 traders.
+  A small Discord bot for Path of Exile 2 trade pings and sale stats.
 </p>
 
 <p align="center">
   <img alt="Version" src="https://img.shields.io/badge/version-v0.5.0--alpha-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Status" src="https://img.shields.io/badge/status-active%20development-8b1e1e?style=for-the-badge&labelColor=050505" />
-  <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-local%20first-d4af37?style=for-the-badge&labelColor=050505" />
+  <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-runs%20on%20your%20PC-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
 </p>
 
@@ -35,13 +35,15 @@
 
 ## What Is PoE2Watch?
 
-PoE2Watch watches your completed Path of Exile 2 sale history, sends Discord notifications when items sell, stores your trade history locally in SQLite, and turns those sales into useful stats, insights, goals, and setup health checks.
+PoE2Watch is a Discord bot I started building because I kept wondering if anything sold while I was away.
 
-It is built for players who want to know when the trade tab finally did something useful.
+While it is running on your machine, it checks your completed Path of Exile 2 sales, posts Discord notifications when it finds new ones, and keeps a local SQLite history for stats, top sales, goals, and search.
 
 Sometimes one trade is all it takes to get a build moving again. A good sale can mean the next upgrade, the next craft, or just a reason to log back in with a plan instead of staring at your stash.
 
-Until official GGG OAuth support is confirmed, PoE2Watch stays local-first and self-hosted. Your session stays on your machine, and the app only watches your own completed sale history.
+Until official GGG OAuth support is confirmed, PoE2Watch stays self-hosted. Your session stays on your machine, and the app only checks your own completed sale history.
+
+**Tags:** `#PoE2` `#PathOfExile2` `#DiscordBot` `#TradeTracking` `#SelfHosted`
 
 ---
 
@@ -80,14 +82,14 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 | Feature | Status | What It Does |
 | --- | --- | --- |
 | Near-real-time sale notifications | Complete | Checks for sales every 7 minutes after recent activity and every 20 minutes when idle. |
-| SQLite trade history | Complete | Stores sale history locally for summaries and analytics. |
+| SQLite trade history | Complete | Stores sale history on your machine for summaries and command output. |
 | Adaptive polling | Complete | Checks faster after recent sales, slows down when idle, and respects rate-limit backoff. |
-| Discord slash commands | Complete | Query stats, recent sales, insights, settings, goals, top sales, and sale history. |
+| Discord slash commands | Complete | Check recent sales, stats, insights, settings, goals, top sales, and history. |
 | Hover-style item cards | Complete | Preserves item payloads and shows rarity, item details, and modifiers. |
 | Trading goals | Complete | Track progress toward upgrades with prioritized goal spillover. |
 | Inventory tracking | In progress | Sale history foundations are in place; broader inventory tracking is nearly complete. |
-| poe.ninja estimates | Alpha | Uses cached third-party market data for temporary value estimates. |
-| Official GGG OAuth | Placeholder | Waiting on confirmed app registration and official guidance. |
+| poe.ninja estimates | Alpha | Uses cached third-party market data for rough value estimates. |
+| Official GGG OAuth | Placeholder | Waiting on confirmed app registration and guidance from GGG. |
 
 ---
 
@@ -135,7 +137,7 @@ Read the full command guide:
 
 | Page | Purpose |
 | --- | --- |
-| [Overview](docs/overview.md) | Product vision, trust model, and project principles. |
+| [Overview](docs/overview.md) | Why this exists, what it does, and what it does not do. |
 | [Installation](docs/installation.md) | Local setup and first run. |
 | [Discord Setup](docs/discord-setup.md) | Creating your own Discord app and webhook channels. |
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
@@ -148,14 +150,14 @@ Read the full command guide:
 
 ## Project Principles
 
-PoE2Watch is designed to be:
+PoE2Watch is meant to stay:
 
 - Read-only
 - Self-hosted first
-- Community driven
+- Useful before fancy
 - Open source
 - Respectful of Grinding Gear Games' policies
-- Built by players, for players
+- Clear about what it is doing
 
 PoE2Watch never automates gameplay, never controls the game client, and never performs trades.
 

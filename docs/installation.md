@@ -1,6 +1,6 @@
 # Installation
 
-PoE2Watch is currently self-hosted. You run it on your own machine with your own Discord app and your own local configuration.
+PoE2Watch currently runs on your own machine with your own Discord app and your own local config.
 
 ## Requirements
 

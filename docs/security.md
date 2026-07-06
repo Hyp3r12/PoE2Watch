@@ -1,6 +1,6 @@
 # Security
 
-PoE2Watch is designed as a local-first alpha tool.
+PoE2Watch is a self-hosted alpha tool. Keep the sensitive pieces on your machine.
 
 ## Keep These Private
 

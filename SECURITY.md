@@ -1,6 +1,6 @@
 # Security Policy
 
-PoE2Watch is a local-first, self-hosted Path of Exile 2 trade notification companion.
+PoE2Watch is a self-hosted Path of Exile 2 trade notification bot.
 
 ## Reporting Security Issues
 

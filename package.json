@@ -1,5 +1,5 @@
 {
-  "name": "ange-watch",
+  "name": "poe2watch",
   "version": "0.5.0-alpha",
   "description": "Self-hosted Discord bot for Path of Exile 2 trade pings, sale history, goals, and stats.",
   "main": "index.js",
@@ -21,7 +21,7 @@
     "typescript"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "@discordjs/rest": "^2.6.1",

@@ -18,6 +18,7 @@
   <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-runs%20on%20your%20PC-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
   <img alt="Docker" src="https://img.shields.io/badge/docker-hardened%20runtime-2496ed?style=for-the-badge&labelColor=050505" />
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-b8aa8a?style=for-the-badge&labelColor=050505" />
 </p>
 
 <p align="center">
@@ -33,6 +34,10 @@
   |
   <a href="CHANGELOG.md">Changelog</a>
 </p>
+
+---
+
+> PoE2Watch is alpha software. Expect breaking changes before v1.0.
 
 ---
 

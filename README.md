@@ -30,6 +30,8 @@
   |
   <a href="docs/security.md">Security</a>
   |
+  <a href="docs/faq.md">FAQ</a>
+  |
   <a href="docs/docker.md">Docker</a>
   |
   <a href="CHANGELOG.md">Changelog</a>
@@ -148,6 +150,7 @@ Full setup docs:
 - [Installation](docs/installation.md)
 - [Discord Bot Setup](docs/discord-setup.md)
 - [Configuration](docs/configuration.md)
+- [FAQ](docs/faq.md)
 
 ---
 
@@ -179,6 +182,7 @@ Read the full command guide:
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
 | [Configuration](docs/configuration.md) | Environment variables and display settings. |
 | [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |
+| [FAQ](docs/faq.md) | Common questions and concerns from early feedback. |
 | [Roadmap](docs/roadmap.md) | Current alpha line and planned future work. |
 | [Development](docs/development.md) | Local scripts, dev commands, and architecture direction. |
 

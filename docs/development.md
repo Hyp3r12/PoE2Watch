@@ -9,6 +9,18 @@ npm run register
 npm run typecheck
 ```
 
+## Docker Checks
+
+The Docker runtime does not include npm/yarn, so use the direct Node command when registering commands inside the container:
+
+```bash
+docker compose build
+docker compose run --rm poe2watch node node_modules/tsx/dist/cli.mjs src/registercommands.ts
+docker compose up -d
+docker compose logs -f
+docker compose down
+```
+
 ## Developer Commands
 
 ```text

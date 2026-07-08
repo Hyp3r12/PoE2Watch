@@ -17,6 +17,7 @@
   <img alt="Status" src="https://img.shields.io/badge/status-active%20development-8b1e1e?style=for-the-badge&labelColor=050505" />
   <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-runs%20on%20your%20PC-d4af37?style=for-the-badge&labelColor=050505" />
   <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
+  <img alt="Docker" src="https://img.shields.io/badge/docker-hardened%20runtime-2496ed?style=for-the-badge&labelColor=050505" />
 </p>
 
 <p align="center">
@@ -90,13 +91,38 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 | Hover-style item cards | Complete | Preserves item payloads and shows rarity, item details, and modifiers. |
 | Trading goals | Complete | Track progress toward upgrades with prioritized goal spillover. |
 | Inventory tracking | In progress | Sale history foundations are in place; broader inventory tracking is nearly complete. |
-| Docker support | Alpha | Run PoE2Watch in a container instead of installing Node/npm directly. |
+| Docker support | Alpha | Run PoE2Watch in a hardened container instead of installing Node/npm directly. |
 | poe.ninja estimates | Alpha | Uses third-party market data cached for 12 hours for rough value estimates. |
 | Official GGG OAuth | Placeholder | Waiting on confirmed app registration and guidance from GGG. |
 
 ---
 
 ## Quick Start
+
+### Option A: Docker
+
+Recommended if you want PoE2Watch isolated from your normal desktop Node/npm setup.
+
+```bash
+copy .env.example .env
+docker compose build
+docker compose run --rm poe2watch node node_modules/tsx/dist/cli.mjs src/registercommands.ts
+docker compose up -d
+```
+
+View logs:
+
+```bash
+docker compose logs -f
+```
+
+Stop PoE2Watch:
+
+```bash
+docker compose down
+```
+
+### Option B: Local Node/npm
 
 ```bash
 npm install
@@ -113,8 +139,8 @@ After setup, run this in Discord:
 
 Full setup docs:
 
-- [Installation](docs/installation.md)
 - [Docker](docs/docker.md)
+- [Installation](docs/installation.md)
 - [Discord Bot Setup](docs/discord-setup.md)
 - [Configuration](docs/configuration.md)
 
@@ -142,12 +168,12 @@ Read the full command guide:
 | Page | Purpose |
 | --- | --- |
 | [Overview](docs/overview.md) | Why this exists, what it does, and what it does not do. |
+| [Docker](docs/docker.md) | Run PoE2Watch in a hardened container instead of installing Node/npm directly. |
 | [Installation](docs/installation.md) | Local setup and first run. |
 | [Discord Setup](docs/discord-setup.md) | Creating your own Discord app and webhook channels. |
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
 | [Configuration](docs/configuration.md) | Environment variables and display settings. |
 | [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |
-| [Docker](docs/docker.md) | Run PoE2Watch in a container instead of installing Node/npm directly. |
 | [Roadmap](docs/roadmap.md) | Current alpha line and planned future work. |
 | [Development](docs/development.md) | Local scripts, dev commands, and architecture direction. |
 

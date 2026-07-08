@@ -20,6 +20,7 @@ Until official GGG OAuth support is confirmed, PoE2Watch stays self-hosted.
 
 ```text
 your machine
+optional Docker container
 your Discord app
 your Discord server
 your PoE session cookie

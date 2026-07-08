@@ -86,6 +86,21 @@ Docker should work well for an always-on Raspberry Pi or home server setup.
 
 The runtime image intentionally does not include npm or yarn. This keeps the container smaller and reduces vulnerability scanner noise from package-manager internals.
 
+## Runtime Hardening
+
+The final image is kept smaller on purpose:
+
+- npm, npx, yarn, and corepack are removed from runtime.
+- Build tools are only used during the build stage.
+- The app runs as the non-root `node` user.
+- Local secrets and databases stay mounted from your machine instead of being copied into the image.
+
+If you scan the image with Docker Desktop, rebuild first so you are checking the latest local image:
+
+```bash
+docker compose build --no-cache --pull
+```
+
 ## Security Notes
 
 - Do not copy `.env` into the image.

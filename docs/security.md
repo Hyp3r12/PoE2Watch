@@ -19,6 +19,13 @@ Anyone with your Discord webhook URL can post messages into that channel. Treat 
 
 Docker support is available for users who want PoE2Watch running in a container instead of directly on their main machine.
 
+The Docker runtime is intentionally small:
+
+- runs as a non-root user
+- keeps build tools out of the final image
+- removes npm, npx, yarn, and corepack from runtime
+- keeps `.env` and `data/` outside the image
+
 Docker does not make secrets harmless. The container still needs access to `.env` so PoE2Watch can connect to Discord and check completed sale history.
 
 See [Docker](docker.md).

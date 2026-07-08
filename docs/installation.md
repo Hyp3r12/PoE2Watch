@@ -10,6 +10,8 @@ PoE2Watch currently runs on your own machine with your own Discord app and your 
 - A Discord webhook for sale notifications.
 - A Path of Exile account session cookie.
 
+If you do not want to install Node/npm directly, use the [Docker guide](docker.md).
+
 ## Install Dependencies
 
 ```bash

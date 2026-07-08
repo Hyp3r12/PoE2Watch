@@ -53,6 +53,7 @@ POE_NINJA_LEAGUE_SLUG=runesofaldur
 Important notes:
 
 - poe.ninja estimates are third-party market estimates, not official GGG data.
+- poe.ninja estimates are cached for 12 hours by default.
 - Official GGG currency exchange integration remains a placeholder until app registration is confirmed.
 - Converted values are marked as estimates.
 

@@ -39,7 +39,7 @@ export const data = new SlashCommandBuilder()
     .addSubcommand((subcommand) =>
         subcommand
             .setName("refresh-rates")
-            .setDescription("Refresh cached third-party estimate rates")
+            .setDescription("Manually refresh cached third-party estimate rates")
     );
 
 export async function execute(interaction: ChatInputCommandInteraction) {
@@ -61,7 +61,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                             },
                             {
                                 name: "Exchange Estimates",
-                                value: `Using cached **${getRateProviderLabel()}** when available.\nOfficial GGG exchange support is still a placeholder pending app registration.`,
+                                value: `Using cached **${getRateProviderLabel()}** when available.\npoe.ninja estimates refresh every 12 hours unless manually refreshed.\nOfficial GGG exchange support is still a placeholder pending app registration.`,
                                 inline: false,
                             },
                         ],

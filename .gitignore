@@ -45,6 +45,7 @@ pnpm-debug.log*
 Screenshot*.png
 Screenshot*.jpg
 Screenshot*.jpeg
+assets/github-profile-logo.jpg
 *.tmp
 
 # OS

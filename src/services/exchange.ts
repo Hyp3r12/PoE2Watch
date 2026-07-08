@@ -4,6 +4,7 @@ import { normalizeCurrency } from "./valueformatter";
 import { formatLeagueName } from "./league";
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
+const POE_NINJA_REFRESH_INTERVAL_MS = 12 * ONE_HOUR_MS;
 const ESTIMATE_CURRENCIES = ["chaos", "exalted", "divine"];
 
 type RateProvider = "poe-ninja" | "ggg";
@@ -54,12 +55,12 @@ export function getRateProviderLabel() {
     return getProvider() === "ggg" ? "official GGG exchange data" : "poe.ninja market data";
 }
 
-function shouldRefreshRates() {
+function shouldRefreshRates(refreshIntervalMs = ONE_HOUR_MS) {
     const latest = getLatestRateFetch();
 
     if (!latest?.fetched_at) return true;
 
-    return Date.now() - new Date(latest.fetched_at).getTime() >= ONE_HOUR_MS;
+    return Date.now() - new Date(latest.fetched_at).getTime() >= refreshIntervalMs;
 }
 
 function getLeagueSlug() {
@@ -148,10 +149,10 @@ async function fetchPoeNinjaCurrencyData() {
 }
 
 async function refreshPoeNinjaRates(options: { force?: boolean }): Promise<RefreshResult> {
-    if (!options.force && !shouldRefreshRates()) {
+    if (!options.force && !shouldRefreshRates(POE_NINJA_REFRESH_INTERVAL_MS)) {
         return {
             refreshed: false,
-            reason: "Exchange rates were refreshed less than an hour ago.",
+            reason: "poe.ninja estimates were refreshed less than 12 hours ago.",
             savedMarkets: 0,
             provider: "poe-ninja",
         };

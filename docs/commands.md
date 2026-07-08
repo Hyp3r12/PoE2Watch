@@ -54,7 +54,7 @@ It returns up to three matching sales as item-style embeds.
 | --- | --- |
 | `/settings view` | View current display and estimate settings. |
 | `/settings display` | Choose original, Chaos, Exalted, Divine, or all display values. |
-| `/settings refresh-rates` | Refresh cached third-party estimate rates. |
+| `/settings refresh-rates` | Manually refresh cached third-party estimate rates. |
 
 ## Diagnostics
 

@@ -1,0 +1,11 @@
+services:
+  poe2watch:
+    build:
+      context: .
+    image: poe2watch:local
+    container_name: poe2watch
+    env_file:
+      - ${POE2WATCH_ENV_FILE:-.env}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

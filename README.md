@@ -28,6 +28,8 @@
   |
   <a href="docs/security.md">Security</a>
   |
+  <a href="docs/docker.md">Docker</a>
+  |
   <a href="CHANGELOG.md">Changelog</a>
 </p>
 
@@ -88,7 +90,8 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 | Hover-style item cards | Complete | Preserves item payloads and shows rarity, item details, and modifiers. |
 | Trading goals | Complete | Track progress toward upgrades with prioritized goal spillover. |
 | Inventory tracking | In progress | Sale history foundations are in place; broader inventory tracking is nearly complete. |
-| poe.ninja estimates | Alpha | Uses cached third-party market data for rough value estimates. |
+| Docker support | Alpha | Run PoE2Watch in a container instead of installing Node/npm directly. |
+| poe.ninja estimates | Alpha | Uses third-party market data cached for 12 hours for rough value estimates. |
 | Official GGG OAuth | Placeholder | Waiting on confirmed app registration and guidance from GGG. |
 
 ---
@@ -111,6 +114,7 @@ After setup, run this in Discord:
 Full setup docs:
 
 - [Installation](docs/installation.md)
+- [Docker](docs/docker.md)
 - [Discord Bot Setup](docs/discord-setup.md)
 - [Configuration](docs/configuration.md)
 
@@ -143,6 +147,7 @@ Read the full command guide:
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
 | [Configuration](docs/configuration.md) | Environment variables and display settings. |
 | [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |
+| [Docker](docs/docker.md) | Run PoE2Watch in a container instead of installing Node/npm directly. |
 | [Roadmap](docs/roadmap.md) | Current alpha line and planned future work. |
 | [Development](docs/development.md) | Local scripts, dev commands, and architecture direction. |
 

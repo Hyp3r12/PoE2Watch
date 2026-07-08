@@ -15,6 +15,14 @@ Never share:
 
 Anyone with your Discord webhook URL can post messages into that channel. Treat webhook URLs like passwords.
 
+## Docker
+
+Docker support is available for users who want PoE2Watch running in a container instead of directly on their main machine.
+
+Docker does not make secrets harmless. The container still needs access to `.env` so PoE2Watch can connect to Discord and check completed sale history.
+
+See [Docker](docker.md).
+
 ## OAuth Status
 
 Official GGG OAuth is not implemented yet.

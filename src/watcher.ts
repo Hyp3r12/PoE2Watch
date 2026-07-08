@@ -1,6 +1,7 @@
-﻿import { fetchSales, getItemName, PoeSale } from "./poe/api";
+import { fetchSales, getItemName, PoeSale } from "./poe/api";
 import { notifyDiscord } from "./discord/webhook";
 import { hasSale, saveSale, getLastSales, updateSaleMetadata } from "./storage/salesvault";
+import { refreshExchangeRates } from "./services/exchange";
 
 const FAST_WAIT_SECONDS = 7 * 60; // 7 minutes
 const IDLE_WAIT_SECONDS = 20 * 60; // 20 minutes
@@ -78,13 +79,27 @@ async function checkForNewSales() {
     }
 }
 
+async function refreshExchangeRatesIfNeeded() {
+    try {
+        const result = await refreshExchangeRates();
+
+        if (result.refreshed) {
+            console.log(`Refreshed ${result.savedMarkets} exchange market(s) from ${result.provider}.`);
+        }
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.log(`Exchange rate refresh skipped: ${message}`);
+    }
+}
+
 export async function startWatcher() {
-    console.log("✓ Adaptive watcher enabled");
-    console.log("✓ FAST mode: 7 minutes after recent sales");
-    console.log("✓ IDLE mode: 20 minutes after 1 hour without sales");
+    console.log("Adaptive watcher enabled");
+    console.log("FAST mode: 7 minutes after recent sales");
+    console.log("IDLE mode: 20 minutes after 1 hour without sales");
 
     while (true) {
         try {
+            await refreshExchangeRatesIfNeeded();
             await checkForNewSales();
 
             const polling = getPollingMode();
@@ -115,7 +130,7 @@ export async function startWatcher() {
                     mode: "RATE_LIMITED",
                     nextWaitSeconds,
                 };
-                console.log(`⚠️ Rate limited. Waiting ${Math.round(nextWaitSeconds / 60)} minutes.`);
+                console.log(`Rate limited. Waiting ${Math.round(nextWaitSeconds / 60)} minutes.`);
             } else if (message.startsWith("AUTH_FAILED:")) {
                 watcherStatus = {
                     ...watcherStatus,
@@ -124,7 +139,7 @@ export async function startWatcher() {
                     mode: "AUTH_FAILED",
                     nextWaitSeconds: 0,
                 };
-                console.error("❌ Auth failed. Stop app and refresh your POE_COOKIE.");
+                console.error("Auth failed. Stop app and refresh your POE_COOKIE.");
                 process.exit(1);
             } else {
                 console.error("Watcher failed:", error);

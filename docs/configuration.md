@@ -44,6 +44,8 @@ Notifications are near-real-time, not push/instant.
 
 Use `/settings notification-threshold amount:1` to only include the short mobile-style notification text for sales worth at least 1 estimated Divine.
 
+![PoE2Watch notification threshold setting example](../assets/notification-threshold-setting.png)
+
 Smaller sales still:
 
 - save to the local database

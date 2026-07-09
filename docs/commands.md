@@ -57,6 +57,10 @@ It returns up to three matching sales as item-style embeds.
 | `/settings notification-threshold` | Set the minimum estimated Divine value required for mobile notification text. Smaller sales still post to Discord. |
 | `/settings refresh-rates` | Manually refresh cached third-party estimate rates. |
 
+Example:
+
+![PoE2Watch notification threshold setting example](../assets/notification-threshold-setting.png)
+
 ## Diagnostics
 
 | Command | Purpose |

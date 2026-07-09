@@ -173,6 +173,14 @@ Full setup docs:
 | Diagnostics | `/health` |
 | Developer | `/dev fake-sale`, `/dev refresh-sale-metadata` |
 
+### Notification Threshold
+
+Keep small trades in Discord without lighting up mobile notifications for every sale.
+
+<p>
+  <img src="assets/notification-threshold-setting.png" alt="PoE2Watch notification threshold setting example" width="490" />
+</p>
+
 Read the full command guide:
 
 [docs/commands.md](docs/commands.md)

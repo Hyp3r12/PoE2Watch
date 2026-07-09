@@ -59,6 +59,14 @@ Until official GGG OAuth support is confirmed, PoE2Watch stays self-hosted. Your
 
 ## Example Output
 
+### Mobile Notification
+
+This is the core use case: a clean Discord sale ping on your phone while you are away from the computer.
+
+<p>
+  <img src="assets/mobile-notification.jpg" alt="PoE2Watch mobile Discord sale notification example" width="310" />
+</p>
+
 ### Sale Notification
 
 The example below was generated with `/dev fake-sale` so it does not save anything to the local sales database.

@@ -22,6 +22,12 @@ Current default behavior:
 
 Discord notifications can feel quick, but they are not official push notifications.
 
+## What Shows Up On My Phone?
+
+Mobile notifications are kept short on purpose.
+
+The lock-screen ping should show the important part first: PoE2Watch, the Discord channel, the sold item, and the sale price. When you open Discord, the full item card can show more detail like item image, rarity, requirements, and modifiers.
+
 ## What Does It Track?
 
 PoE2Watch checks completed sale history for Ange trade sales.

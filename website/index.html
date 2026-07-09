@@ -367,6 +367,63 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
         }
 
+        .mobile-proof {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.56fr) minmax(0, 0.9fr);
+            align-items: center;
+            gap: 44px;
+        }
+
+        .phone-shot {
+            max-width: 330px;
+            margin: 0 auto;
+            border: 1px solid rgba(245, 210, 122, 0.28);
+            border-radius: 30px;
+            overflow: hidden;
+            background: #08080a;
+            box-shadow:
+                0 26px 70px rgba(0, 0, 0, 0.72),
+                0 0 34px rgba(139, 30, 30, 0.22);
+        }
+
+        .phone-shot img {
+            width: 100%;
+            height: auto;
+        }
+
+        .proof-copy {
+            max-width: 620px;
+        }
+
+        .proof-copy h2 {
+            color: var(--bright-gold);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            letter-spacing: 0.04em;
+        }
+
+        .proof-copy p {
+            color: var(--muted);
+            font-family: Arial, sans-serif;
+            font-size: 1.05rem;
+        }
+
+        .proof-list {
+            display: grid;
+            gap: 12px;
+            padding: 0;
+            margin: 24px 0 0;
+            list-style: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .proof-list li {
+            padding: 14px 16px;
+            border: 1px solid rgba(212, 175, 55, 0.18);
+            border-radius: 8px;
+            background: rgba(13, 13, 15, 0.62);
+            color: var(--text);
+        }
+
         .roadmap-grid {
             grid-template-columns: repeat(4, minmax(0, 1fr));
         }
@@ -635,6 +692,7 @@
 
             .features-grid,
             .commands-grid,
+            .mobile-proof,
             .roadmap-grid,
             .footer-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -670,9 +728,14 @@
 
             .features-grid,
             .commands-grid,
+            .mobile-proof,
             .roadmap-grid,
             .footer-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .phone-shot {
+                max-width: 280px;
             }
 
             .card {
@@ -756,6 +819,28 @@
                         <h3>Self Hosted</h3>
                         <p>Run PoE2Watch on your own machine. Your trade history stays local and under your control.</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="mobile" aria-labelledby="mobile-title">
+            <div class="site-shell mobile-proof">
+                <figure class="phone-shot">
+                    <img src="assets/mobile-notification.jpg" alt="PoE2Watch Discord sale notification on a mobile lock screen" />
+                </figure>
+                <div class="proof-copy">
+                    <p class="hero-kicker">Built for the moment you step away</p>
+                    <h2 id="mobile-title">Sale pings that make sense on your phone.</h2>
+                    <p>
+                        PoE2Watch keeps the mobile notification simple: the item name, sale price,
+                        and Discord channel context. The detailed item card still lives in Discord
+                        when you open the message.
+                    </p>
+                    <ul class="proof-list">
+                        <li>Clean lock-screen summary for quick checks.</li>
+                        <li>Full item details stay in Discord for when you have time.</li>
+                        <li>Works with mirrored webhook channels for proof-of-concept sharing.</li>
+                    </ul>
                 </div>
             </div>
         </section>

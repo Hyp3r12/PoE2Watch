@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/project-logo.png" alt="PoE2Watch logo" width="180" />
+  <img src="assets/project-logo.png" alt="PoE2Watch logo" width="150" />
 </p>
 
 <h1 align="center">PoE2Watch</h1>
@@ -13,12 +13,14 @@
 </p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-v0.5.0--alpha-d4af37?style=for-the-badge&labelColor=050505" />
-  <img alt="Status" src="https://img.shields.io/badge/status-active%20development-8b1e1e?style=for-the-badge&labelColor=050505" />
-  <img alt="Self Hosted" src="https://img.shields.io/badge/self--hosted-runs%20on%20your%20PC-d4af37?style=for-the-badge&labelColor=050505" />
-  <img alt="Read Only" src="https://img.shields.io/badge/read--only-no%20gameplay%20automation-f5d27a?style=for-the-badge&labelColor=050505" />
-  <img alt="Docker" src="https://img.shields.io/badge/docker-hardened%20runtime-2496ed?style=for-the-badge&labelColor=050505" />
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-b8aa8a?style=for-the-badge&labelColor=050505" />
+  <img alt="Version" src="https://img.shields.io/badge/v0.5.0--alpha-d4af37?style=flat-square&label=version&labelColor=0d0d0f" />
+  <img alt="Status" src="https://img.shields.io/badge/active-8b1e1e?style=flat-square&label=status&labelColor=0d0d0f" />
+  <img alt="Docker" src="https://img.shields.io/badge/supported-d4af37?style=flat-square&label=docker&labelColor=0d0d0f" />
+  <img alt="License" src="https://img.shields.io/badge/MIT-b8aa8a?style=flat-square&label=license&labelColor=0d0d0f" />
+</p>
+
+<p align="center">
+  <sub>Self-hosted &middot; Read-only &middot; Docker-supported &middot; No gameplay automation</sub>
 </p>
 
 <p align="center">

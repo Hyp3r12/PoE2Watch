@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an improvement that fits PoE2Watch.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the player-facing problem, not just the feature idea.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Suggested solution
+      description: What should PoE2Watch do?
+    validations:
+      required: true
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Project fit
+      options:
+        - label: This is read-only and does not automate gameplay.
+          required: true
+        - label: This does not require hosted OAuth/cloud behavior before GGG guidance exists.
+          required: true
+        - label: This does not duplicate an existing command or feature.
+          required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Are there existing commands or docs that could be improved instead?

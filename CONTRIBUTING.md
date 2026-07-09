@@ -78,6 +78,12 @@ Run the main check:
 npm run typecheck
 ```
 
+Run tests:
+
+```bash
+npm test
+```
+
 ## Docker Setup
 
 Docker is supported for users who do not want to run PoE2Watch directly on their main Node/npm setup.
@@ -116,6 +122,7 @@ Security issues should be reported through GitHub's Security tab, not public iss
 Before opening a PR:
 
 - Run `npm run typecheck`.
+- Run `npm test`.
 - Keep changes focused.
 - Update docs when behavior changes.
 - Avoid unrelated formatting churn.

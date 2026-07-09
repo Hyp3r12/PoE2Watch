@@ -1,0 +1,27 @@
+name: GGG OAuth / cloud discussion
+description: Discuss OAuth, hosted support, invite-able bot behavior, or multi-user plans.
+title: "[OAuth/Cloud]: "
+labels: ["oauth", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        OAuth, hosted PoE2Watch Cloud, public invite-able bot support, and multi-user account linking are intentionally paused until official GGG guidance is confirmed.
+  - type: textarea
+    id: topic
+    attributes:
+      label: What do you want to discuss?
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Safety or policy concerns
+      description: Note any risks around scopes, rate limits, credential storage, polling, or user consent.
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I understand this area is blocked on official GGG guidance and may not be implemented soon.
+          required: true

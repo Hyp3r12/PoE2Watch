@@ -16,6 +16,8 @@ This update continues the v0.5 Trading Experience line with a focus on stability
 - Added Docker-first setup paths to the README and installation docs.
 - Added Docker runtime hardening notes covering the non-root runtime user, no build tools in runtime, no npm/yarn/corepack in runtime, and keeping `.env`/`data/` outside the image.
 - Added a GitHub Actions CI workflow that runs `npm ci` and `npm run typecheck`.
+- Added `npm test` with initial coverage for value formatting, rarity handling, and item-card formatting.
+- Added GitHub issue templates for bug reports, install help, feature requests, and GGG OAuth/cloud discussions.
 - Added explicit read-only GitHub Actions token permissions with `contents: read`.
 - Added a full `CONTRIBUTING.md` guide with project direction, feature ethics, setup steps, security rules, PR checklist, and style notes.
 - Added `LICENSE` and switched project metadata to MIT.

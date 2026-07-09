@@ -6,8 +6,11 @@
 npm run dev
 npm run start
 npm run register
+npm test
 npm run typecheck
 ```
+
+`npm test` uses Node's built-in test runner through `tsx`. The first tests cover value formatting, rarity handling, and item-card formatting.
 
 ## Docker Checks
 

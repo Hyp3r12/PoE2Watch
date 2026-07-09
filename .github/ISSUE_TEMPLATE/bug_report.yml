@@ -1,0 +1,55 @@
+name: Bug report
+description: Report something that is broken or behaving unexpectedly.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include `.env`, `POE_COOKIE`, Discord bot tokens, webhook URLs, or local database files.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: List the steps or commands that triggered the issue.
+      placeholder: |
+        1. Run ...
+        2. Use command ...
+        3. See error ...
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: How are you running PoE2Watch?
+      options:
+        - Docker
+        - Local Node/npm
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.5.0-alpha or commit hash
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      description: Paste only logs with secrets removed.
+      render: text
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Secret safety check
+      options:
+        - label: I removed cookies, tokens, webhook URLs, session IDs, and private local paths.
+          required: true

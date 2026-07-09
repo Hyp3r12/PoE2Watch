@@ -1,0 +1,48 @@
+name: Install help
+description: Get help with setup, Docker, Discord config, or first run.
+title: "[Install Help]: "
+labels: ["help wanted", "setup"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Need setup help? No problem. Please do not paste `.env`, `POE_COOKIE`, Discord bot tokens, webhook URLs, or session IDs.
+  - type: dropdown
+    id: install
+    attributes:
+      label: Setup path
+      options:
+        - Docker
+        - Local Node/npm
+        - Not sure yet
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Where are you stuck?
+      description: Tell us what step failed and what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: What have you tried?
+      placeholder: |
+        - Read docs/installation.md
+        - Ran npm run typecheck
+        - Ran docker compose build
+        - Ran /health
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized output
+      description: Paste only output with secrets removed.
+      render: text
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Secret safety check
+      options:
+        - label: I removed cookies, tokens, webhook URLs, session IDs, and private local paths.
+          required: true

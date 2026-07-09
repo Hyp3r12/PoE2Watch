@@ -4,6 +4,83 @@ All notable changes to PoE2Watch will be documented in this file.
 
 PoE2Watch follows a lightweight alpha release style while the project is still moving quickly.
 
+## [Unreleased]
+
+### Release Summary
+
+This update continues the v0.5 Trading Experience line with a focus on stability, safer self-hosting, better documentation, and cleaner notification control. The core app remains local-first, read-only, and pending official GGG OAuth guidance for any hosted or invite-able bot future.
+
+### Added
+
+- Added hardened Docker support with `Dockerfile`, `docker-compose.yml`, `.dockerignore`, and a dedicated Docker guide.
+- Added Docker-first setup paths to the README and installation docs.
+- Added Docker runtime hardening notes covering the non-root runtime user, no build tools in runtime, no npm/yarn/corepack in runtime, and keeping `.env`/`data/` outside the image.
+- Added a GitHub Actions CI workflow that runs `npm ci` and `npm run typecheck`.
+- Added explicit read-only GitHub Actions token permissions with `contents: read`.
+- Added a full `CONTRIBUTING.md` guide with project direction, feature ethics, setup steps, security rules, PR checklist, and style notes.
+- Added `LICENSE` and switched project metadata to MIT.
+- Added `docs/faq.md` based on early community feedback around local hosting, Docker, supply-chain concerns, OAuth, mobile notifications, GGG load, and AI transparency.
+- Added README and website previews for mobile Discord sale notifications.
+- Added notification threshold support through `/settings notification-threshold`.
+- Added documentation screenshots for the notification threshold setting.
+- Added SQLite settings storage for `notify_min_divine`.
+- Added 12-hour poe.ninja exchange-rate refresh behavior during watcher loops.
+- Added local sale history search through `/history search`.
+
+### Changed
+
+- Renamed the npm package from `ange-watch` to `poe2watch`.
+- Cleaned up the README header with smaller badges, calmer colors, shorter labels, and a simpler project trait line.
+- Updated README navigation and documentation tables to include Docker and FAQ.
+- Updated setup docs so Docker is presented as a first-class option instead of a side note.
+- Updated `/settings view` to show the current notification threshold.
+- Changed sale webhook behavior so every sale can still post to Discord while only above-threshold sales include the short mobile notification text.
+- Kept `/dev fake-sale` showing the mobile summary text regardless of notification threshold so notification testing remains straightforward.
+- Updated FAQ and configuration docs to explain the difference between Discord item-card posts and mobile notification summary text.
+
+### Fixed
+
+- Fixed the Linux/Docker command registration path by aligning the `registercommands.ts` filename casing.
+- Fixed Docker image vulnerability scan noise by removing package-manager internals from the runtime image.
+- Fixed CI workflow permission warning by limiting the default token to read-only repository contents.
+- Fixed README badge wrapping and visual clutter on GitHub.
+
+### Security and Safety
+
+- Docker image scans reached 0 reported vulnerabilities after hardening.
+- `npm audit` remains clean.
+- Runtime Docker image does not copy `.env`, local sale data, `node_modules`, or `seen-sales.json`.
+- The Docker runtime runs without npm, npx, yarn, corepack, or build tools.
+- Notification thresholds do not hide or discard sales; smaller sales still post to Discord embeds and remain in local history/statistics.
+- OAuth, cloud hosting, public invite-able bot support, and multi-user account linking remain blocked on official GGG guidance.
+
+### Upgrade Notes
+
+- Re-register Discord commands after updating because `/settings` gained `notification-threshold`:
+
+```bash
+npm run register
+```
+
+- Docker users can register commands with:
+
+```bash
+docker compose run --rm poe2watch node node_modules/tsx/dist/cli.mjs src/registercommands.ts
+```
+
+- Restart PoE2Watch after updating so SQLite can add the `notify_min_divine` settings column.
+- Set a threshold with:
+
+```text
+/settings notification-threshold amount:1
+```
+
+- Disable the threshold with:
+
+```text
+/settings notification-threshold amount:0
+```
+
 ## [v0.5.0-alpha] - 2026-07-03
 
 ### Release Summary

@@ -33,6 +33,12 @@ docker compose down
 
 Fake sale notifications are clearly labeled and are not written to the sales database.
 
+## Diagnostics
+
+Use `/health view` for a private status embed.
+
+Use `/health export` to create a sanitized `.txt` diagnostics report that can be attached to GitHub Issues. It reports setup state, database status, watcher status, and error categories without including cookies, tokens, webhook URLs, or session IDs.
+
 Optional allowlist:
 
 ```env

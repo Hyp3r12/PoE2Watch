@@ -65,7 +65,8 @@ Example:
 
 | Command | Purpose |
 | --- | --- |
-| `/health` | Check local setup, database, exchange cache, goals, and watcher status without showing secrets. |
+| `/health view` | Check local setup, database, exchange cache, goals, and watcher status without showing secrets. |
+| `/health export` | Create a sanitized text report for GitHub Issues or setup support. |
 
 ## Developer Tools
 

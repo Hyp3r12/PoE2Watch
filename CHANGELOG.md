@@ -25,6 +25,7 @@ This update continues the v0.5 Trading Experience line with a focus on stability
 - Added README and website previews for mobile Discord sale notifications.
 - Added notification threshold support through `/settings notification-threshold`.
 - Added documentation screenshots for the notification threshold setting.
+- Added `/health export` for visible sanitized diagnostics reports that can be attached to support issues.
 - Added SQLite settings storage for `notify_min_divine`.
 - Added 12-hour poe.ninja exchange-rate refresh behavior during watcher loops.
 - Added local sale history search through `/history search`.

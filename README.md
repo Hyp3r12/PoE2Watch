@@ -172,7 +172,7 @@ Full setup docs:
 | Goals | `/goal add`, `/goal list`, `/goal view`, `/goal complete`, `/goal remove`, `/goal reorder`, `/goal clear-all` |
 | Analytics | `/stats`, `/insights` |
 | Settings | `/settings view`, `/settings display`, `/settings notification-threshold`, `/settings refresh-rates` |
-| Diagnostics | `/health` |
+| Diagnostics | `/health view`, `/health export` |
 | Developer | `/dev fake-sale`, `/dev refresh-sale-metadata` |
 
 ### Notification Threshold

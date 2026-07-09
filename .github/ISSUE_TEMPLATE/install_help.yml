@@ -36,8 +36,8 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: Sanitized output
-      description: Paste only output with secrets removed.
+      label: Sanitized output or /health export
+      description: Paste only output with secrets removed, or attach the sanitized report from /health export.
       render: text
   - type: checkboxes
     id: safety

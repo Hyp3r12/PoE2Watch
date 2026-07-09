@@ -22,6 +22,14 @@ Current default behavior:
 
 Discord notifications can feel quick, but they are not official push notifications.
 
+## How Do I Get Help Without Sharing Secrets?
+
+Use `/health export`.
+
+It creates a sanitized diagnostics text file with setup status, database status, exchange cache status, watcher state, and broad error categories. It does not include cookies, tokens, webhook URLs, or session IDs.
+
+Review the file before posting it publicly, then attach it to a GitHub issue if you need help.
+
 ## What Shows Up On My Phone?
 
 Mobile notifications are kept short on purpose.

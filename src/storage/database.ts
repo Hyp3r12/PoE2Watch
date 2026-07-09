@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS sales (
 CREATE TABLE IF NOT EXISTS settings (
     scope TEXT PRIMARY KEY,
     display_currency TEXT NOT NULL DEFAULT 'original',
+    notify_min_divine REAL,
     updated_at TEXT NOT NULL
 );
 
@@ -98,6 +99,13 @@ if (!saleColumnNames.has("item_rarity")) {
 
 if (!saleColumnNames.has("item_json")) {
     db.exec("ALTER TABLE sales ADD COLUMN item_json TEXT;");
+}
+
+const settingColumns = db.pragma("table_info(settings)") as Array<{ name: string }>;
+const settingColumnNames = new Set(settingColumns.map((column) => column.name));
+
+if (!settingColumnNames.has("notify_min_divine")) {
+    db.exec("ALTER TABLE settings ADD COLUMN notify_min_divine REAL;");
 }
 
 console.log("✓ SQLite database ready.");

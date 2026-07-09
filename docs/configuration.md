@@ -40,6 +40,18 @@ PoE2Watch currently uses adaptive polling:
 
 Notifications are near-real-time, not push/instant.
 
+## Notification Threshold
+
+Use `/settings notification-threshold amount:1` to only include the short mobile-style notification text for sales worth at least 1 estimated Divine.
+
+Smaller sales still:
+
+- save to the local database
+- post their item card to Discord
+- count toward stats, goals, history, and insights
+
+Use `/settings notification-threshold amount:0` to turn the threshold off and include mobile notification text for every sale again.
+
 ## Currency Estimates
 
 PoE2Watch can use cached poe.ninja market data for temporary third-party value estimates.

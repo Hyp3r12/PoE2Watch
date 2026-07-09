@@ -4,8 +4,10 @@ import {
     getSettings,
     normalizeDisplayCurrency,
     saveDisplayCurrency,
+    saveNotifyMinDivine,
 } from "../storage/settings";
 import { getRateProviderLabel, refreshExchangeRates } from "../services/exchange";
+import { formatEstimateAmount } from "../services/valueformatter";
 import {
     brandEmbed,
     EPHEMERAL_RESPONSE,
@@ -40,6 +42,18 @@ export const data = new SlashCommandBuilder()
         subcommand
             .setName("refresh-rates")
             .setDescription("Manually refresh cached third-party estimate rates")
+    )
+    .addSubcommand((subcommand) =>
+        subcommand
+            .setName("notification-threshold")
+            .setDescription("Only send mobile-style notification text above a Divine value")
+            .addNumberOption((option) =>
+                option
+                    .setName("amount")
+                    .setDescription("Minimum estimated Divine value for notification text. Use 0 to notify every sale.")
+                    .setRequired(true)
+                    .setMinValue(0)
+            )
     );
 
 export async function execute(interaction: ChatInputCommandInteraction) {
@@ -52,12 +66,22 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             embeds: [
                 brandEmbed(
                     {
-                            title: "PoE2Watch Settings",
+                        title: "PoE2Watch Settings",
                         fields: [
                             {
                                 name: "Display Currency",
                                 value: `**${settings.display_currency}**`,
                                 inline: true,
+                            },
+                            {
+                                name: "Notification Threshold",
+                                value:
+                                    settings.notify_min_divine === null
+                                        ? "**Off** - every sale gets mobile notification text."
+                                        : `Only sales worth **>= ${formatEstimateAmount(
+                                              settings.notify_min_divine
+                                          )} Divine** get mobile notification text.\nSmaller sales still post to Discord.`,
+                                inline: false,
                             },
                             {
                                 name: "Exchange Estimates",
@@ -101,6 +125,32 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     {
                         title: "Display Updated",
                         description: `Sale values will now display as **${displayCurrency}**.`,
+                    },
+                    POE2WATCH_INFO_COLOR
+                ),
+            ],
+            flags: EPHEMERAL_RESPONSE,
+        });
+        return;
+    }
+
+    if (subcommand === "notification-threshold") {
+        const amount = interaction.options.getNumber("amount", true);
+        const threshold = amount > 0 ? amount : null;
+
+        saveNotifyMinDivine(threshold);
+
+        await interaction.reply({
+            embeds: [
+                brandEmbed(
+                    {
+                        title: "Notification Threshold Updated",
+                        description:
+                            threshold === null
+                                ? "Every sale will include mobile notification text again."
+                                : `Only sales worth **>= ${formatEstimateAmount(
+                                      threshold
+                                  )} Divine** will include mobile notification text.\nSmaller sales will still post to Discord with their item card.`,
                     },
                     POE2WATCH_INFO_COLOR
                 ),

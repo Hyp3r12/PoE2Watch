@@ -7,6 +7,7 @@ export type DisplayCurrency = (typeof DISPLAY_CURRENCIES)[number];
 export type AppSettings = {
     scope: string;
     display_currency: DisplayCurrency;
+    notify_min_divine: number | null;
     updated_at: string;
 };
 
@@ -29,7 +30,7 @@ export function getSettings(scope = DEFAULT_SCOPE): AppSettings {
     const row = db
         .prepare(
             `
-      SELECT scope, display_currency, updated_at
+      SELECT scope, display_currency, notify_min_divine, updated_at
       FROM settings
       WHERE scope = ?
       `
@@ -41,6 +42,7 @@ export function getSettings(scope = DEFAULT_SCOPE): AppSettings {
     return {
         scope,
         display_currency: "original",
+        notify_min_divine: null,
         updated_at: new Date(0).toISOString(),
     };
 }
@@ -55,4 +57,16 @@ export function saveDisplayCurrency(displayCurrency: DisplayCurrency, scope = DE
         updated_at = excluded.updated_at
       `
     ).run(scope, displayCurrency, new Date().toISOString());
+}
+
+export function saveNotifyMinDivine(amount: number | null, scope = DEFAULT_SCOPE) {
+    db.prepare(
+        `
+      INSERT INTO settings (scope, display_currency, notify_min_divine, updated_at)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(scope) DO UPDATE SET
+        notify_min_divine = excluded.notify_min_divine,
+        updated_at = excluded.updated_at
+      `
+    ).run(scope, getSettings(scope).display_currency, amount, new Date().toISOString());
 }

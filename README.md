@@ -169,7 +169,7 @@ Full setup docs:
 | Trading | `/last3`, `/history search`, `/today`, `/week`, `/month`, `/league`, `/top` |
 | Goals | `/goal add`, `/goal list`, `/goal view`, `/goal complete`, `/goal remove`, `/goal reorder`, `/goal clear-all` |
 | Analytics | `/stats`, `/insights` |
-| Settings | `/settings view`, `/settings display`, `/settings refresh-rates` |
+| Settings | `/settings view`, `/settings display`, `/settings notification-threshold`, `/settings refresh-rates` |
 | Diagnostics | `/health` |
 | Developer | `/dev fake-sale`, `/dev refresh-sale-metadata` |
 

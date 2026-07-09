@@ -1,10 +1,17 @@
 import "dotenv/config";
 import { PoeSale, getItemFrameType, getItemName } from "../poe/api";
-import { formatConvertedValue, formatDiscordTimestamp, formatPrice } from "../services/valueformatter";
+import {
+    convertValue,
+    formatConvertedValue,
+    formatDiscordTimestamp,
+    formatEstimateAmount,
+    formatPrice,
+} from "../services/valueformatter";
 import { getDisplayLeagueName } from "../services/league";
 import { addThumbnail, brandEmbed } from "./theme";
 import { getRarityColor, getRarityFromFrameType } from "../services/rarity";
 import { formatItemCard } from "../services/itemcard";
+import { getSettings } from "../storage/settings";
 
 type NotifyDiscordOptions = {
     testMode?: boolean;
@@ -24,6 +31,28 @@ function getWebhookUrls() {
 
 function formatNotificationSummary(sale: PoeSale, itemName: string) {
     return `Sold: ${itemName} for ${formatPrice(sale.price.amount, sale.price.currency)}`;
+}
+
+function getEstimatedDivineValue(sale: PoeSale) {
+    if (sale.price.currency.trim().toLowerCase() === "divine") {
+        return sale.price.amount;
+    }
+
+    return convertValue(sale.price.amount, sale.price.currency, "divine");
+}
+
+function shouldIncludeNotificationText(sale: PoeSale) {
+    const threshold = getSettings().notify_min_divine;
+
+    if (threshold === null) return true;
+
+    const estimatedDivine = getEstimatedDivineValue(sale);
+
+    if (estimatedDivine === null) {
+        return true;
+    }
+
+    return estimatedDivine >= threshold;
 }
 
 async function postWebhook(url: string, payload: Record<string, unknown>) {
@@ -48,6 +77,7 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
     const logoUrl = process.env.POE2WATCH_LOGO_URL || DEFAULT_WEBHOOK_AVATAR_URL;
     const league = getDisplayLeagueName();
     const itemName = getItemName(sale);
+    const includeNotificationText = options.testMode || shouldIncludeNotificationText(sale);
     const saleRarity = {
         item_frame_type: getItemFrameType(sale),
         item_rarity: sale.item.rarity ?? getRarityFromFrameType(getItemFrameType(sale)),
@@ -57,7 +87,7 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
     const payload = {
         username: "PoE2Watch",
         ...(logoUrl ? { avatar_url: logoUrl } : {}),
-        content: formatNotificationSummary(sale, itemName),
+        ...(includeNotificationText ? { content: formatNotificationSummary(sale, itemName) } : {}),
         allowed_mentions: { parse: [] },
         embeds: [
             addThumbnail(
@@ -73,6 +103,14 @@ export async function notifyDiscord(sale: PoeSale, options: NotifyDiscordOptions
                     ],
                     ...(options.testMode
                         ? { footer: { text: "PoE2Watch - Developer test. Not saved to database." } }
+                        : !includeNotificationText
+                          ? {
+                                footer: {
+                                    text: `PoE2Watch - Below ${formatEstimateAmount(
+                                        getSettings().notify_min_divine ?? 0
+                                    )} Divine notification threshold.`,
+                                },
+                            }
                         : {}),
                 }, getRarityColor(saleRarity)),
                 sale.item.icon

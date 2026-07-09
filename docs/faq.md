@@ -28,6 +28,8 @@ Mobile notifications are kept short on purpose.
 
 The lock-screen ping should show the important part first: PoE2Watch, the Discord channel, the sold item, and the sale price. When you open Discord, the full item card can show more detail like item image, rarity, requirements, and modifiers.
 
+You can also set a notification threshold with `/settings notification-threshold`. Smaller sales still post to Discord and save locally, but they do not include the short mobile summary text.
+
 ## What Does It Track?
 
 PoE2Watch checks completed sale history for Ange trade sales.

@@ -30,6 +30,8 @@ It creates a sanitized diagnostics text file with setup status, database status,
 
 Review the file before posting it publicly, then attach it to a GitHub issue if you need help.
 
+PoE2Watch also prints a startup setup check in the terminal so missing config is visible before you start troubleshooting Discord.
+
 ## What Shows Up On My Phone?
 
 Mobile notifications are kept short on purpose.

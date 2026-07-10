@@ -89,10 +89,22 @@ npm run dev
 In Discord, run:
 
 ```text
-/health
+/health view
 ```
 
-`/health` checks local setup without exposing secret values.
+`/health view` checks local setup without exposing secret values.
+
+PoE2Watch also prints a setup check in the terminal at startup. If slash commands do not appear in Discord, register them again:
+
+```bash
+npm run register
+```
+
+Docker:
+
+```bash
+docker compose run --rm poe2watch node node_modules/tsx/dist/cli.mjs src/registercommands.ts
+```
 
 ## Next Steps
 

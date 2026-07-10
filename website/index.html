@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
         name="description"
-        content="PoE2Watch is a self-hosted Discord bot for Path of Exile 2 trade pings, sale history, goals, and stats."
+        content="PoE2Watch is a v0.6-alpha self-hosted Discord companion for Path of Exile 2 trade pings, item cards, sale history, goals, Docker setup, and diagnostics."
     />
     <meta
         name="keywords"
@@ -18,14 +18,14 @@
     <link rel="apple-touch-icon" href="/assets/project-logo.png" />
     <meta property="og:site_name" content="PoE2Watch" />
     <meta property="og:title" content="PoE2Watch | Discord Trade Pings for Path of Exile 2" />
-    <meta property="og:description" content="Never wonder if your trade sold again. Get Discord sale pings, top sales, goals, and local PoE2 sale history." />
+    <meta property="og:description" content="Never wonder if your trade sold again. Get Discord sale pings, item cards, goals, diagnostics, and local PoE2 sale history." />
     <meta property="og:image" content="https://poe2watch.app/assets/project-logo.png" />
     <meta property="og:image:alt" content="PoE2Watch logo" />
     <meta property="og:url" content="https://poe2watch.app/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PoE2Watch | Discord Trade Pings for Path of Exile 2" />
-    <meta name="twitter:description" content="Discord sale pings and local sale history for Path of Exile 2 traders." />
+    <meta name="twitter:description" content="Discord sale pings, item cards, goals, diagnostics, and local sale history for Path of Exile 2 traders." />
     <meta name="twitter:image" content="https://poe2watch.app/assets/project-logo.png" />
     <meta name="twitter:image:alt" content="PoE2Watch logo" />
     <title>PoE2Watch | Discord Trade Pings for Path of Exile 2</title>
@@ -38,8 +38,8 @@
             "operatingSystem": "Windows, macOS, Linux",
             "url": "https://poe2watch.app/",
             "image": "https://poe2watch.app/assets/project-logo.png",
-            "description": "PoE2Watch is a self-hosted Discord bot for Path of Exile 2 trade pings, sale history, goals, and stats.",
-            "softwareVersion": "0.5.0-alpha",
+            "description": "PoE2Watch is a self-hosted Discord bot for Path of Exile 2 trade pings, sale history, goals, diagnostics, Docker setup, and stats.",
+            "softwareVersion": "0.6.0-alpha",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -76,10 +76,12 @@
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
             margin: 0;
+            overflow-x: hidden;
             background:
                 radial-gradient(circle at 78% 18%, rgba(139, 30, 30, 0.28), transparent 26rem),
                 radial-gradient(circle at 18% 12%, rgba(212, 175, 55, 0.10), transparent 20rem),
@@ -114,8 +116,10 @@
         }
 
         .site-shell {
-            width: min(var(--max-width), calc(100% - 40px));
+            width: 100%;
+            max-width: var(--max-width);
             margin: 0 auto;
+            padding: 0 20px;
         }
 
         .site-header {
@@ -271,6 +275,28 @@
             font-size: 0.9rem;
         }
 
+        .release-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+            padding: 0;
+            list-style: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .release-badges li {
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            border-radius: 999px;
+            padding: 7px 12px;
+            background: rgba(13, 13, 15, 0.72);
+            color: var(--bright-gold);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
         .hero-emblem {
             position: relative;
             display: grid;
@@ -361,6 +387,40 @@
 
         .features-grid {
             grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .setup-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            counter-reset: setup;
+        }
+
+        .setup-card {
+            padding-top: 68px;
+        }
+
+        .setup-card::after {
+            counter-increment: setup;
+            content: counter(setup);
+            position: absolute;
+            top: 22px;
+            left: 24px;
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(245, 210, 122, 0.52);
+            border-radius: 50%;
+            color: var(--bright-gold);
+            font-family: Arial, sans-serif;
+            font-weight: 800;
+            background: rgba(139, 30, 30, 0.28);
+        }
+
+        .setup-card a {
+            color: var(--bright-gold);
+            text-decoration: underline;
+            text-decoration-color: rgba(245, 210, 122, 0.38);
+            text-underline-offset: 4px;
         }
 
         .commands-grid {
@@ -691,6 +751,7 @@
             }
 
             .features-grid,
+            .setup-grid,
             .commands-grid,
             .mobile-proof,
             .roadmap-grid,
@@ -701,7 +762,7 @@
 
         @media (max-width: 640px) {
             .site-shell {
-                width: min(100% - 28px, var(--max-width));
+                padding: 0 14px;
             }
 
             .nav-links {
@@ -727,6 +788,7 @@
             }
 
             .features-grid,
+            .setup-grid,
             .commands-grid,
             .mobile-proof,
             .roadmap-grid,
@@ -761,6 +823,7 @@
             </a>
             <div class="nav-links">
                 <a href="#features">Features</a>
+                <a href="#setup">Setup</a>
                 <a href="#commands">Commands</a>
                 <a href="#roadmap">Roadmap</a>
                 <a href="https://github.com/Hyp3r12/PoE2Watch">GitHub</a>
@@ -772,20 +835,26 @@
     <main id="top">
         <section class="site-shell hero" aria-labelledby="hero-title">
             <div>
-                <p class="hero-kicker">Discord trade pings for Path of Exile 2</p>
+                <p class="hero-kicker">v0.6 alpha Discord companion for Path of Exile 2</p>
                 <h1 id="hero-title">PoE2Watch</h1>
-                <div class="ornament" aria-hidden="true">◆</div>
+                <div class="ornament" aria-hidden="true">&diams;</div>
                 <p class="tagline">Never wonder if your trade sold again.</p>
-                <p class="subtitle">A self-hosted bot for sale alerts, goals, and trade stats.</p>
+                <p class="subtitle">A self-hosted bot for sale alerts, item cards, goals, diagnostics, and trade stats.</p>
                 <p class="hero-copy">
                     Run it on your own machine, get Discord pings when sales are detected,
-                    and keep a searchable local history of your trades.
+                    and keep a searchable local history of your trades while official GGG OAuth support remains pending.
                 </p>
+                <ul class="release-badges" aria-label="Project status">
+                    <li>v0.6 alpha</li>
+                    <li>Docker supported</li>
+                    <li>MIT licensed</li>
+                    <li>Local first</li>
+                </ul>
                 <div class="hero-actions" id="download">
                     <a class="button" href="https://github.com/Hyp3r12/PoE2Watch">Download from GitHub</a>
                     <a class="button secondary" href="https://github.com/Hyp3r12/PoE2Watch">View on GitHub</a>
                 </div>
-                <p class="hero-note">Self-hosted. Open source. No gameplay automation.</p>
+                <p class="hero-note">Self-hosted. Open source. Read-only. No gameplay automation.</p>
             </div>
             <div class="hero-emblem" aria-hidden="true">
                 <img src="assets/project-logo.png" alt="" />
@@ -796,28 +865,60 @@
             <div class="site-shell">
                 <div class="section-heading">
                     <h2 id="features-title">Features</h2>
-                    <div class="ornament" aria-hidden="true">◆</div>
+                    <div class="ornament" aria-hidden="true">&diams;</div>
                 </div>
                 <div class="grid features-grid">
                     <article class="card">
                         <div class="feature-icon">N</div>
-                        <h3>Adaptive Notifications</h3>
-                        <p>Get Discord sale alerts through adaptive checks: faster after recent trades and quieter when idle.</p>
+                        <h3>Mobile Sale Pings</h3>
+                        <p>Get clean Discord notification text for meaningful sales while every sale still posts its full item card.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">A</div>
-                        <h3>Sale Stats</h3>
-                        <p>Check totals, averages, largest sales, top trades, insights, and league progress from Discord.</p>
+                        <div class="feature-icon">I</div>
+                        <h3>Item Cards</h3>
+                        <p>See rarity-colored item cards with icons, requirements, corrupted states, and useful modifier detail.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">S</div>
-                        <h3>Useful Settings</h3>
-                        <p>Choose display currencies, refresh third-party estimates, and keep the output readable for your setup.</p>
+                        <div class="feature-icon">G</div>
+                        <h3>Goals & Analytics</h3>
+                        <p>Track goals, top sales, recent history, league totals, insights, averages, and estimated Divine value.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">H</div>
-                        <h3>Self Hosted</h3>
-                        <p>Run PoE2Watch on your own machine. Your trade history stays local and under your control.</p>
+                        <div class="feature-icon">D</div>
+                        <h3>Docker & Diagnostics</h3>
+                        <p>Use the hardened Docker path, startup checklist, and sanitized health export when setup needs help.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="setup" aria-labelledby="setup-title">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <h2 id="setup-title">Setup Path</h2>
+                    <div class="ornament" aria-hidden="true">&diams;</div>
+                    <p>PoE2Watch is still self-hosted. The docs now walk new users through Discord setup, Docker or Node, and first-run checks.</p>
+                </div>
+                <div class="grid setup-grid">
+                    <article class="card setup-card">
+                        <h3>Create Discord App</h3>
+                        <p>Make your own Discord bot application, invite it to your server, and create a webhook for sale posts.</p>
+                        <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/discord-setup.md">Discord setup guide</a></p>
+                    </article>
+                    <article class="card setup-card">
+                        <h3>Fill In .env</h3>
+                        <p>Add your bot token, server ID, webhook URL, PoE league, and local session cookie to the ignored config file.</p>
+                        <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/configuration.md">Configuration guide</a></p>
+                    </article>
+                    <article class="card setup-card">
+                        <h3>Choose Runtime</h3>
+                        <p>Run with Docker for isolation, or use local Node/npm if you want to edit and develop the project directly.</p>
+                        <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/installation.md">Installation guide</a></p>
+                    </article>
+                    <article class="card setup-card">
+                        <h3>Check Health</h3>
+                        <p>Use <strong>/health view</strong> and <strong>/health export</strong> to confirm setup without exposing secrets.</p>
+                        <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/commands.md">Command guide</a></p>
                     </article>
                 </div>
             </div>
@@ -849,23 +950,23 @@
             <div class="site-shell">
                 <div class="section-heading">
                     <h2 id="commands-title">Discord Commands</h2>
-                    <div class="ornament" aria-hidden="true">◆</div>
-                    <p>Compact previews inspired by the current bot theme: gold rails, dashboard metrics, and trade-focused summaries.</p>
+                    <div class="ornament" aria-hidden="true">&diams;</div>
+                    <p>Commands are built around quick answers: what sold, how much it was worth, what goal it funded, and whether setup is healthy.</p>
                 </div>
                 <div class="grid commands-grid">
                     <article class="card discord-card">
                         <div class="command-name">
-                            <code>/stats</code>
-                            <span>Trading overview</span>
+                            <code>/last3</code>
+                            <span>Recent item cards</span>
                         </div>
                         <div class="discord-preview">
                             <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
                             <div class="embed">
-                                <strong>PoE2Watch Stats</strong>
-                                <div class="metric"><span>Total Sales</span><b>1,246</b></div>
-                                <div class="metric"><span>Total Earned</span><b>≈ 626.1 Divine</b></div>
-                                <div class="metric"><span>Average Sale</span><b>15.0 Divine</b></div>
-                                <div class="metric"><span>Largest Sale</span><b>299 Divine</b></div>
+                                <strong>Recent Sale 1 of 3</strong>
+                                <div class="metric"><span>Apocalypse Spark Diamond</span><b>5 Chaos</b></div>
+                                <div class="metric"><span>Rarity</span><b>Rare</b></div>
+                                <div class="metric"><span>Estimate</span><b>&asymp; 0.64 Divine</b></div>
+                                <div class="metric"><span>Details</span><b>Mods + icon</b></div>
                                 <div class="spark" aria-hidden="true"></div>
                             </div>
                         </div>
@@ -873,17 +974,17 @@
 
                     <article class="card discord-card">
                         <div class="command-name">
-                            <code>/insights</code>
-                            <span>Trading analytics</span>
+                            <code>/goal</code>
+                            <span>Progress tracking</span>
                         </div>
                         <div class="discord-preview">
                             <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
                             <div class="embed">
-                                <strong>Trading Insights</strong>
-                                <div class="metric"><span>Best Selling Day</span><b>Wednesday</b></div>
-                                <div class="metric"><span>Most Sold Type</span><b>Rings</b></div>
-                                <div class="metric"><span>Highest Category</span><b>Belts</b></div>
-                                <div class="metric"><span>Wealth Traded</span><b>≈ 626.1 Divine</b></div>
+                                <strong>Trading Goals</strong>
+                                <div class="metric"><span>Tracked Value</span><b>&asymp; 640.4 Divine</b></div>
+                                <div class="metric"><span>1. New Build</span><b>100%</b></div>
+                                <div class="metric"><span>2. Crafting Fund</span><b>61%</b></div>
+                                <div class="metric"><span>Priority</span><b>Spillover</b></div>
                                 <div class="spark" aria-hidden="true"></div>
                             </div>
                         </div>
@@ -891,16 +992,17 @@
 
                     <article class="card discord-card">
                         <div class="command-name">
-                            <code>/top</code>
-                            <span>Biggest sales</span>
+                            <code>/health</code>
+                            <span>Setup diagnostics</span>
                         </div>
                         <div class="discord-preview">
                             <div class="discord-header"><span class="discord-dot"></span>PoE2Watch</div>
                             <div class="embed">
-                                <strong>Top 3 PoE2 Sales</strong>
-                                <div class="metric"><span>1. Headhunter Heavy Belt</span><b>299 Divine</b></div>
-                                <div class="metric"><span>2. Phoenix Grasp Ring</span><b>18 Divine</b></div>
-                                <div class="metric"><span>3. Blight Spark Jewel</span><b>8 Divine</b></div>
+                                <strong>PoE2Watch Health</strong>
+                                <div class="metric"><span>Discord Config</span><b>OK</b></div>
+                                <div class="metric"><span>SQLite</span><b>OK</b></div>
+                                <div class="metric"><span>Exchange Cache</span><b>Available</b></div>
+                                <div class="metric"><span>Export</span><b>Sanitized</b></div>
                             </div>
                         </div>
                     </article>
@@ -912,37 +1014,37 @@
             <div class="site-shell">
                 <div class="section-heading">
                     <h2 id="roadmap-title">Roadmap</h2>
-                    <div class="ornament" aria-hidden="true">◆</div>
+                    <div class="ornament" aria-hidden="true">&diams;</div>
                 </div>
                 <div class="roadmap-line" aria-hidden="true"></div>
                 <div class="grid roadmap-grid">
                     <article class="card roadmap-card completed">
                         <h3 class="version">v0.5.x</h3>
                         <ul>
-                            <li>Active: Trading Experience</li>
-                            <li>Complete: Hover-style Item Cards</li>
-                            <li>Complete: Better Discord Embeds</li>
-                            <li>Added: Docker Support</li>
-                            <li>Nearly Complete: Inventory Tracking</li>
-                            <li>Complete: Prioritized Goal Tracking</li>
-                            <li>Added: Sale History Search</li>
+                            <li>Complete: Trading Experience</li>
+                            <li>Complete: Item Cards</li>
+                            <li>Complete: Better Embeds</li>
+                            <li>Complete: Goals</li>
+                            <li>Complete: History Search</li>
+                            <li>Complete: Docker Support</li>
                         </ul>
                     </article>
-                    <article class="card roadmap-card">
+                    <article class="card roadmap-card completed">
                         <h3 class="version">v0.6.x</h3>
                         <ul>
-                            <li>Planned: Multi User</li>
-                            <li>Planned: PostgreSQL</li>
-                            <li>Planned: Multiple Guilds</li>
-                            <li>Planned: User Accounts</li>
-                            <li>Planned: Inviteable Bot</li>
-                            <li>Planned: Advanced History Tools</li>
+                            <li>Active: Self-Hosted Hardening</li>
+                            <li>Added: Setup Walkthroughs</li>
+                            <li>Added: Health Export</li>
+                            <li>Added: Notification Thresholds</li>
+                            <li>Added: CI and Tests</li>
+                            <li>Next: Digest and More Coverage</li>
                         </ul>
                     </article>
                     <article class="card roadmap-card">
                         <h3 class="version">v0.7.x</h3>
                         <ul>
-                            <li>Planned: Website Login</li>
+                            <li>Planned: Website</li>
+                            <li>Planned: Login</li>
                             <li>Planned: Web Dashboard</li>
                             <li>Planned: Public Stats</li>
                             <li>Planned: API</li>
@@ -951,9 +1053,9 @@
                     <article class="card roadmap-card cloud">
                         <h3 class="version">v1.0.0</h3>
                         <ul>
-                            <li>Planned: Hosted PoE2Watch</li>
+                            <li>Planned: PoE2Watch Cloud</li>
                             <li>Planned: Managed Bot</li>
-                            <li>Placeholder: OAuth</li>
+                            <li>Pending: GGG OAuth</li>
                             <li>Planned: Cloud Dashboard</li>
                         </ul>
                     </article>

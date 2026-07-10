@@ -395,7 +395,7 @@
         }
 
         .setup-card {
-            padding-top: 74px;
+            padding-top: 86px;
         }
 
         .setup-card::after {
@@ -403,7 +403,8 @@
             content: counter(setup);
             position: absolute;
             top: 24px;
-            left: 26px;
+            left: 50%;
+            transform: translateX(-50%);
             display: grid;
             place-items: center;
             width: 34px;
@@ -417,6 +418,7 @@
         }
 
         .setup-card h3 {
+            text-align: center;
             margin-top: 0;
         }
 

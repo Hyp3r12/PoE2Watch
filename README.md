@@ -116,6 +116,21 @@ The example below was generated with `/dev fake-sale` so it does not save anythi
 
 ## Quick Start
 
+PoE2Watch needs three things before it can run:
+
+1. A Discord app/bot for slash commands.
+2. A Discord webhook for sale notification posts.
+3. A local `.env` file with your Discord settings, PoE league, and PoE session cookie.
+
+If you are new, follow these in order:
+
+| Step | Guide | What You Do |
+| --- | --- | --- |
+| 1 | [Discord Bot Setup](docs/discord-setup.md) | Create your Discord app, invite the bot, and make a webhook. |
+| 2 | [Installation](docs/installation.md) | Choose Docker or local Node/npm and fill in `.env`. |
+| 3 | [Commands](docs/commands.md) | Learn what each slash command does. |
+| 4 | `/health view` | Confirm PoE2Watch can see your config, database, rates, and watcher state. |
+
 ### Option A: Docker
 
 Recommended if you want PoE2Watch isolated from your normal desktop Node/npm setup.
@@ -141,6 +156,8 @@ docker compose down
 
 ### Option B: Local Node/npm
 
+Recommended if you want to edit the code or run PoE2Watch directly on your machine.
+
 ```bash
 npm install
 copy .env.example .env
@@ -151,7 +168,7 @@ npm run dev
 After setup, run this in Discord:
 
 ```text
-/health
+/health view
 ```
 
 Full setup docs:

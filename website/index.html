@@ -395,15 +395,15 @@
         }
 
         .setup-card {
-            padding-top: 68px;
+            padding-top: 74px;
         }
 
         .setup-card::after {
             counter-increment: setup;
             content: counter(setup);
             position: absolute;
-            top: 22px;
-            left: 24px;
+            top: 24px;
+            left: 26px;
             display: grid;
             place-items: center;
             width: 34px;
@@ -414,6 +414,10 @@
             font-family: Arial, sans-serif;
             font-weight: 800;
             background: rgba(139, 30, 30, 0.28);
+        }
+
+        .setup-card h3 {
+            margin-top: 0;
         }
 
         .setup-card a {

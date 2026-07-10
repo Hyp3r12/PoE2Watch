@@ -391,35 +391,29 @@
 
         .setup-grid {
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            counter-reset: setup;
         }
 
         .setup-card {
-            padding-top: 86px;
+            padding-top: 26px;
         }
 
-        .setup-card::after {
-            counter-increment: setup;
-            content: counter(setup);
-            position: absolute;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
+        .setup-card h3 {
+            margin-top: 0;
+        }
+
+        .setup-number {
             display: grid;
             place-items: center;
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
+            margin-bottom: 18px;
             border: 1px solid rgba(245, 210, 122, 0.52);
             border-radius: 50%;
             color: var(--bright-gold);
             font-family: Arial, sans-serif;
             font-weight: 800;
             background: rgba(139, 30, 30, 0.28);
-        }
-
-        .setup-card h3 {
-            text-align: center;
-            margin-top: 0;
+            box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.08);
         }
 
         .setup-card a {
@@ -529,17 +523,19 @@
         }
 
         .feature-icon {
-            width: 54px;
-            height: 54px;
+            width: 62px;
+            height: 38px;
             display: grid;
             place-items: center;
             margin-bottom: 20px;
             border: 1px solid rgba(212, 175, 55, 0.32);
-            border-radius: 50%;
+            border-radius: 999px;
             color: var(--bright-gold);
             font-family: Arial, sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             background: rgba(139, 30, 30, 0.18);
             box-shadow: inset 0 0 18px rgba(212, 175, 55, 0.08);
         }
@@ -875,22 +871,22 @@
                 </div>
                 <div class="grid features-grid">
                     <article class="card">
-                        <div class="feature-icon">N</div>
+                        <div class="feature-icon">Ping</div>
                         <h3>Mobile Sale Pings</h3>
                         <p>Get clean Discord notification text for meaningful sales while every sale still posts its full item card.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">I</div>
+                        <div class="feature-icon">Card</div>
                         <h3>Item Cards</h3>
                         <p>See rarity-colored item cards with icons, requirements, corrupted states, and useful modifier detail.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">G</div>
+                        <div class="feature-icon">Goal</div>
                         <h3>Goals & Analytics</h3>
                         <p>Track goals, top sales, recent history, league totals, insights, averages, and estimated Divine value.</p>
                     </article>
                     <article class="card">
-                        <div class="feature-icon">D</div>
+                        <div class="feature-icon">Safe</div>
                         <h3>Docker & Diagnostics</h3>
                         <p>Use the hardened Docker path, startup checklist, and sanitized health export when setup needs help.</p>
                     </article>
@@ -907,21 +903,25 @@
                 </div>
                 <div class="grid setup-grid">
                     <article class="card setup-card">
+                        <span class="setup-number" aria-hidden="true">1</span>
                         <h3>Create Discord App</h3>
                         <p>Make your own Discord bot application, invite it to your server, and create a webhook for sale posts.</p>
                         <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/discord-setup.md">Discord setup guide</a></p>
                     </article>
                     <article class="card setup-card">
+                        <span class="setup-number" aria-hidden="true">2</span>
                         <h3>Fill In .env</h3>
                         <p>Add your bot token, server ID, webhook URL, PoE league, and local session cookie to the ignored config file.</p>
                         <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/configuration.md">Configuration guide</a></p>
                     </article>
                     <article class="card setup-card">
+                        <span class="setup-number" aria-hidden="true">3</span>
                         <h3>Choose Runtime</h3>
                         <p>Run with Docker for isolation, or use local Node/npm if you want to edit and develop the project directly.</p>
                         <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/installation.md">Installation guide</a></p>
                     </article>
                     <article class="card setup-card">
+                        <span class="setup-number" aria-hidden="true">4</span>
                         <h3>Check Health</h3>
                         <p>Use <strong>/health view</strong> and <strong>/health export</strong> to confirm setup without exposing secrets.</p>
                         <p><a href="https://github.com/Hyp3r12/PoE2Watch/blob/main/docs/commands.md">Command guide</a></p>

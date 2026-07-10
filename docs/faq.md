@@ -28,6 +28,8 @@ Use `/health export`.
 
 It creates a sanitized diagnostics text file with setup status, database status, exchange cache status, watcher state, and broad error categories. It does not include cookies, tokens, webhook URLs, or session IDs.
 
+![PoE2Watch health export command example](../assets/health-export-discord.png)
+
 Review the file before posting it publicly, then attach it to a GitHub issue if you need help.
 
 PoE2Watch also prints a startup setup check in the terminal so missing config is visible before you start troubleshooting Discord.

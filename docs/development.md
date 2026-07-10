@@ -39,7 +39,11 @@ Use `/health view` for a private status embed.
 
 Use `/health export` to create a sanitized `.txt` diagnostics report that can be attached to GitHub Issues. It reports setup state, database status, watcher status, and error categories without including cookies, tokens, webhook URLs, or session IDs.
 
+![PoE2Watch health export report example](../assets/health-export-report.png)
+
 PoE2Watch also prints a startup setup check in the terminal. It reports whether required config is present, whether SQLite is reachable, and reminds users how to register slash commands without printing secret values.
+
+Run only one PoE2Watch process per Discord bot token. Do not keep Docker and `npm run dev` online at the same time, or both bot instances may try to answer the same slash command.
 
 Optional allowlist:
 

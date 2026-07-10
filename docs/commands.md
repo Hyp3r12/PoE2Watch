@@ -68,6 +68,12 @@ Example:
 | `/health view` | Check local setup, database, exchange cache, goals, and watcher status without showing secrets. |
 | `/health export` | Create a sanitized text report for GitHub Issues or setup support. |
 
+Examples:
+
+![PoE2Watch health view command example](../assets/health-view.png)
+
+![PoE2Watch health export command example](../assets/health-export-discord.png)
+
 ## Developer Tools
 
 | Command | Purpose |

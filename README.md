@@ -175,6 +175,14 @@ Full setup docs:
 | Diagnostics | `/health view`, `/health export` |
 | Developer | `/dev fake-sale`, `/dev refresh-sale-metadata` |
 
+### Diagnostics Export
+
+Generate a sanitized report for setup help without exposing cookies, tokens, webhook URLs, or session IDs.
+
+<p>
+  <img src="assets/health-export-discord.png" alt="PoE2Watch health export command example" width="490" />
+</p>
+
 ### Notification Threshold
 
 Keep small trades in Discord without lighting up mobile notifications for every sale.

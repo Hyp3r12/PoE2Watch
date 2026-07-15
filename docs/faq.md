@@ -34,6 +34,39 @@ Review the file before posting it publicly, then attach it to a GitHub issue if 
 
 PoE2Watch also prints a startup setup check in the terminal so missing config is visible before you start troubleshooting Discord.
 
+## Why Do I Get `Auth Failed` If Setup Looks OK?
+
+If startup says Discord, SQLite, and `POE_COOKIE` are OK, but the watcher prints this:
+
+```text
+Auth failed. Stop app and refresh your POE_COOKIE.
+```
+
+then PoE2Watch loaded a cookie value, but Path of Exile rejected it.
+
+The most common fix is cookie formatting. `POE_COOKIE` needs the cookie name and value, not only the alphanumeric session value.
+
+Correct fake example:
+
+```env
+POE_COOKIE=POESESSID=example_fake_session_value_here
+```
+
+Wrong:
+
+```env
+POE_COOKIE=example_fake_session_value_here
+```
+
+Also check:
+
+- no quotes around the value
+- no extra spaces
+- the cookie came from the browser profile currently logged into pathofexile.com
+- you restarted PoE2Watch after saving `.env`
+
+Never post your real `POE_COOKIE`. Treat it like a password.
+
 ## What Shows Up On My Phone?
 
 Mobile notifications are kept short on purpose.
@@ -120,6 +153,8 @@ PoE2Watch was built around a familiar trading problem: sometimes you are waiting
 ## Does This Create Extra Load For GGG?
 
 PoE2Watch uses adaptive polling and backs off on rate limits.
+
+When Path of Exile returns a `Retry-After` value with a rate-limit response, PoE2Watch uses that wait time before checking again.
 
 The local alpha is intended for personal use. A hosted multi-user version would need stricter scheduling, inactive-user checks, staggered polling, and official guidance from GGG before it should exist.
 

@@ -42,11 +42,21 @@ DISCORD_BOT_TOKEN=
 DISCORD_CLIENT_ID=
 DISCORD_GUILD_ID=
 
-POE_COOKIE=
+POE_COOKIE=POESESSID=example_fake_session_value_here
 POE_LEAGUE=Runes of Aldur
 ```
 
 Optional values can stay blank until you need them.
+
+The `POE_COOKIE` line must include `POESESSID=` after `POE_COOKIE=`.
+
+Correct fake example:
+
+```env
+POE_COOKIE=POESESSID=example_fake_session_value_here
+```
+
+Do not paste only the alphanumeric cookie value. Do not add quotes. Do not post the real value publicly.
 
 ## Step 2A: Docker Setup
 
@@ -162,6 +172,7 @@ Smaller sales still post to Discord and still count toward stats, history, and g
 | Slash commands do not show up | Run the register command again and make sure `DISCORD_CLIENT_ID` and `DISCORD_GUILD_ID` are correct. |
 | Bot is online but notifications do not post | Check `DISCORD_WEBHOOK_URL`. Webhooks post sale notifications; the bot token handles slash commands. |
 | `/health view` says PoE cookie missing | Fill in `POE_COOKIE` in `.env`, then restart PoE2Watch. |
+| App starts, then says `Auth failed` | Make sure `POE_COOKIE` starts with `POESESSID=` and refresh the cookie from a currently logged-in pathofexile.com session. |
 | Commands answer twice or fail with already acknowledged | Make sure Docker and `npm run dev` are not both running with the same bot token. |
 | Rate limited | Wait for the backoff timer. PoE2Watch will slow down automatically. |
 

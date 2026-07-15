@@ -122,6 +122,14 @@ PoE2Watch needs three things before it can run:
 2. A Discord webhook for sale notification posts.
 3. A local `.env` file with your Discord settings, PoE league, and PoE session cookie.
 
+For the PoE session cookie, include the cookie name and value:
+
+```env
+POE_COOKIE=POESESSID=example_fake_session_value_here
+```
+
+Do not paste only the alphanumeric session value, and never post your real cookie publicly.
+
 If you are new, follow these in order:
 
 | Step | Guide | What You Do |
@@ -222,6 +230,7 @@ Read the full command guide:
 | [Docker](docs/docker.md) | Run PoE2Watch in a hardened container instead of installing Node/npm directly. |
 | [Installation](docs/installation.md) | Local setup and first run. |
 | [Discord Setup](docs/discord-setup.md) | Creating your own Discord app and webhook channels. |
+| [Community Server](docs/community-server.md) | Suggested public Discord layout, roles, permissions, and bot safety notes. |
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
 | [Configuration](docs/configuration.md) | Environment variables and display settings. |
 | [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |

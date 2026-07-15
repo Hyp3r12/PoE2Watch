@@ -7,6 +7,7 @@
     "dev": "tsx src/index.ts",
     "start": "tsx src/index.ts",
     "register": "tsx src/registercommands.ts",
+    "setup:community": "tsx src/setupCommunityServer.ts",
     "debug:last3": "tsx src/debuglast3.ts",
     "test": "node --import tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit"

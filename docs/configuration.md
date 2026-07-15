@@ -24,11 +24,27 @@ DISCORD_DEV_USER_IDS=
 ## Path of Exile
 
 ```env
-POE_COOKIE=
+POE_COOKIE=POESESSID=example_fake_session_value_here
 POE_LEAGUE=Runes of Aldur
 ```
 
 `POE_COOKIE` is sensitive. Treat it like a password.
+
+`POE_COOKIE` must include the cookie name and value. Do not paste only the alphanumeric session value.
+
+Correct fake example:
+
+```env
+POE_COOKIE=POESESSID=example_fake_session_value_here
+```
+
+Common wrong example:
+
+```env
+POE_COOKIE=example_fake_session_value_here
+```
+
+If PoE2Watch starts correctly but prints `Auth failed. Stop app and refresh your POE_COOKIE.`, double-check this format first, then refresh your session by logging back into pathofexile.com and copying the current `POESESSID`.
 
 ## Polling Behavior
 
@@ -36,7 +52,7 @@ PoE2Watch currently uses adaptive polling:
 
 - **Fast mode:** checks every 7 minutes after recent sale activity.
 - **Idle mode:** checks every 20 minutes after 1 hour without sales.
-- **Rate limited:** waits for the retry window returned by the trade endpoint, or falls back to a longer wait.
+- **Rate limited:** waits for PoE's `Retry-After` response when available, or falls back to a longer wait.
 
 Notifications are near-real-time, not push/instant.
 

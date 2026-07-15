@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { AuthFailedError, parseRetryAfterSeconds, RateLimitError } from "../services/httpErrors";
 
 export type PoeSale = {
     time: string;
@@ -73,12 +74,11 @@ export async function fetchSales(): Promise<PoeSale[]> {
     );
 
     if (response.status === 429) {
-        const retryAfter = response.headers.get("retry-after");
-        throw new Error(`RATE_LIMIT:${retryAfter ?? "1800"}`);
+        throw new RateLimitError(parseRetryAfterSeconds(response.headers.get("retry-after"), 1800));
     }
 
     if (response.status === 401 || response.status === 403) {
-        throw new Error(`AUTH_FAILED:${response.status}`);
+        throw new AuthFailedError(response.status);
     }
 
     if (!response.ok) {

@@ -2,6 +2,7 @@ import { fetchSales, getItemName, PoeSale } from "./poe/api";
 import { notifyDiscord } from "./discord/webhook";
 import { hasSale, saveSale, getLastSales, updateSaleMetadata } from "./storage/salesvault";
 import { refreshExchangeRates } from "./services/exchange";
+import { AuthFailedError, RateLimitError } from "./services/httpErrors";
 
 const FAST_WAIT_SECONDS = 7 * 60; // 7 minutes
 const IDLE_WAIT_SECONDS = 20 * 60; // 20 minutes
@@ -120,9 +121,8 @@ export async function startWatcher() {
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
 
-            if (message.startsWith("RATE_LIMIT:")) {
-                const retryAfter = Number(message.split(":")[1]);
-                nextWaitSeconds = Number.isFinite(retryAfter) ? retryAfter : 3600;
+            if (error instanceof RateLimitError) {
+                nextWaitSeconds = error.retryAfterSeconds;
                 watcherStatus = {
                     ...watcherStatus,
                     lastCheckAt: new Date().toISOString(),
@@ -131,7 +131,7 @@ export async function startWatcher() {
                     nextWaitSeconds,
                 };
                 console.log(`Rate limited. Waiting ${Math.round(nextWaitSeconds / 60)} minutes.`);
-            } else if (message.startsWith("AUTH_FAILED:")) {
+            } else if (error instanceof AuthFailedError) {
                 watcherStatus = {
                     ...watcherStatus,
                     lastCheckAt: new Date().toISOString(),

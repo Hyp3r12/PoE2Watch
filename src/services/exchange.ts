@@ -2,6 +2,7 @@ import "dotenv/config";
 import { getLatestRateFetch, saveExchangeRate } from "../storage/exchangerates";
 import { normalizeCurrency } from "./valueformatter";
 import { formatLeagueName } from "./league";
+import { AuthFailedError, parseRetryAfterSeconds, RateLimitError } from "./httpErrors";
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const POE_NINJA_REFRESH_INTERVAL_MS = 12 * ONE_HOUR_MS;
@@ -278,12 +279,11 @@ async function refreshGggRates(options: { force?: boolean }): Promise<RefreshRes
     });
 
     if (response.status === 429) {
-        const retryAfter = response.headers.get("retry-after");
-        throw new Error(`RATE_LIMIT:${retryAfter ?? "3600"}`);
+        throw new RateLimitError(parseRetryAfterSeconds(response.headers.get("retry-after"), 3600));
     }
 
     if (response.status === 401 || response.status === 403) {
-        throw new Error(`AUTH_FAILED:${response.status}`);
+        throw new AuthFailedError(response.status);
     }
 
     if (!response.ok) {

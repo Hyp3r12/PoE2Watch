@@ -2,8 +2,6 @@
 
 PoE2Watch currently uses your own Discord app. There is no public invite-able bot yet because official GGG OAuth support is still pending.
 
-If you are setting up a public Discord community, read [Community Discord Setup](community-server.md) before inviting your live bot. Most PoE2Watch commands currently read your local sale history, so the live bot is best kept in a private server for now.
-
 You are setting up two Discord pieces:
 
 | Piece | What It Does | Stored In `.env` |

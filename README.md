@@ -230,7 +230,6 @@ Read the full command guide:
 | [Docker](docs/docker.md) | Run PoE2Watch in a hardened container instead of installing Node/npm directly. |
 | [Installation](docs/installation.md) | Local setup and first run. |
 | [Discord Setup](docs/discord-setup.md) | Creating your own Discord app and webhook channels. |
-| [Community Server](docs/community-server.md) | Suggested public Discord layout, roles, permissions, and bot safety notes. |
 | [Commands](docs/commands.md) | Every slash command and what it is for. |
 | [Configuration](docs/configuration.md) | Environment variables and display settings. |
 | [Security](docs/security.md) | Secret handling, Cloudflare checklist, and reporting issues. |
